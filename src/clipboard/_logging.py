@@ -23,7 +23,6 @@ logging_config = dict(
             'date_format': date_format,
             'format': message_format,
             'style': '{',
-            'validate': True,
         },
     },
     handlers={
@@ -42,7 +41,6 @@ formatter: logging.Formatter = logging.Formatter(
     datefmt=date_format,
     style='{',
     fmt=message_format,
-    validate=True,
 )
 logging.getLogger().handlers[0].setFormatter(formatter)
 
@@ -60,7 +58,6 @@ def get_logger(
         datefmt=date_format,
         style='{',
         fmt=message_format,
-        validate=True,
     )
 
     file_handler: logging.FileHandler = logging.FileHandler(log_file)
