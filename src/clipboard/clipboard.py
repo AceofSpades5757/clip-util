@@ -42,6 +42,7 @@ class Clipboard:
         self.size: Optional[int] = None  # in bytes
 
         self.locked: bool = False
+        self.opened: bool = False
 
     def __enter__(self):
 
