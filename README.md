@@ -21,7 +21,31 @@ Allows for text and HTML on Windows.
 
 # Usage
 
-## Set Clipboard
+## Clipboard
+
+Will open and close every time the values are set, or retrieved. It's better to use a context manager.
+
+``` python
+from clipboard import Clipboard
+
+
+clipboard = Clipboard()
+
+# Set Clipboard
+clipboard['text'] = 'Hello World!'
+# OR
+clipboard.set_clipboard('text') = 'Hello World!'
+
+# Get Clipboard
+text = clipboard['text']
+# OR
+text = clipboard.get_clipboard('text')
+
+# HTML
+clipboard['html'] = '<h1>Hello World</h1>'
+```
+
+### Context Manager
 
 ``` python
 from clipboard import Clipboard
@@ -31,20 +55,17 @@ with Clipboard() as clipboard:
 
     # Set Clipboard
     clipboard['text'] = 'Hello World!'
+    # OR
+    clipboard.set_clipboard('text') = 'Hello World!'
 
     # Get Clipboard
     text = clipboard['text']
+    # OR
+    text = clipboard.get_clipboard('text')
+
+    # HTML
+    clipboard['html'] = '<h1>Hello World</h1>'
 ```
-
-<!-- BUG
-clipboard = Clipboard()
-
-clipboard['txt'] = 'Hello There.'
-clipboard['html'] = '<h1>Hello World</h1>'
-
-clipboard.set_clipboard('Hey?')
-data: str = clipboard.get_clipboard()
--->
 
 ## See Clipboard Formats
 
