@@ -1,5 +1,6 @@
 import platform
 import unittest
+from typing import List
 
 from clipboard import Clipboard
 from clipboard import ClipboardFormat
@@ -21,7 +22,7 @@ else:
 class TestClipboard(unittest.TestCase):
     def test_available_formats(self) -> None:
         with Clipboard(format=ClipboardFormat.CF_UNICODETEXT) as clipboard:
-            formats: list[int] = clipboard.available_formats()
+            formats: List[int] = clipboard.available_formats()
             primary_format: int = formats[0]
 
             self.assertTrue(bool(formats))

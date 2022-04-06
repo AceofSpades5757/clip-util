@@ -2,6 +2,7 @@ import ctypes
 from enum import Enum
 from enum import EnumMeta
 from typing import Any
+from typing import List
 from typing import Optional
 
 from clipboard._c_interface import CF_HTML
@@ -55,7 +56,7 @@ class ClipboardFormat(Enum, metaclass=ExtendedEnum):
             return False
 
 
-def get_clipboard_formats(formats: list[int] = None) -> list[int]:
+def get_clipboard_formats(formats: List[int] = None) -> List[int]:
     """Return all available clipboard formats on clipboard.
 
     First format is the format on the clipboard, depending on your system.

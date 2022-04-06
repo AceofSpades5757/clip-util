@@ -1,4 +1,5 @@
 import ctypes
+from typing import List
 from typing import Optional
 from typing import Union
 
@@ -75,7 +76,7 @@ class Clipboard:
         self.unlock()
         CloseClipboard()
 
-    def available_formats(self) -> list[int]:
+    def available_formats(self) -> List[int]:
         """Return all available clipboard formats on clipboard.
 
         First format is the format on the clipboard, depending on your system.
@@ -84,7 +85,7 @@ class Clipboard:
 
         logger.info('Getting available clipboard formats...')
 
-        def get_formats(formats: list = None) -> list[int]:
+        def get_formats(formats: List = None) -> List[int]:
 
             if formats is None:
                 formats = [EnumClipboardFormats(0)]
@@ -95,7 +96,7 @@ class Clipboard:
             else:
                 return formats + [EnumClipboardFormats(last_format)]
 
-        available_formats: list[int] = []
+        available_formats: List[int] = []
         if not self.opened:
             with self:
                 available_formats = self.available_formats()

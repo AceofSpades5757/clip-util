@@ -15,7 +15,7 @@ from ctypes.wintypes import UINT
 
 
 # C Libraries
-windll = ctypes.windll
+windll = ctypes.windll  # type: ignore
 user32 = windll.user32
 kernel32 = windll.kernel32
 
@@ -83,4 +83,4 @@ EnumClipboardFormats.restype = UINT
 
 
 # Additional
-CF_HTML = ctypes.windll.user32.RegisterClipboardFormatA('HTML Format')
+CF_HTML = ctypes.windll.user32.RegisterClipboardFormatA('HTML Format')  # type: ignore

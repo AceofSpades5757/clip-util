@@ -1,4 +1,5 @@
 import re
+from typing import List
 from typing import Optional
 from typing import TypeVar
 
@@ -35,7 +36,7 @@ class HTMLClipboard:
 
     def __init__(self, content: str = ''):
 
-        self.fragments: list[str] = []
+        self.fragments: List[str] = []
 
         self.start_html: int = -1
         self.end_html: int = -1
@@ -53,7 +54,7 @@ class HTMLClipboard:
 
     def generate_template(self) -> str:
 
-        fragments: list[str] = (
+        fragments: List[str] = (
             self.fragments if self.fragments else [self.content]
         )
 
@@ -68,9 +69,9 @@ class HTMLClipboard:
 
         return result
 
-    def generate_fragments(self, fragments: list) -> str:
+    def generate_fragments(self, fragments: List) -> str:
 
-        results: list[str] = []
+        results: List[str] = []
         for fragment in fragments:
             results.append('<!--StartFragment-->')
             results.append(f'{fragment}')
