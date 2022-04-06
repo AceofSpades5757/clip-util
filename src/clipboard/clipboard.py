@@ -107,6 +107,14 @@ class Clipboard:
 
     def __getitem__(self, format: Union[int, ClipboardFormat] = None):
 
+        return self.get_clipboard(format)
+
+    def get_clipboard(self, format: Union[int, ClipboardFormat] = None):
+
+        if not self.opened:
+            with self:
+                return self.get_clipboard(format=format)
+
         if format is None:
             format = self.format
         else:
@@ -161,6 +169,10 @@ class Clipboard:
         self.set_clipboard(content, format)
 
     def set_clipboard(self, content: str, format=None) -> HANDLE:
+
+        if not self.opened:
+            with self:
+                return self.set_clipboard(content=content, format=format)
 
         if format is None:
             format = self.format
