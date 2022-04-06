@@ -6,7 +6,7 @@ with open("README.md", "r") as fin:
 
 setuptools.setup(
     name='clip-util',
-    version='0.0.2',
+    version='0.0.3',
     author='Kyle L. Davis',
     author_email='AceofSpades5757.github@gmail.com',
     url='https://github.com/AceofSpades5757/clip-util',
