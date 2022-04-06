@@ -27,11 +27,24 @@ Allows for text and HTML on Windows.
 from clipboard import Clipboard
 
 
+with Clipboard() as clipboard:
+
+    # Set Clipboard
+    clipboard['text'] = 'Hello World!'
+
+    # Get Clipboard
+    text = clipboard['text']
+```
+
+<!-- BUG
 clipboard = Clipboard()
 
 clipboard['txt'] = 'Hello There.'
 clipboard['html'] = '<h1>Hello World</h1>'
-```
+
+clipboard.set_clipboard('Hey?')
+data: str = clipboard.get_clipboard()
+-->
 
 ## See Clipboard Formats
 
