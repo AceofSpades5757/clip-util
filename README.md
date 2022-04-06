@@ -40,10 +40,12 @@ clipboard.set_clipboard('text') = 'Hello World!'
 text = clipboard['text']
 # OR
 text = clipboard.get_clipboard('text')
+```
+<!--
 
 # HTML
 clipboard['html'] = '<h1>Hello World</h1>'
-```
+-->
 
 ### Context Manager
 
@@ -62,10 +64,12 @@ with Clipboard() as clipboard:
     text = clipboard['text']
     # OR
     text = clipboard.get_clipboard('text')
+```
+<!--
 
     # HTML
     clipboard['html'] = '<h1>Hello World</h1>'
-```
+-->
 
 ## See Clipboard Formats
 
