@@ -49,7 +49,7 @@ build:
 	# Build
 	${VENV_BIN}/python setup.py sdist bdist_wheel
 
-release: clean build
+release: venv clean build
 	@echo "Deploying $(PROJECT_NAME) to PyPi."
 	${VENV_BIN}/pip install --upgrade twine
 	${VENV_BIN}/python -m twine upload dist/*
