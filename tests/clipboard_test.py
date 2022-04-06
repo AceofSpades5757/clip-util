@@ -1,4 +1,6 @@
 import platform
+import random
+import string
 import unittest
 from typing import List
 
@@ -31,21 +33,45 @@ class TestClipboard(unittest.TestCase):
     def test_set_clipboard(self) -> None:
 
         # No errors should be raised during these operations
+        # Assuming that the get clipboard function is working
+        # Assuming that the get clipboard function is working
 
         with Clipboard(format=ClipboardFormat.CF_UNICODETEXT) as clipboard:
-            clipboard[ClipboardFormat.CF_UNICODETEXT] = 'Hello!'
+            random_text = ''.join(
+                random.choice(string.ascii_letters + string.digits)
+                for _ in range(random.randint(1, 100))
+            )
+            clipboard[ClipboardFormat.CF_UNICODETEXT] = random_text
+            text = clipboard[ClipboardFormat.CF_UNICODETEXT]
+            self.assertEqual(text, random_text)
 
         with Clipboard(format=ClipboardFormat.CF_UNICODETEXT) as clipboard:
-            handle = clipboard.set_clipboard('Hey!')
+            random_text = ''.join(
+                random.choice(string.ascii_letters + string.digits)
+                for _ in range(random.randint(1, 100))
+            )
+            handle = clipboard.set_clipboard(random_text)
             self.assertTrue(bool(handle))
+            text = clipboard[ClipboardFormat.CF_UNICODETEXT]
+            self.assertEqual(text, random_text)
 
         # Mutliple sets
         with Clipboard(format=ClipboardFormat.CF_UNICODETEXT) as clipboard:
             for _ in range(3):
-                handle = clipboard.set_clipboard('Hi!')
+                random_text = ''.join(
+                    random.choice(string.ascii_letters + string.digits)
+                    for _ in range(random.randint(1, 100))
+                )
+                handle = clipboard.set_clipboard(random_text)
                 self.assertTrue(bool(handle))
 
+                text = clipboard[ClipboardFormat.CF_UNICODETEXT]
+                self.assertEqual(text, random_text)
+
     def test_empty(self) -> None:
+
+        # No errors should be raised during these operations
+
         with Clipboard() as clipboard:
             clipboard.empty()
 
