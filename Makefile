@@ -26,10 +26,10 @@ help:
 venv:
 	$(PYTHON) -m venv $(VENV_DIR)
 	${VENV_BIN}/pip install --upgrade pip
-	$(VENV_BIN)/pip install --upgrade -r requirments.txt
-	$(VENV_BIN)/pip install --upgrade -r requirments-dev.txt
+	$(VENV_BIN)/pip install --upgrade -r requirements.txt
+	$(VENV_BIN)/pip install --upgrade -r requirements-dev.txt
 
-test:
+test: venv
 	@echo "Testing $(PROJECT_NAME)."
 	${VENV_BIN}/pip install --upgrade pip
 	${VENV_BIN}/pip install tox tox-gh-actions
@@ -44,12 +44,12 @@ clean:
 	rm -rf **/__pycache__/
 	rm -rf **/*.egg-info/
 
-build:
+build: venv
 	@echo "Building $(PROJECT_NAME)."
 	# Build
 	${VENV_BIN}/python setup.py sdist bdist_wheel
 
-release: venv clean build
+release: clean build
 	@echo "Deploying $(PROJECT_NAME) to PyPi."
 	${VENV_BIN}/pip install --upgrade twine
 	${VENV_BIN}/python -m twine upload dist/*
