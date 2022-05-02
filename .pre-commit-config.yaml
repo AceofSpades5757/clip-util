@@ -11,7 +11,7 @@ repos:
     name: Fix Trailing Whitespace
 # Python - Reorder Imports
 - repo: https://github.com/asottile/reorder_python_imports
-  rev: v3.0.1
+  rev: v3.1.0
   hooks:
   - id: reorder-python-imports
     name: Reorder Python Imports
@@ -28,7 +28,7 @@ repos:
     - --skip-string-normalization
 # Python - Type Checking
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v0.942
+  rev: v0.950
   hooks:
   - id: mypy
     name: Code Linter (Type Checking with mypy)
