@@ -25,6 +25,20 @@ hMem = HANDLE  # Type Alias
 logger = get_logger(__name__)
 
 
+def get_clipboard(format: Union[int, ClipboardFormat] = None) -> Optional[str]:
+    """Conveniency wrapper to get clipboard."""
+    with Clipboard() as cb:
+        return cb.get_clipboard(format=format)
+
+
+def set_clipboard(
+    content: str, format: Union[int, ClipboardFormat] = None
+) -> None:
+    """Conveniency wrapper to set clipboard."""
+    with Clipboard() as cb:
+        return cb.set_clipboard(content=content, format=format)
+
+
 class Clipboard:
 
     default_format: ClipboardFormat = ClipboardFormat.CF_UNICODETEXT
@@ -129,15 +143,22 @@ class Clipboard:
         else:
             return None
 
-    def set_clipboard(self, content: str, format=None) -> None:
+    def set_clipboard(
+        self, content: str, format: Union[int, ClipboardFormat] = None
+    ) -> None:
         """Set clipboard."""
 
         _: HANDLE = self._set_clipboard(content, format)
 
         return None
 
-    def _set_clipboard(self, content: str, format=None) -> HANDLE:
+    def _set_clipboard(
+        self, content: str, format: Union[int, ClipboardFormat] = None
+    ) -> HANDLE:
         """Hides the HANDLE."""
+
+        if format is None:
+            format = self.default_format
 
         if not self.opened:
             with self:
@@ -259,7 +280,7 @@ class Clipboard:
         self._unlock()
         CloseClipboard()
 
-    def _lock(self, handle: hMem) -> LPVOID:
+    def _lock(self, handle: HANDLE) -> LPVOID:
         self.locked = True
         # if fails, GlobalLock returns NULL (False in Python)
         return GlobalLock(handle)
