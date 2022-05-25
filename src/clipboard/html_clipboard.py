@@ -4,11 +4,11 @@ from typing import Optional
 from typing import TypeVar
 
 
-ENCODING = 'UTF-8'
+ENCODING = "UTF-8"
 HTML_ENCODING = ENCODING
 
 
-A = TypeVar('A', str, bytes)
+A = TypeVar("A", str, bytes)
 
 
 class HTMLClipboard:
@@ -30,11 +30,11 @@ class HTMLClipboard:
     </body>
     </html>
     """
-    template = '\n'.join(
+    template = "\n".join(
         [i for i in map(str.strip, template.splitlines()) if i]
     )
 
-    def __init__(self, content: str = ''):
+    def __init__(self, content: str = ""):
 
         self.fragments: List[str] = []
 
@@ -73,22 +73,22 @@ class HTMLClipboard:
 
         results: List[str] = []
         for fragment in fragments:
-            results.append('<!--StartFragment-->')
-            results.append(f'{fragment}')
-            results.append('<!--EndFragment-->')
+            results.append("<!--StartFragment-->")
+            results.append(f"{fragment}")
+            results.append("<!--EndFragment-->")
 
         # Clean
-        result: str = '\n'.join(results)
+        result: str = "\n".join(results)
 
         return result
 
     def generate_html(self, string: str) -> str:
 
         lines = string.splitlines()
-        body = ['<body>'] + lines + ['</body>']
-        html = ['<html>'] + body + ['</html>']
+        body = ["<body>"] + lines + ["</body>"]
+        html = ["<html>"] + body + ["</html>"]
 
-        return '\n'.join(html)
+        return "\n".join(html)
 
     def generate_header(self, string: str) -> str:
 
@@ -102,14 +102,14 @@ class HTMLClipboard:
         source_url = None
 
         if source_url is not None:
-            lines.insert(0, f'SourceURL:{source_url}')
-        lines.insert(0, f'EndFragment:{end_fragment_byte}')
-        lines.insert(0, f'StartFragment:{start_fragment_byte}')
-        lines.insert(0, f'EndHTML:{end_html_byte}')
-        lines.insert(0, f'StartHTML:{start_html_byte}')
-        lines.insert(0, f'Version:{version}')
+            lines.insert(0, f"SourceURL:{source_url}")
+        lines.insert(0, f"EndFragment:{end_fragment_byte}")
+        lines.insert(0, f"StartFragment:{start_fragment_byte}")
+        lines.insert(0, f"EndHTML:{end_html_byte}")
+        lines.insert(0, f"StartHTML:{start_html_byte}")
+        lines.insert(0, f"Version:{version}")
 
-        return '\n'.join(lines)
+        return "\n".join(lines)
 
     def add_byte_counts(self, content: str) -> str:
 
@@ -123,10 +123,10 @@ class HTMLClipboard:
         content_bytes: bytes = content.encode(encoding=HTML_ENCODING)
 
         # Blocks to find
-        html_start = '<html>'.encode(encoding=HTML_ENCODING)
-        html_end = '</html>'.encode(encoding=HTML_ENCODING)
-        fragment_start = '<!--StartFragment-->'.encode(encoding=HTML_ENCODING)
-        fragment_end = '<!--EndFragment-->'.encode(encoding=HTML_ENCODING)
+        html_start = "<html>".encode(encoding=HTML_ENCODING)
+        html_end = "</html>".encode(encoding=HTML_ENCODING)
+        fragment_start = "<!--StartFragment-->".encode(encoding=HTML_ENCODING)
+        fragment_end = "<!--EndFragment-->".encode(encoding=HTML_ENCODING)
 
         # Find Values
         found_html_start = content_bytes.find(html_start)
@@ -135,7 +135,7 @@ class HTMLClipboard:
         found_fragment_end = content_bytes.find(fragment_end)
 
         # Fix Values
-        if HTML_ENCODING == 'UTF-8':
+        if HTML_ENCODING == "UTF-8":
             found_html_end += len(html_end)
             found_fragment_start += len(fragment_start)
 
@@ -155,14 +155,14 @@ class HTMLClipboard:
 
     def get_byte_values(self, content: str) -> dict:
 
-        re_StartHTML = re.compile(r'StartHTML:(\d+)', flags=re.MULTILINE)
+        re_StartHTML = re.compile(r"StartHTML:(\d+)", flags=re.MULTILINE)
         StartHTML = int(
             re_StartHTML.findall(content)[0]
             if re_StartHTML.findall(content)
             else -1
         )
 
-        re_EndHTML = re.compile(r'EndHTML:(\d+)', flags=re.MULTILINE)
+        re_EndHTML = re.compile(r"EndHTML:(\d+)", flags=re.MULTILINE)
         EndHTML = int(
             re_EndHTML.findall(content)[0]
             if re_EndHTML.findall(content)
@@ -170,7 +170,7 @@ class HTMLClipboard:
         )
 
         re_StartFragment = re.compile(
-            r'StartFragment:(\d+)', flags=re.MULTILINE
+            r"StartFragment:(\d+)", flags=re.MULTILINE
         )
         StartFragment = int(
             re_StartFragment.findall(content)[0]
@@ -178,7 +178,7 @@ class HTMLClipboard:
             else -1
         )
 
-        re_EndFragment = re.compile(r'EndFragment:(\d+)', flags=re.MULTILINE)
+        re_EndFragment = re.compile(r"EndFragment:(\d+)", flags=re.MULTILINE)
         EndFragment = int(
             re_EndFragment.findall(content)[0]
             if re_EndFragment.findall(content)
@@ -186,10 +186,10 @@ class HTMLClipboard:
         )
 
         return {
-            'StartHTML': StartHTML,
-            'EndHTML': EndHTML,
-            'StartFragment': StartFragment,
-            'EndFragment': EndFragment,
+            "StartHTML": StartHTML,
+            "EndHTML": EndHTML,
+            "StartFragment": StartFragment,
+            "EndFragment": EndFragment,
         }
 
     def update_byte_counts(self, content: A) -> A:
@@ -200,26 +200,26 @@ class HTMLClipboard:
         elif isinstance(content, str):
             data = content
         else:
-            raise TypeError(f'{type(content)} is not a valid type')
+            raise TypeError(f"{type(content)} is not a valid type")
 
-        re_value = r'(None|-?\d+)'
+        re_value = r"(None|-?\d+)"
 
-        re_StartHTML = re.compile(fr'StartHTML:{re_value}', flags=re.MULTILINE)
-        re_EndHTML = re.compile(fr'EndHTML:{re_value}', flags=re.MULTILINE)
+        re_StartHTML = re.compile(rf"StartHTML:{re_value}", flags=re.MULTILINE)
+        re_EndHTML = re.compile(rf"EndHTML:{re_value}", flags=re.MULTILINE)
         re_StartFragment = re.compile(
-            fr'StartFragment:{re_value}', flags=re.MULTILINE
+            rf"StartFragment:{re_value}", flags=re.MULTILINE
         )
         re_EndFragment = re.compile(
-            fr'EndFragment:{re_value}', flags=re.MULTILINE
+            rf"EndFragment:{re_value}", flags=re.MULTILINE
         )
 
-        data = re.sub(re_StartHTML, fr'StartHTML:{self.start_html}', data)
-        data = re.sub(re_EndHTML, fr'EndHTML:{self.end_html}', data)
+        data = re.sub(re_StartHTML, rf"StartHTML:{self.start_html}", data)
+        data = re.sub(re_EndHTML, rf"EndHTML:{self.end_html}", data)
         data = re.sub(
-            re_StartFragment, fr'StartFragment:{self.start_fragment}', data
+            re_StartFragment, rf"StartFragment:{self.start_fragment}", data
         )
         data = re.sub(
-            re_EndFragment, fr'EndFragment:{self.end_fragment}', data
+            re_EndFragment, rf"EndFragment:{self.end_fragment}", data
         )
 
         if isinstance(content, bytes):
@@ -227,4 +227,4 @@ class HTMLClipboard:
         elif isinstance(content, str):
             return data
         else:
-            raise TypeError(f'{type(content)} is not a valid type')
+            raise TypeError(f"{type(content)} is not a valid type")

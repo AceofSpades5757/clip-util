@@ -50,7 +50,7 @@ class Clipboard:
         if self.open():
             return self
         else:
-            raise Exception('Unable to open clipboard.')
+            raise Exception("Unable to open clipboard.")
 
     def __exit__(
         self, exception_type, exception_value, exception_traceback
@@ -83,7 +83,7 @@ class Clipboard:
         """
         # TODO Add this to a base class (HTML clipboard could use this)
 
-        logger.info('Getting available clipboard formats...')
+        logger.info("Getting available clipboard formats...")
 
         def get_formats(formats: List = None) -> List[int]:
 
@@ -123,8 +123,8 @@ class Clipboard:
         if format not in self.available_formats():
             formats = self.available_formats()
             message = (
-                f'{format} not supported. Choose from following...\n'
-                + '\n'.join(map(str, formats))
+                f"{format} not supported. Choose from following...\n"
+                + "\n".join(map(str, formats))
             )
             raise Exception(message)
 
@@ -134,7 +134,7 @@ class Clipboard:
         self.size = GlobalSize(self.address)
 
         if not self.size:
-            raise Exception('Get Clipboard failed...')
+            raise Exception("Get Clipboard failed...")
 
         if format == ClipboardFormat.CF_UNICODETEXT.value:
 
@@ -187,7 +187,7 @@ class Clipboard:
             GMEM_ZEROINIT = 0x0040
 
             # Needs a special encoding...
-            content_bytes: bytes = content.encode(encoding='utf-16le')
+            content_bytes: bytes = content.encode(encoding="utf-16le")
 
             alloc_handle = GlobalAlloc(
                 GMEM_MOVEABLE | GMEM_ZEROINIT, len(content_bytes) + 2
@@ -207,7 +207,7 @@ class Clipboard:
             GMEM_ZEROINIT = 0x0040
 
             # Needs a special encoding...
-            html_content_bytes: bytes = content.encode(encoding='utf-16le')
+            html_content_bytes: bytes = content.encode(encoding="utf-16le")
 
             alloc_handle = GlobalAlloc(
                 GMEM_MOVEABLE | GMEM_ZEROINIT, len(content) + 2
@@ -219,12 +219,12 @@ class Clipboard:
             set_handle = SetClipboardData(format, alloc_handle)
         else:
             raise Exception(
-                f'{format} not supported for setting to clipboard.'
+                f"{format} not supported for setting to clipboard."
             )
 
         if set_handle is False:
             # handle will be set to NULL
-            raise Exception('Set Clipboard failed...')
+            raise Exception("Set Clipboard failed...")
 
         return set_handle
 
@@ -254,8 +254,8 @@ class Clipboard:
             except KeyError:
                 # Not a Supported Format
                 raise ValueError(
-                    f'{format} is not a valid format. Choose from following...\n'
-                    + '\n'.join(map(str, ClipboardFormat))
+                    f"{format} is not a valid format. Choose from following...\n"
+                    + "\n".join(map(str, ClipboardFormat))
                 )
 
         return format  # type: ignore

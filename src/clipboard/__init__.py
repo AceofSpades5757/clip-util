@@ -5,8 +5,8 @@ from clipboard.html_clipboard import HTMLClipboard
 
 
 __all__ = [
-    'Clipboard',
-    'ClipboardFormat',
-    'HTML_ENCODING',
-    'HTMLClipboard',
+    "Clipboard",
+    "ClipboardFormat",
+    "HTML_ENCODING",
+    "HTMLClipboard",
 ]

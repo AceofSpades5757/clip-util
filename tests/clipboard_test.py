@@ -9,16 +9,16 @@ from clipboard import ClipboardFormat
 
 
 # Platform Settings
-if platform.system() == 'Windows':
+if platform.system() == "Windows":
     html_type_1 = ClipboardFormat.HTML_Format
-elif platform.system() == 'Linux':
-    raise unittest.SkipTest('Platform not supported, but is planned.')
+elif platform.system() == "Linux":
+    raise unittest.SkipTest("Platform not supported, but is planned.")
     raise NotImplementedError(
-        f'Unsupported platform {platform.system()}, but definetly preferred.'
+        f"Unsupported platform {platform.system()}, but definetly preferred."
     )
 else:
-    raise unittest.SkipTest(f'Platform not supported {platform.system()}.')
-    raise NotImplementedError(f'Unsupported platform {platform.system()}.')
+    raise unittest.SkipTest(f"Platform not supported {platform.system()}.")
+    raise NotImplementedError(f"Unsupported platform {platform.system()}.")
 
 
 class TestClipboard(unittest.TestCase):
@@ -37,7 +37,7 @@ class TestClipboard(unittest.TestCase):
         # Assuming that the get clipboard function is working
 
         with Clipboard(format=ClipboardFormat.CF_UNICODETEXT) as clipboard:
-            random_text = ''.join(
+            random_text = "".join(
                 random.choice(string.ascii_letters + string.digits)
                 for _ in range(random.randint(1, 100))
             )
@@ -46,7 +46,7 @@ class TestClipboard(unittest.TestCase):
             self.assertEqual(text, random_text)
 
         with Clipboard(format=ClipboardFormat.CF_UNICODETEXT) as clipboard:
-            random_text = ''.join(
+            random_text = "".join(
                 random.choice(string.ascii_letters + string.digits)
                 for _ in range(random.randint(1, 100))
             )
@@ -58,7 +58,7 @@ class TestClipboard(unittest.TestCase):
         # Mutliple sets
         with Clipboard(format=ClipboardFormat.CF_UNICODETEXT) as clipboard:
             for _ in range(3):
-                random_text = ''.join(
+                random_text = "".join(
                     random.choice(string.ascii_letters + string.digits)
                     for _ in range(random.randint(1, 100))
                 )
@@ -76,5 +76,5 @@ class TestClipboard(unittest.TestCase):
             clipboard.empty()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

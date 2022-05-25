@@ -1,2 +1,2 @@
-UTF_ENCODING: str = 'UTF-16'
-HTML_ENCODING: str = 'UTF-8'
+UTF_ENCODING: str = "UTF-16"
+HTML_ENCODING: str = "UTF-8"

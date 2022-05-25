@@ -45,7 +45,7 @@ class ClipboardFormat(Enum, metaclass=ExtendedEnum):
         return [i.name for i in cls]
 
     def __str__(self):
-        return f'{str(self.value)} {str(self.name)}'
+        return f"{str(self.value)} {str(self.name)}"
 
     def __eq__(self, other):
         if isinstance(self, type(other)):
@@ -85,7 +85,7 @@ def get_format_name(format_code: int) -> Optional[str]:
     max_buffer_length: int = 100
 
     buffer: ctypes.Array[ctypes.c_char] = ctypes.create_string_buffer(
-        b' ' * 200
+        b" " * 200
     )
     return_code: int = GetClipboardFormatNameA(
         format_code, ctypes.byref(buffer), max_buffer_length

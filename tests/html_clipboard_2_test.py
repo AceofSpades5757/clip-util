@@ -19,16 +19,16 @@ from clipboard import HTMLClipboard
 
 
 # Platform Settings
-if platform.system() == 'Windows':
+if platform.system() == "Windows":
     ...
-elif platform.system() == 'Linux':
-    raise unittest.SkipTest('Platform not supported, but is planned.')
+elif platform.system() == "Linux":
+    raise unittest.SkipTest("Platform not supported, but is planned.")
     raise NotImplementedError(
-        f'Unsupported platform {platform.system()}, but definetly preferred.'
+        f"Unsupported platform {platform.system()}, but definetly preferred."
     )
 else:
-    raise unittest.SkipTest(f'Platform not supported {platform.system()}.')
-    raise NotImplementedError(f'Unsupported platform {platform.system()}.')
+    raise unittest.SkipTest(f"Platform not supported {platform.system()}.")
+    raise NotImplementedError(f"Unsupported platform {platform.system()}.")
 
 
 class TestMore(unittest.TestCase):
@@ -51,12 +51,12 @@ class TestMore(unittest.TestCase):
 
         # Basic Text
         with Clipboard() as clipboard:
-            clipboard['text'] = "Hello!"
-            clipboard_data = clipboard['text']
+            clipboard["text"] = "Hello!"
+            clipboard_data = clipboard["text"]
 
         self.assertTrue(bool(clipboard_data))
 
-    @unittest.skip('CF_HTML is not supported on Windows (it should be).')
+    @unittest.skip("CF_HTML is not supported on Windows (it should be).")
     def test_cf_html_format(self) -> None:
 
         format = ClipboardFormat.CF_HTML
@@ -69,7 +69,7 @@ class TestMore(unittest.TestCase):
             self.assertIn(format, clipboard.available_formats())
 
         with Clipboard(format=format) as clipboard:
-            clipboard['html'] = template
+            clipboard["html"] = template
 
         # Get Data
         with Clipboard() as clipboard:
@@ -88,7 +88,7 @@ class TestMore(unittest.TestCase):
             self.assertIn(format, clipboard.available_formats())
 
         with Clipboard(format=format) as clipboard:
-            clipboard['html'] = template
+            clipboard["html"] = template
 
         # Get Data
         with Clipboard() as clipboard:
@@ -97,15 +97,15 @@ class TestMore(unittest.TestCase):
 
         # Get Data 2
         with Clipboard() as clipboard:
-            clipboard_data_2: str = clipboard['html']
+            clipboard_data_2: str = clipboard["html"]
             self.assertTrue(bool(clipboard_data_2))
 
         # No Format originally
         with Clipboard() as clipboard:
-            clipboard['html'] = template
-            clipboard_data_3: str = clipboard['html']
+            clipboard["html"] = template
+            clipboard_data_3: str = clipboard["html"]
             self.assertTrue(bool(clipboard_data_3))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

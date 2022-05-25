@@ -7,10 +7,10 @@ from clipboard import HTMLClipboard
 
 
 # Platform Settings
-if platform.system() != 'Windows':
+if platform.system() != "Windows":
     html_type_1 = ClipboardFormat.HTML_Format
-    raise unittest.SkipTest(f'Platform not supported {platform.system()}.')
-    raise NotImplementedError(f'Unsupported platform {platform.system()}.')
+    raise unittest.SkipTest(f"Platform not supported {platform.system()}.")
+    raise NotImplementedError(f"Unsupported platform {platform.system()}.")
 
 
 class TestHTMLClipboard(unittest.TestCase):
@@ -27,5 +27,5 @@ class TestHTMLClipboard(unittest.TestCase):
         self.assertEqual(html_content.encode(HTML_ENCODING), raw)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
