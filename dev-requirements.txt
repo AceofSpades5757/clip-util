@@ -7,3 +7,4 @@ setuptools
 
 # Test Tools
 tox
+tox-gh-actions
