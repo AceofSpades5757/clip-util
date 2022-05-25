@@ -28,7 +28,8 @@ logger = get_logger(__name__)
 def get_clipboard(format: Union[int, ClipboardFormat] = None) -> Optional[str]:
     """Conveniency wrapper to get clipboard."""
     with Clipboard() as cb:
-        return cb.get_clipboard(format=format)
+        text = cb.get_clipboard(format=format)
+    return text
 
 
 def set_clipboard(
