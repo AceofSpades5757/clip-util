@@ -6,6 +6,8 @@ from typing import List
 
 from clipboard import Clipboard
 from clipboard import ClipboardFormat
+from clipboard import get_clipboard
+from clipboard import set_clipboard
 
 
 # Platform Settings
@@ -67,6 +69,21 @@ class TestClipboard(unittest.TestCase):
 
                 text = clipboard[ClipboardFormat.CF_UNICODETEXT]
                 self.assertEqual(text, random_text)
+
+    def test_convience_functions(self) -> None:
+
+        # No errors should be raised during these operations
+        # Assuming that the get clipboard function is working
+        # Assuming that the get clipboard function is working
+
+        format = ClipboardFormat.CF_UNICODETEXT
+        random_text = "".join(
+            random.choice(string.ascii_letters + string.digits)
+            for _ in range(random.randint(1, 100))
+        )
+        set_clipboard(random_text, format)
+        text = get_clipboard(format)
+        self.assertEqual(text, random_text)
 
     def test_empty(self) -> None:
 
