@@ -34,7 +34,7 @@ class Clipboard:
         if format is None:
             format = self.default_format.value
         else:
-            format = self.resolve_format(format)
+            format = self._resolve_format(format)
 
         self.format: int = format  # type: ignore
         # TODO Add type annotations
@@ -44,37 +44,6 @@ class Clipboard:
 
         self.locked: bool = False
         self.opened: bool = False
-
-    def __enter__(self):
-
-        if self.open():
-            return self
-        else:
-            raise Exception("Unable to open clipboard.")
-
-    def __exit__(
-        self, exception_type, exception_value, exception_traceback
-    ) -> bool:
-
-        if exception_type is not None:
-            import traceback
-
-            traceback.print_exception(
-                exception_type, exception_value, exception_traceback
-            )
-
-        self.close()
-        return True
-
-    def open(self, handle: int = None) -> bool:
-        self.opened = True
-        return OpenClipboard(handle)
-
-    def close(self) -> None:
-
-        self.opened = False
-        self.unlock()
-        CloseClipboard()
 
     def available_formats(self) -> List[int]:
         """Return all available clipboard formats on clipboard.
@@ -105,11 +74,10 @@ class Clipboard:
 
         return available_formats
 
-    def __getitem__(self, format: Union[int, ClipboardFormat] = None):
-
-        return self.get_clipboard(format)
-
-    def get_clipboard(self, format: Union[int, ClipboardFormat] = None):
+    def get_clipboard(
+        self, format: Union[int, ClipboardFormat] = None
+    ) -> Optional[str]:
+        """Get data from clipboard, returning None if nothing is on it."""
 
         if not self.opened:
             with self:
@@ -118,7 +86,7 @@ class Clipboard:
         if format is None:
             format = self.format
         else:
-            format = self.resolve_format(format)
+            format = self._resolve_format(format)
 
         if format not in self.available_formats():
             formats = self.available_formats()
@@ -130,7 +98,7 @@ class Clipboard:
 
         # Info
         self.h_clip_mem = GetClipboardData(format)
-        self.address = self.lock(self.h_clip_mem)  # type: ignore
+        self.address = self._lock(self.h_clip_mem)  # type: ignore
         self.size = GlobalSize(self.address)
 
         if not self.size:
@@ -161,22 +129,24 @@ class Clipboard:
         else:
             return None
 
-    def __setitem__(self, format, content) -> None:
+    def set_clipboard(self, content: str, format=None) -> None:
+        """Set clipboard."""
 
-        format = self.resolve_format(format)
-        self.empty()
-        self.set_clipboard(content, format)
+        _: HANDLE = self._set_clipboard(content, format)
 
-    def set_clipboard(self, content: str, format=None) -> HANDLE:
+        return None
+
+    def _set_clipboard(self, content: str, format=None) -> HANDLE:
+        """Hides the HANDLE."""
 
         if not self.opened:
             with self:
-                return self.set_clipboard(content=content, format=format)
+                return self._set_clipboard(content=content, format=format)
 
         if format is None:
             format = self.format
-        format = self.resolve_format(format)
-        self.empty()
+        format = self._resolve_format(format)
+        self._empty()
 
         set_handle: HANDLE
         alloc_handle: HANDLE
@@ -228,19 +198,7 @@ class Clipboard:
 
         return set_handle
 
-    def lock(self, handle: hMem) -> LPVOID:
-        self.locked = True
-        # if fails, GlobalLock returns NULL (False in Python)
-        return GlobalLock(handle)
-
-    def unlock(self, handle: HANDLE = None) -> int:
-        if handle is None:
-            handle = self.h_clip_mem
-
-        self.locked = False
-        return GlobalUnlock(handle)
-
-    def resolve_format(self, format: Union[ClipboardFormat, str, int]) -> int:
+    def _resolve_format(self, format: Union[ClipboardFormat, str, int]) -> int:
         """Given an integer, respresenting a clipboard format, or a
         ClipboardFormat object, return the respective integer."""
 
@@ -260,12 +218,67 @@ class Clipboard:
 
         return format  # type: ignore
 
-    def empty(self) -> int:
+    def __getitem__(self, format: Union[int, ClipboardFormat] = None):
+
+        return self.get_clipboard(format)
+
+    def __setitem__(self, format, content) -> None:
+
+        format = self._resolve_format(format)
+        self._empty()
+        self.set_clipboard(content, format)
+
+    def __enter__(self):
+
+        if self._open():
+            return self
+        else:
+            raise Exception("Unable to open clipboard.")
+
+    def __exit__(
+        self, exception_type, exception_value, exception_traceback
+    ) -> bool:
+
+        if exception_type is not None:
+            import traceback
+
+            traceback.print_exception(
+                exception_type, exception_value, exception_traceback
+            )
+
+        self._close()
+        return True
+
+    def _open(self, handle: int = None) -> bool:
+        self.opened = True
+        return OpenClipboard(handle)
+
+    def _close(self) -> None:
+
+        self.opened = False
+        self._unlock()
+        CloseClipboard()
+
+    def _lock(self, handle: hMem) -> LPVOID:
+        self.locked = True
+        # if fails, GlobalLock returns NULL (False in Python)
+        return GlobalLock(handle)
+
+    def _unlock(self, handle: HANDLE = None) -> int:
+        if handle is None:
+            handle = self.h_clip_mem
+
+        self.locked = False
+        return GlobalUnlock(handle)
+
+    def _empty(self) -> int:
 
         if not self.opened:
             with self:
-                return self.empty()
+                return self._empty()
         elif self.opened:
             return_code = EmptyClipboard()
+        else:
+            raise RuntimeError("Failed to empty clipboard.")
 
         return return_code

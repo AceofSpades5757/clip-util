@@ -73,7 +73,7 @@ class TestClipboard(unittest.TestCase):
         # No errors should be raised during these operations
 
         with Clipboard() as clipboard:
-            clipboard.empty()
+            clipboard._empty()
 
 
 if __name__ == "__main__":
