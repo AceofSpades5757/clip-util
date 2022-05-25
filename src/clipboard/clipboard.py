@@ -165,7 +165,6 @@ class Clipboard:
 
         format = self.resolve_format(format)
         self.empty()
-
         self.set_clipboard(content, format)
 
     def set_clipboard(self, content: str, format=None) -> HANDLE:
@@ -242,18 +241,22 @@ class Clipboard:
         return GlobalUnlock(handle)
 
     def resolve_format(self, format: Union[ClipboardFormat, str, int]) -> int:
+        """Given an integer, respresenting a clipboard format, or a
+        ClipboardFormat object, return the respective integer."""
 
         if isinstance(format, ClipboardFormat):
             format = format.value
-        elif isinstance(format, str):
-            format = ClipboardFormat[format].value
         elif isinstance(format, int):
             pass
-        else:
-            raise Exception(
-                f'{format} is not a valid format. Choose from following...\n'
-                + '\n'.join(map(str, ClipboardFormat))
-            )
+        elif isinstance(format, str):
+            try:
+                format = ClipboardFormat[format].value
+            except KeyError:
+                # Not a Supported Format
+                raise ValueError(
+                    f'{format} is not a valid format. Choose from following...\n'
+                    + '\n'.join(map(str, ClipboardFormat))
+                )
 
         return format  # type: ignore
 
