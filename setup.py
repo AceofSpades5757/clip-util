@@ -19,7 +19,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="MIT",
-    python_requires=">=3.6",
+    python_requires=">=3.9",
     packages=setuptools.find_packages("src"),
     package_dir={
         "": "src",
