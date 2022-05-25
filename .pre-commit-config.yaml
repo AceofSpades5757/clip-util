@@ -1,35 +1,34 @@
 repos:
-# Check YAML; Fix end of files; Fix trailing whitespace
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.2.0
-  hooks:
-  - id: check-yaml
-    name: Check Yaml
-  - id: end-of-file-fixer
-    name: Fix End of Files
-  - id: trailing-whitespace
-    name: Fix Trailing Whitespace
-# Python - Reorder Imports
-- repo: https://github.com/asottile/reorder_python_imports
-  rev: v3.1.0
-  hooks:
-  - id: reorder-python-imports
-    name: Reorder Python Imports
-# Python - Code Formatting
-- repo: https://github.com/psf/black
-  rev: 22.3.0
-  hooks:
-  - id: black
-    name: Code Formatter (black)
-    exclude: hooks/*
-    args:
-    - --line-length
-    - '79'
-    - --skip-string-normalization
-# Python - Type Checking
-- repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v0.950
-  hooks:
-  - id: mypy
-    name: Code Linter (Type Checking with mypy)
-    additional_dependencies: [types-pyyaml]
+  # Check YAML; Fix end of files; Fix trailing whitespace
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+      - id: check-yaml
+        name: Check Yaml
+      - id: end-of-file-fixer
+        name: Fix End of Files
+      - id: trailing-whitespace
+        name: Fix Trailing Whitespace
+  # Python - Reorder Imports
+  - repo: https://github.com/asottile/reorder_python_imports
+    rev: v3.1.0
+    hooks:
+      - id: reorder-python-imports
+        name: Reorder Python Imports
+  # Python - Code Formatting
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+        name: Formatter
+        exclude: hooks/.*
+        args:
+          - --line-length
+          - "79"
+  # Python - Type Checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.950
+    hooks:
+      - id: mypy
+        exclude: docs/.*
+        name: Linter (Type Checking)
