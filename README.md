@@ -1,6 +1,14 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+[![PyPI](https://img.shields.io/pypi/v/clip-util?color=darkred)](https://pypi.org/project/clip-util/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/clip-util?label=Python%20Version&logo=python&logoColor=yellow)](https://pypi.org/project/clip-util/)
+[![PyPI - License](https://img.shields.io/pypi/l/clip-util?color=green)](https://github.com/AceofSpades5757/clip-util/blob/main/LICENSE)
+
+[![Tests](https://github.com/AceofSpades5757/clip-util/actions/workflows/tests.yml/badge.svg)](https://github.com/AceofSpades5757/clip-util/actions/workflows/tests.yml)
+
+[![Read the Docs](https://img.shields.io/readthedocs/clip-util)](https://clip-util.readthedocs.io/en/latest/)
+
 # Description
 
 Package for accessing the clipboard with Python.
@@ -17,8 +25,8 @@ Allows for text and HTML on Windows.
 
 ## Supported Clipboard Formats
 
-* Text
-* HTML
+- Text
+- HTML
 
 # Usage
 
@@ -26,7 +34,7 @@ Allows for text and HTML on Windows.
 
 Will open and close every time the values are set, or retrieved. It's better to use a context manager.
 
-``` python
+```python
 from clipboard import Clipboard
 
 
@@ -42,6 +50,7 @@ text = clipboard['text']
 # OR
 text = clipboard.get_clipboard('text')
 ```
+
 <!--
 
 # HTML
@@ -50,7 +59,7 @@ clipboard['html'] = '<h1>Hello World</h1>'
 
 ### Context Manager
 
-``` python
+```python
 from clipboard import Clipboard
 
 
@@ -66,6 +75,7 @@ with Clipboard() as clipboard:
     # OR
     text = clipboard.get_clipboard('text')
 ```
+
 <!--
 
     # HTML
@@ -80,7 +90,7 @@ with Clipboard() as clipboard:
 `ClipboardFormats.CF_HTML`
 : Represents HTML format.
 
-``` python
+```python
 from clipboard import Clipboard
 from clipboard import ClipboardFormats
 from clipboard import HTMLClipboard
