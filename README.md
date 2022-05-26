@@ -5,7 +5,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/clip-util?label=Python%20Version&logo=python&logoColor=yellow)](https://pypi.org/project/clip-util/)
 [![PyPI - License](https://img.shields.io/pypi/l/clip-util?color=green)](https://github.com/AceofSpades5757/clip-util/blob/main/LICENSE)
 
-[![Tests](https://github.com/AceofSpades5757/clip-util/actions/workflows/tests.yml/badge.svg)](https://github.com/AceofSpades5757/clip-util/actions/workflows/tests.yml)
+[![Tests](https://github.com/AceofSpades5757/clip-util/actions/workflows/test.yml/badge.svg)](https://github.com/AceofSpades5757/clip-util/actions/workflows/test.yml)
 
 [![Read the Docs](https://img.shields.io/readthedocs/clip-util)](https://clip-util.readthedocs.io/en/latest/)
 
