@@ -35,7 +35,7 @@ $(VENV_DIR):
 	$(VENV_PYTHON) -m pip install --upgrade -r requirements.txt
 	$(VENV_PYTHON) -m pip install --upgrade -r dev-requirements.txt
 
-test:
+test: venv
 	@echo "Testing $(PROJECT_NAME)."
 	$(VENV_BIN)/tox
 
@@ -50,7 +50,7 @@ clean:
 	rm -rf **/__pycache__/
 	rm -rf **/*.egg-info/
 
-build:
+build: venv
 	@echo "Building $(PROJECT_NAME)."
 	# Build
 	$(VENV_PYTHON) setup.py sdist bdist_wheel
