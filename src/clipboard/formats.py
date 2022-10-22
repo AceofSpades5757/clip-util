@@ -34,12 +34,12 @@ class ClipboardFormat(Enum, metaclass=ExtendedEnum):
     html = HTML_Format  # alias
     HTML = html  # alias
 
-    @classmethod
+    @classmethod  # type: ignore
     @property
     def values(cls):
         return [i.value for i in cls]
 
-    @classmethod
+    @classmethod  # type: ignore
     @property
     def names(cls):
         return [i.name for i in cls]
