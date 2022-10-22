@@ -23,7 +23,7 @@ help:
 	@echo "make test    - Test."
 	@echo "make clean   - Clean build directories, temporary files, and caches."
 	@echo "make build   - Build with setup.py."
-	@echo "make release - Deploy to PyPi."
+	@echo "make publish - Publish to PyPi."
 	@echo "----------------------------------------------"
 
 venv:
