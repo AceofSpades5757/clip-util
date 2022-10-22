@@ -14,7 +14,7 @@ VENV_PIP = $(VENV_BIN)/pip
 
 # Settings
 .DEFAULT_GOAL = help
-.PHONY: help test build clean publish venv
+.PHONY: help test build clean publish
 
 
 help:
@@ -26,7 +26,9 @@ help:
 	@echo "make publish - Publish to PyPi."
 	@echo "----------------------------------------------"
 
-venv:
+venv: $(VENV_DIR)
+
+$(VENV_DIR):
 	$(PYTHON) -m pip install --upgrade pip
 	$(PYTHON) -m pip install --upgrade virtualenv
 	$(PYTHON) -m virtualenv $(VENV_DIR)
