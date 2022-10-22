@@ -42,6 +42,8 @@ test:
 
 clean:
 	@echo "Removing temporary files and caches."
+	# Virtual Environment
+	rm -rf $(VENV_DIR)
 	# Build Directories
 	rm -rf build/
 	rm -rf dist/
