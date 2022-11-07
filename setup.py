@@ -7,7 +7,7 @@ with open("README.md", "r") as fin:
 
 setuptools.setup(
     name="clip-util",
-    version="0.1.11",
+    version="0.1.12",
     author="Kyle L. Davis",
     author_email="AceofSpades5757.github@gmail.com",
     url="https://github.com/AceofSpades5757/clip-util",
@@ -15,7 +15,7 @@ setuptools.setup(
         "Documentation": "https://clip-util.readthedocs.io/en/latest/",
         "Author": "https://github.com/AceofSpades5757",
     },
-    description="Utilities for use with Python.",
+    description="Clipboard utilities for use with Python.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="MIT",
@@ -29,7 +29,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: Microsoft :: Windows",
         "License :: OSI Approved :: MIT License",
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
     ],
