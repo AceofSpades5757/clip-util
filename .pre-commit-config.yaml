@@ -32,3 +32,5 @@ repos:
       - id: mypy
         exclude: docs/.*
         name: Linter (Type Checking)
+        args:
+          - --implicit-optional
