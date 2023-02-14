@@ -145,7 +145,14 @@ class Clipboard:
             return html
 
         else:
-            return None
+            string: ctypes.Array[ctypes.c_byte] = (
+                ctypes.c_byte * self.size
+            ).from_address(
+                int(self.address)  # type: ignore
+            )
+            text: str = bytearray(string).decode(encoding="utf-8")[:-1]
+
+            return text
 
     def set_clipboard(
         self, content: str, format: Union[int, ClipboardFormat] = None
