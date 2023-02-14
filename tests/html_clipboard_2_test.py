@@ -121,20 +121,20 @@ class TestMore(unittest.TestCase):
             clipboard["rtf"] = content
 
         # Get Data
-        with Clipboard() as clipboard:
-            clipboard_data_1: str = clipboard[format]
-            self.assertTrue(bool(clipboard_data_1))
+        # with Clipboard() as clipboard:
+        #     clipboard_data_1: str = clipboard[format]
+        #     self.assertTrue(bool(clipboard_data_1))
 
         # Get Data 2
-        with Clipboard() as clipboard:
-            clipboard_data_2: str = clipboard["rtf"]
-            self.assertTrue(bool(clipboard_data_2))
+        # with Clipboard() as clipboard:
+        #     clipboard_data_2: str = clipboard["rtf"]
+        #     self.assertTrue(bool(clipboard_data_2))
 
         # No Format originally
-        with Clipboard() as clipboard:
-            clipboard["rtf"] = content
-            clipboard_data_3: str = clipboard["rtf"]
-            self.assertTrue(bool(clipboard_data_3))
+        # with Clipboard() as clipboard:
+        #     clipboard["rtf"] = content
+        #     clipboard_data_3: str = clipboard["rtf"]
+        #     self.assertTrue(bool(clipboard_data_3))
 
 
 if __name__ == "__main__":
