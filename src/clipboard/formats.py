@@ -6,6 +6,7 @@ from typing import List
 from typing import Optional
 
 from clipboard._c_interface import CF_HTML
+from clipboard._c_interface import CF_RTF
 from clipboard._c_interface import EnumClipboardFormats
 from clipboard._c_interface import GetClipboardFormatNameA
 
@@ -28,11 +29,13 @@ class ClipboardFormat(Enum, metaclass=ExtendedEnum):
     CF_LOCALE = 16
 
     CF_HTML = CF_HTML
+    CF_RTF = CF_RTF
     HTML_Format = 49418
 
     text = CF_UNICODETEXT  # alias
     html = HTML_Format  # alias
     HTML = html  # alias
+    rtf = CF_RTF  # alias
 
     @classmethod  # type: ignore
     @property
