@@ -182,8 +182,8 @@ class Clipboard:
             alloc_handle = GlobalAlloc(
                 GMEM_MOVEABLE | GMEM_ZEROINIT, len(content_bytes) + 2
             )
-            pcontents: LPVOID = GlobalLock(alloc_handle)
-            ctypes.memmove(pcontents, content_bytes, len(content_bytes))
+            contents_ptr: LPVOID = GlobalLock(alloc_handle)
+            ctypes.memmove(contents_ptr, content_bytes, len(content_bytes))
             GlobalUnlock(alloc_handle)
 
             set_handle = SetClipboardData(format, alloc_handle)
@@ -198,15 +198,22 @@ class Clipboard:
             alloc_handle = GlobalAlloc(
                 GMEM_MOVEABLE | GMEM_ZEROINIT, len(content) + 2
             )
-            pcontents: LPVOID = GlobalLock(alloc_handle)  # type: ignore
-            ctypes.memmove(pcontents, html_content_bytes, len(content))
+            contents_ptr: LPVOID = GlobalLock(alloc_handle)  # type: ignore
+            ctypes.memmove(contents_ptr, html_content_bytes, len(content))
             GlobalUnlock(alloc_handle)
 
             set_handle = SetClipboardData(format, alloc_handle)
         else:
-            raise Exception(
-                f"{format} not supported for setting to clipboard."
+            content_bytes: bytes = content.encode(encoding="utf-8")
+
+            alloc_handle = GlobalAlloc(
+                GMEM_MOVEABLE, len(content_bytes) + 1
             )
+            contents_ptr: LPVOID = GlobalLock(alloc_handle)
+            ctypes.memmove(contents_ptr, content_bytes, len(content_bytes))
+            GlobalUnlock(alloc_handle)
+
+            set_handle = SetClipboardData(format, alloc_handle)
 
         if set_handle is False:
             # handle will be set to NULL
