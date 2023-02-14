@@ -27,6 +27,7 @@ Allows for text and HTML on Windows.
 
 - Text
 - HTML
+- RTF
 
 # Usage
 
@@ -89,6 +90,9 @@ with Clipboard() as clipboard:
 
 `ClipboardFormats.CF_HTML`
 : Represents HTML format.
+
+`ClipboardFormats.CF_RTF`
+: Represents RTF format.
 
 ```python
 from clipboard import Clipboard
