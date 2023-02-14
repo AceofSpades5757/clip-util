@@ -60,6 +60,9 @@ Get Clipboard Formats
 ``ClipboardFormats.CF_HTML``
 : Represents HTML format.
 
+``ClipboardFormats.CF_RTF``
+: Represents rich text format.
+
 ..code:: python
   from clipboard import Clipboard
   from clipboard import ClipboardFormats
