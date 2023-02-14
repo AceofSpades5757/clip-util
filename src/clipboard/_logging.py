@@ -48,7 +48,6 @@ logging.getLogger().handlers[0].setFormatter(formatter)
 def get_logger(
     name: str, level=logging.DEBUG, debug: bool = False
 ) -> logging.Logger:
-
     logger: logging.Logger = logging.getLogger(__name__)
     logger.setLevel(level)
 

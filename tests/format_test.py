@@ -20,7 +20,6 @@ else:
 
 class TestInterface(unittest.TestCase):
     def test_simple(self) -> None:
-
         self.assertTrue(bool(ClipboardFormat.HTML_Format))
         self.assertTrue(bool(ClipboardFormat.CF_HTML))
         self.assertTrue(bool(ClipboardFormat["HTML_Format"]))
@@ -28,7 +27,6 @@ class TestInterface(unittest.TestCase):
 
 class TestFormats(unittest.TestCase):
     def test_simple(self) -> None:
-
         self.assertNotEqual("CF_HTML", ClipboardFormat.CF_HTML)
         self.assertNotEqual("HTML_Format", ClipboardFormat.HTML_Format)
         self.assertNotEqual("CF_HTML", ClipboardFormat.HTML_Format)

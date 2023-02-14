@@ -41,11 +41,9 @@ def set_clipboard(
 
 
 class Clipboard:
-
     default_format: ClipboardFormat = ClipboardFormat.CF_UNICODETEXT
 
     def __init__(self, format: Union[ClipboardFormat, str, int] = None):
-
         if format is None:
             format = self.default_format.value
         else:
@@ -70,7 +68,6 @@ class Clipboard:
         logger.info("Getting available clipboard formats...")
 
         def get_formats(formats: List = None) -> List[int]:
-
             if formats is None:
                 formats = [EnumClipboardFormats(0)]
 
@@ -120,7 +117,6 @@ class Clipboard:
             raise Exception("Get Clipboard failed...")
 
         if format == ClipboardFormat.CF_UNICODETEXT.value:
-
             string: ctypes.Array[ctypes.c_byte] = (
                 ctypes.c_byte * self.size
             ).from_address(
@@ -133,7 +129,6 @@ class Clipboard:
             format == ClipboardFormat.CF_HTML.value
             or format == ClipboardFormat.HTML_Format.value
         ):
-
             bytes_ = (ctypes.c_char * self.size).from_address(
                 int(self.address)  # type: ignore
             )
@@ -173,7 +168,6 @@ class Clipboard:
         set_handle: HANDLE
         alloc_handle: HANDLE
         if format == ClipboardFormat.CF_UNICODETEXT.value:
-
             # GMEM_DDESHARE = 0x2000
             GMEM_MOVEABLE = 0x0002
             GMEM_ZEROINIT = 0x0040
@@ -241,17 +235,14 @@ class Clipboard:
         return format  # type: ignore
 
     def __getitem__(self, format: Union[int, ClipboardFormat] = None):
-
         return self.get_clipboard(format)
 
     def __setitem__(self, format, content) -> None:
-
         format = self._resolve_format(format)
         self._empty()
         self.set_clipboard(content, format)
 
     def __enter__(self):
-
         if self._open():
             return self
         else:
@@ -260,7 +251,6 @@ class Clipboard:
     def __exit__(
         self, exception_type, exception_value, exception_traceback
     ) -> bool:
-
         if exception_type is not None:
             import traceback
 
@@ -276,7 +266,6 @@ class Clipboard:
         return OpenClipboard(handle)
 
     def _close(self) -> None:
-
         self.opened = False
         self._unlock()
         CloseClipboard()
@@ -294,7 +283,6 @@ class Clipboard:
         return GlobalUnlock(handle)
 
     def _empty(self) -> int:
-
         if not self.opened:
             with self:
                 return self._empty()

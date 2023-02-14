@@ -35,7 +35,6 @@ class HTMLClipboard:
     )
 
     def __init__(self, content: str = ""):
-
         self.fragments: List[str] = []
 
         self.start_html: int = -1
@@ -53,7 +52,6 @@ class HTMLClipboard:
         self.raw: bytes = content.encode(encoding=HTML_ENCODING)
 
     def generate_template(self) -> str:
-
         fragments: List[str] = (
             self.fragments if self.fragments else [self.content]
         )
@@ -70,7 +68,6 @@ class HTMLClipboard:
         return result
 
     def generate_fragments(self, fragments: List) -> str:
-
         results: List[str] = []
         for fragment in fragments:
             results.append("<!--StartFragment-->")
@@ -83,7 +80,6 @@ class HTMLClipboard:
         return result
 
     def generate_html(self, string: str) -> str:
-
         lines = string.splitlines()
         body = ["<body>"] + lines + ["</body>"]
         html = ["<html>"] + body + ["</html>"]
@@ -91,7 +87,6 @@ class HTMLClipboard:
         return "\n".join(html)
 
     def generate_header(self, string: str) -> str:
-
         lines = string.splitlines()
 
         version = self.version
@@ -112,7 +107,6 @@ class HTMLClipboard:
         return "\n".join(lines)
 
     def add_byte_counts(self, content: str) -> str:
-
         # Check
         current_values = self.get_byte_values(content)
         if all((i is not None and i != -1) for i in current_values.values()):
@@ -154,7 +148,6 @@ class HTMLClipboard:
         return self.add_byte_counts(result)
 
     def get_byte_values(self, content: str) -> dict:
-
         re_StartHTML = re.compile(r"StartHTML:(\d+)", flags=re.MULTILINE)
         StartHTML = int(
             re_StartHTML.findall(content)[0]
@@ -193,7 +186,6 @@ class HTMLClipboard:
         }
 
     def update_byte_counts(self, content: A) -> A:
-
         data: str
         if isinstance(content, bytes):
             data = content.decode(encoding=HTML_ENCODING)

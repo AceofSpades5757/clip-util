@@ -22,7 +22,6 @@ class ExtendedEnum(EnumMeta):
 
 
 class ClipboardFormat(Enum, metaclass=ExtendedEnum):
-
     CF_TEXT = 1
     CF_UNICODETEXT = 13
     CF_LOCALE = 16
