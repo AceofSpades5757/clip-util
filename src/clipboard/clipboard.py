@@ -23,6 +23,9 @@ from clipboard.formats import ClipboardFormat
 
 hMem = HANDLE  # Type Alias
 logger = get_logger(__name__)
+GMEM_MOVEABLE = 0x0002
+GMEM_ZEROINIT = 0x0040
+GMEM_DDESHARE = 0x2000
 
 
 def get_clipboard(format: Union[int, ClipboardFormat] = None) -> Optional[str]:
@@ -174,11 +177,6 @@ class Clipboard:
         alloc_handle: HANDLE
         if format == ClipboardFormat.CF_UNICODETEXT.value:
 
-            # GMEM_DDESHARE = 0x2000
-            GMEM_MOVEABLE = 0x0002
-            GMEM_ZEROINIT = 0x0040
-
-            # Needs a special encoding...
             content_bytes: bytes = content.encode(encoding="utf-16le")
 
             alloc_handle = GlobalAlloc(
@@ -194,11 +192,7 @@ class Clipboard:
             format == ClipboardFormat.CF_HTML.value
             or format == ClipboardFormat.HTML_Format.value
         ):
-            # GMEM_DDESHARE = 0x2000
-            GMEM_MOVEABLE = 0x0002
-            GMEM_ZEROINIT = 0x0040
 
-            # Needs a special encoding...
             html_content_bytes: bytes = content.encode(encoding="utf-16le")
 
             alloc_handle = GlobalAlloc(
