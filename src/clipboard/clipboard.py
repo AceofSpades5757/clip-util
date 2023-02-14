@@ -149,12 +149,12 @@ class Clipboard:
 
     def set_clipboard(
         self, content: str, format: Union[int, ClipboardFormat] = None
-    ) -> None:
+    ) -> HANDLE:
         """Set clipboard."""
 
-        _: HANDLE = self._set_clipboard(content, format)
+        set_handle: HANDLE = self._set_clipboard(content, format)
 
-        return None
+        return set_handle
 
     def _set_clipboard(
         self, content: str, format: Union[int, ClipboardFormat] = None
