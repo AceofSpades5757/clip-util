@@ -33,7 +33,6 @@ class TestClipboard(unittest.TestCase):
             self.assertTrue(bool(primary_format))
 
     def test_set_clipboard(self) -> None:
-
         # No errors should be raised during these operations
         # Assuming that the get clipboard function is working
         # Assuming that the get clipboard function is working
@@ -71,7 +70,6 @@ class TestClipboard(unittest.TestCase):
                 self.assertEqual(text, random_text)
 
     def test_convience_functions(self) -> None:
-
         # No errors should be raised during these operations
         # Assuming that the get clipboard function is working
         # Assuming that the get clipboard function is working
@@ -86,7 +84,6 @@ class TestClipboard(unittest.TestCase):
         self.assertEqual(text, random_text)
 
     def test_empty(self) -> None:
-
         # No errors should be raised during these operations
 
         with Clipboard() as clipboard:

@@ -34,7 +34,6 @@ else:
 class TestMore(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-
         content: str = """<h1>Hello World</h1>"""
         html_clipboard = HTMLClipboard(content)
         template: str = html_clipboard.generate_template()
@@ -48,7 +47,6 @@ class TestMore(unittest.TestCase):
         cls.template_2: str = template_2
 
     def test_basic_text(self) -> None:
-
         # Basic Text
         with Clipboard() as clipboard:
             clipboard["text"] = "Hello!"
@@ -58,7 +56,6 @@ class TestMore(unittest.TestCase):
 
     @unittest.skip("CF_HTML is not supported on Windows (it should be).")
     def test_cf_html_format(self) -> None:
-
         format = ClipboardFormat.CF_HTML
         template = self.template  # type: ignore
 
@@ -77,7 +74,6 @@ class TestMore(unittest.TestCase):
             self.assertTrue(bool(clipboard_data))
 
     def test_html_format(self) -> None:
-
         format = ClipboardFormat.HTML_Format
         template = self.template  # type: ignore
 
@@ -107,9 +103,10 @@ class TestMore(unittest.TestCase):
             self.assertTrue(bool(clipboard_data_3))
 
     def test_rtf_format(self) -> None:
-
         format = ClipboardFormat.CF_RTF
-        content: str = r"{\pard \ql \f0 \sa180 \li0 \fi0 Hello {\b World}!\par}"
+        content: str = (
+            r"{\pard \ql \f0 \sa180 \li0 \fi0 Hello {\b World}!\par}"
+        )
 
         # Format: RTF
         with Clipboard(format=format) as clipboard:

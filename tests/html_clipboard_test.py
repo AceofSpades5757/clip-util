@@ -15,7 +15,6 @@ if platform.system() != "Windows":
 
 class TestHTMLClipboard(unittest.TestCase):
     def test_simple(self) -> None:
-
         html_content: str = """<h1>Hello World</h1>"""
 
         html_clipboard = HTMLClipboard(html_content)
