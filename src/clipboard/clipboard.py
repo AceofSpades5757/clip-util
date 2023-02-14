@@ -269,11 +269,11 @@ class Clipboard:
         self.opened = True
         return OpenClipboard(handle)
 
-    def _close(self) -> None:
+    def _close(self) -> bool:
 
         self.opened = False
         self._unlock()
-        CloseClipboard()
+        return CloseClipboard()
 
     def _lock(self, handle: HANDLE) -> LPVOID:
         self.locked = True
