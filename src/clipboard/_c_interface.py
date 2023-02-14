@@ -83,4 +83,5 @@ EnumClipboardFormats.restype = UINT
 
 
 # Additional
-CF_HTML = ctypes.windll.user32.RegisterClipboardFormatA("HTML Format")  # type: ignore
+CF_HTML = ctypes.windll.user32.RegisterClipboardFormatW("HTML Format")  # type: ignore
+CF_RTF = ctypes.windll.user32.RegisterClipboardFormatW("Rich Text Format")  # type: ignore
