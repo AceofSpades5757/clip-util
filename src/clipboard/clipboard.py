@@ -119,13 +119,13 @@ class Clipboard:
         if not self.size:
             raise Exception("Get Clipboard failed...")
 
+        string: ctypes.Array[ctypes.c_byte]
+        text: str
         if format == ClipboardFormat.CF_UNICODETEXT.value:
-            string: ctypes.Array[ctypes.c_byte] = (
-                ctypes.c_byte * self.size
-            ).from_address(
+            string = (ctypes.c_byte * self.size).from_address(
                 int(self.address)  # type: ignore
             )
-            text: str = bytearray(string).decode(encoding=UTF_ENCODING)[:-1]
+            text = bytearray(string).decode(encoding=UTF_ENCODING)[:-1]
 
             return text
         elif (
@@ -140,12 +140,10 @@ class Clipboard:
             return html
 
         else:
-            string: ctypes.Array[ctypes.c_byte] = (
-                ctypes.c_byte * self.size
-            ).from_address(
+            string = (ctypes.c_byte * self.size).from_address(
                 int(self.address)  # type: ignore
             )
-            text: str = bytearray(string).decode(encoding="utf-8")[:-1]
+            text = bytearray(string).decode(encoding="utf-8")[:-1]
 
             return text
 
@@ -177,13 +175,15 @@ class Clipboard:
 
         set_handle: HANDLE
         alloc_handle: HANDLE
+        content_bytes: bytes
+        contents_ptr: LPVOID
         if format == ClipboardFormat.CF_UNICODETEXT.value:
-            content_bytes: bytes = content.encode(encoding="utf-16le")
+            content_bytes = content.encode(encoding="utf-16le")
 
             alloc_handle = GlobalAlloc(
                 GMEM_MOVEABLE | GMEM_ZEROINIT, len(content_bytes) + 2
             )
-            contents_ptr: LPVOID = GlobalLock(alloc_handle)
+            contents_ptr = GlobalLock(alloc_handle)
             ctypes.memmove(contents_ptr, content_bytes, len(content_bytes))
             GlobalUnlock(alloc_handle)
 
@@ -198,16 +198,16 @@ class Clipboard:
             alloc_handle = GlobalAlloc(
                 GMEM_MOVEABLE | GMEM_ZEROINIT, len(content) + 2
             )
-            contents_ptr: LPVOID = GlobalLock(alloc_handle)  # type: ignore
+            contents_ptr = GlobalLock(alloc_handle)  # type: ignore
             ctypes.memmove(contents_ptr, html_content_bytes, len(content))
             GlobalUnlock(alloc_handle)
 
             set_handle = SetClipboardData(format, alloc_handle)
         else:
-            content_bytes: bytes = content.encode(encoding="utf-8")
+            content_bytes = content.encode(encoding="utf-8")
 
             alloc_handle = GlobalAlloc(GMEM_MOVEABLE, len(content_bytes) + 1)
-            contents_ptr: LPVOID = GlobalLock(alloc_handle)
+            contents_ptr = GlobalLock(alloc_handle)
             ctypes.memmove(contents_ptr, content_bytes, len(content_bytes))
             GlobalUnlock(alloc_handle)
 
