@@ -1,7 +1,7 @@
 repos:
   # Check YAML; Fix end of files; Fix trailing whitespace
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-yaml
         name: Check Yaml
@@ -11,13 +11,13 @@ repos:
         name: Fix Trailing Whitespace
   # Python - Reorder Imports
   - repo: https://github.com/asottile/reorder-python-imports
-    rev: v3.11.0
+    rev: v3.12.0
     hooks:
       - id: reorder-python-imports
         name: Reorder Python Imports
   # Python - Code Formatting
   - repo: https://github.com/psf/black
-    rev: 23.9.1
+    rev: 23.11.0
     hooks:
       - id: black
         name: Formatter
@@ -27,7 +27,7 @@ repos:
           - "79"
   # Python - Type Checking
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.5.1
+    rev: v1.7.1
     hooks:
       - id: mypy
         exclude: docs/.*
