@@ -3,6 +3,7 @@
 Note: This did not feel like a simple process to identify the paths to access
 the C functions.
 """
+
 import ctypes
 from ctypes.wintypes import BOOL
 from ctypes.wintypes import HANDLE

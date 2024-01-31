@@ -10,6 +10,7 @@ Note
 The \x00\x00 bytes are _actually_ a single null-terminated string for unicode strings
 with windows, and is a single \u0000, in Python which is 2 \x00 values.
 """
+
 import platform
 import unittest
 
