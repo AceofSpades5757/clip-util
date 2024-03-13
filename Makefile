@@ -62,3 +62,6 @@ publish: build
 
 format: venv
 	$(VENV_BIN)/pre-commit run --all-files
+
+format-update: venv
+	$(VENV_BIN)/pre-commit autoupdate
