@@ -75,4 +75,4 @@ format-update: venv
 	$(VENV_BIN)/pre-commit autoupdate
 
 type: venv
-	$(VENV_BIN)/mypy .
+	$(VENV_BIN)/mypy ./src
