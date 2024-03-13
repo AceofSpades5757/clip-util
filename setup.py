@@ -5,6 +5,20 @@ with open("README.md", "r", encoding="utf-8") as fin:
     long_description = fin.read()
 
 
+build_requires = [
+    "wheel",
+    "setuptools",
+]
+test_requires = [
+    "tox",
+    "tox-gh-actions",
+]
+dev_requires = build_requires + test_requires + [
+    # CI/CD Tool - Runs formatting tools
+    "pre-commit",
+]
+
+
 setuptools.setup(
     name="clip-util",
     version="0.1.15",
@@ -26,14 +40,9 @@ setuptools.setup(
         "clipboard": "src/clipboard",
     },
     extras_require={
-        "dev": [
-            # Build Tools
-            "wheel",
-            "setuptools",
-            # Test Tools
-            "tox",
-            "tox-gh-actions",
-        ]
+        "dev": dev_requires,
+        "build": build_requires,
+        "test": test_requires,
     },
     classifiers=[
         "Programming Language :: Python :: 3",

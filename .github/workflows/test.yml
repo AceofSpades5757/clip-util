@@ -20,7 +20,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install .[dev]
+          pip install .[test]
 
       - name: Run Tests
         run: tox
