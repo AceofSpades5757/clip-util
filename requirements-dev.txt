@@ -1,7 +1,0 @@
-# Build Tools
-wheel
-setuptools
-
-# Test Tools
-tox
-tox-gh-actions

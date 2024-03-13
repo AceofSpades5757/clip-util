@@ -5,15 +5,6 @@ with open("README.md", "r", encoding="utf-8") as fin:
     long_description = fin.read()
 
 
-with open("requirements-dev.txt", "r", encoding="utf-8") as fin:
-    requirements_dev = fin.read().splitlines()
-    requirements_dev = [
-        req
-        for req in requirements_dev
-        if not req.startswith("#") and req
-    ]
-
-
 setuptools.setup(
     name="clip-util",
     version="0.1.15",
@@ -35,7 +26,14 @@ setuptools.setup(
         "clipboard": "src/clipboard",
     },
     extras_require={
-        "dev": requirements_dev,
+        "dev": [
+            # Build Tools
+            "wheel",
+            "setuptools",
+            # Test Tools
+            "tox",
+            "tox-gh-actions",
+        ]
     },
     classifiers=[
         "Programming Language :: Python :: 3",
