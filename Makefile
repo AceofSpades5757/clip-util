@@ -13,7 +13,7 @@ VENV_PYTHON = $(VENV_BIN)/python
 
 # Settings
 .DEFAULT_GOAL = help
-.PHONY: help test build clean publish format
+.PHONY: help test build clean publish format format-update
 
 
 help:
