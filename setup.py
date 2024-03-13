@@ -19,6 +19,8 @@ dev_requires = (
     + [
         # CI/CD Tool - Runs formatting tools
         "pre-commit",
+        # Type Checker
+        "mypy",
     ]
 )
 
