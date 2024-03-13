@@ -20,6 +20,7 @@ help:
 	@echo "---------------HELP---------------------------"
 	@echo "Manage $(PROJECT_NAME). Usage:"
 	@echo "make test    - Test."
+	@echo "make format  - Run formmaters."
 	@echo "make clean   - Clean build directories, temporary files, and caches."
 	@echo "make build   - Build with setup.py."
 	@echo "make publish - Publish to PyPi."
@@ -58,3 +59,6 @@ publish: build
 	@echo "Publishing $(PROJECT_NAME) to PyPi."
 	$(VENV_PYTHON) -m pip install --upgrade twine
 	$(VENV_PYTHON) -m twine upload dist/*
+
+format: venv
+	$(VENV_BIN)/pre-commit run --all-files
