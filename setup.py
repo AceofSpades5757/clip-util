@@ -1,7 +1,7 @@
 import setuptools
 
 
-with open("README.md", "r") as fin:
+with open("README.md", "r", encoding="utf-8") as fin:
     long_description = fin.read()
 
 
