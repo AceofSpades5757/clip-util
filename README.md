@@ -21,7 +21,7 @@ Package for accessing the clipboard with Python.
 
 _Windows Only_
 
-Allows for text and HTML on Windows.
+Allows you to set text and HTML to the clipboard on Windows.
 
 ## Supported Clipboard Formats
 
@@ -50,13 +50,11 @@ clipboard.set_clipboard('text') = 'Hello World!'
 text = clipboard['text']
 # OR
 text = clipboard.get_clipboard('text')
+
+# Supports HTML
+clipboard['html'] = '<h1>Hello World</h1>'
 ```
 
-<!--
-
-# HTML
-clipboard['html'] = '<h1>Hello World</h1>'
--->
 
 ### Context Manager
 
@@ -75,24 +73,20 @@ with Clipboard() as clipboard:
     text = clipboard['text']
     # OR
     text = clipboard.get_clipboard('text')
-```
-
-<!--
 
     # HTML
     clipboard['html'] = '<h1>Hello World</h1>'
--->
+```
 
-## See Clipboard Formats
+## Clipboard Formats
 
-`ClipboardFormats`
-: Enum for clipboard formats.
+You can use `clip-util` to access the clipboard formats directly.
 
-`ClipboardFormats.CF_HTML`
-: Represents HTML format.
+`ClipboardFormats`: Enum for clipboard formats.
 
-`ClipboardFormats.CF_RTF`
-: Represents RTF format.
+`ClipboardFormats.CF_HTML`: Represents HTML format.
+
+`ClipboardFormats.CF_RTF`: Represents RTF format.
 
 ```python
 from clipboard import Clipboard
