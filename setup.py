@@ -7,10 +7,10 @@ with open("README.md", "r", encoding="utf-8") as fin:
 
 with open("requirements-dev.txt", "r", encoding="utf-8") as fin:
     requirements_dev = fin.read().splitlines()
-    requirments_dev = [
+    requirements_dev = [
         req
         for req in requirements_dev
-        if not req.startswith("#") and not req
+        if not req.startswith("#") and req
     ]
 
 
@@ -35,7 +35,7 @@ setuptools.setup(
         "clipboard": "src/clipboard",
     },
     extras_require={
-        "dev": requirments_dev,
+        "dev": requirements_dev,
     },
     classifiers=[
         "Programming Language :: Python :: 3",
