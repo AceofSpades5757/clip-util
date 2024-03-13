@@ -9,7 +9,7 @@ setuptools.setup(
     name="clip-util",
     version="0.1.14",
     author="Kyle L. Davis",
-    author_email="AceofSpades5757.github@gmail.com",
+    author_email="aceofspades5757.github@gmail.com",
     url="https://github.com/AceofSpades5757/clip-util",
     project_urls={
         "Documentation": "https://clip-util.readthedocs.io/en/latest/",
