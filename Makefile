@@ -13,16 +13,17 @@ VENV_PYTHON = $(VENV_BIN)/python
 
 # Settings
 .DEFAULT_GOAL = help
-.PHONY: help test build clean publish format format-update type
+.PHONY: help test build clean mostlyclean publish format format-update type
 
 
 help:
 	@echo "---------------HELP---------------------------"
 	@echo "Manage $(PROJECT_NAME). Usage:"
-	@echo "make test    - Test."
-	@echo "make clean   - Clean build directories, temporary files, and caches."
-	@echo "make build   - Build with setup.py."
-	@echo "make publish - Publish to PyPi."
+	@echo "make test        - Test."
+	@echo "make mostlyclean - Clean temporary files, and caches."
+	@echo "make clean       - Clean all."
+	@echo "make build       - Build with setup.py."
+	@echo "make publish     - Publish to PyPi."
 	@echo ""
 	@echo "make format         - Run formatters."
 	@echo "make format-update  - Update formatters."
@@ -42,16 +43,20 @@ test: venv
 	@echo "Testing $(PROJECT_NAME)."
 	$(VENV_BIN)/tox
 
-clean:
+mostlyclean:
 	@echo "Removing temporary files and caches."
-	# Virtual Environment
-	rm -rf $(VENV_DIR)
 	# Build Directories
 	rm -rf build/
 	rm -rf dist/
-	# Temporary Files
+	# Temporary Files and Caches
 	rm -rf **/__pycache__/
 	rm -rf **/*.egg-info/
+	rm -rf .mypy_cache
+
+clean: mostlyclean
+	@echo "Removing temporary files and caches."
+	# Virtual Environment
+	rm -rf $(VENV_DIR)
 
 build: venv
 	@echo "Building $(PROJECT_NAME)."
