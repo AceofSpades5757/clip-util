@@ -20,10 +20,12 @@ help:
 	@echo "---------------HELP---------------------------"
 	@echo "Manage $(PROJECT_NAME). Usage:"
 	@echo "make test    - Test."
-	@echo "make format  - Run formatters."
 	@echo "make clean   - Clean build directories, temporary files, and caches."
 	@echo "make build   - Build with setup.py."
 	@echo "make publish - Publish to PyPi."
+	@echo ""
+	@echo "make format         - Run formatters."
+	@echo "make format-update  - Update formatters."
 	@echo "----------------------------------------------"
 
 venv: $(VENV_DIR)
