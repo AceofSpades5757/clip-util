@@ -5,6 +5,15 @@ with open("README.md", "r", encoding="utf-8") as fin:
     long_description = fin.read()
 
 
+with open("requirements-dev.txt", "r", encoding="utf-8") as fin:
+    requirements_dev = fin.read().splitlines()
+    requirments_dev = [
+        req
+        for req in requirements_dev
+        if not req.startswith("#") and not req
+    ]
+
+
 setuptools.setup(
     name="clip-util",
     version="0.1.15",
@@ -24,6 +33,9 @@ setuptools.setup(
     package_dir={
         "": "src",
         "clipboard": "src/clipboard",
+    },
+    extras_require={
+        "dev": requirments_dev,
     },
     classifiers=[
         "Programming Language :: Python :: 3",
