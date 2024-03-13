@@ -20,7 +20,7 @@ help:
 	@echo "---------------HELP---------------------------"
 	@echo "Manage $(PROJECT_NAME). Usage:"
 	@echo "make test    - Test."
-	@echo "make format  - Run formmaters."
+	@echo "make format  - Run formatters."
 	@echo "make clean   - Clean build directories, temporary files, and caches."
 	@echo "make build   - Build with setup.py."
 	@echo "make publish - Publish to PyPi."
