@@ -13,7 +13,7 @@ VENV_PYTHON = $(VENV_BIN)/python
 
 # Settings
 .DEFAULT_GOAL = help
-.PHONY: help test build clean publish format format-update
+.PHONY: help test build clean publish format format-update type
 
 
 help:
@@ -26,6 +26,7 @@ help:
 	@echo ""
 	@echo "make format         - Run formatters."
 	@echo "make format-update  - Update formatters."
+	@echo "make type		   - Run type checkers."
 	@echo "----------------------------------------------"
 
 venv: $(VENV_DIR)
@@ -67,3 +68,6 @@ format: venv
 
 format-update: venv
 	$(VENV_BIN)/pre-commit autoupdate
+
+type: venv
+	$(VENV_BIN)/mypy .
