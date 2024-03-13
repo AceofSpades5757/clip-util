@@ -13,10 +13,14 @@ test_requires = [
     "tox",
     "tox-gh-actions",
 ]
-dev_requires = build_requires + test_requires + [
-    # CI/CD Tool - Runs formatting tools
-    "pre-commit",
-]
+dev_requires = (
+    build_requires
+    + test_requires
+    + [
+        # CI/CD Tool - Runs formatting tools
+        "pre-commit",
+    ]
+)
 
 
 setuptools.setup(

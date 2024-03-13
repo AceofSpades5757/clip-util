@@ -1,8 +1,8 @@
 import platform
 import unittest
 
-from clipboard import ClipboardFormat
 from clipboard import HTML_ENCODING
+from clipboard import ClipboardFormat
 from clipboard import HTMLClipboard
 
 

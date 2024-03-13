@@ -3,6 +3,8 @@ from typing import List
 from typing import Optional
 from typing import Union
 
+from clipboard._c_interface import HANDLE
+from clipboard._c_interface import LPVOID
 from clipboard._c_interface import CloseClipboard
 from clipboard._c_interface import EmptyClipboard
 from clipboard._c_interface import EnumClipboardFormats
@@ -11,8 +13,6 @@ from clipboard._c_interface import GlobalAlloc
 from clipboard._c_interface import GlobalLock
 from clipboard._c_interface import GlobalSize
 from clipboard._c_interface import GlobalUnlock
-from clipboard._c_interface import HANDLE
-from clipboard._c_interface import LPVOID
 from clipboard._c_interface import OpenClipboard
 from clipboard._c_interface import SetClipboardData
 from clipboard._logging import get_logger
