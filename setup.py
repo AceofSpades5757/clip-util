@@ -40,11 +40,8 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     license="MIT",
     python_requires=">=3.9",
-    packages=setuptools.find_packages("src"),
-    package_dir={
-        "": "src",
-        "clipboard": "src/clipboard",
-    },
+    packages=["clipboard"],
+    package_dir={"": "src"},
     extras_require={
         "dev": dev_requires,
         "build": build_requires,
