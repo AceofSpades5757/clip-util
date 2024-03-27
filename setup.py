@@ -27,7 +27,7 @@ dev_requires = (
 
 setuptools.setup(
     name="clip-util",
-    version="0.1.17",
+    version="0.1.18",
     author="Kyle L. Davis",
     author_email="aceofspades5757.github@gmail.com",
     url="https://github.com/AceofSpades5757/clip-util",
