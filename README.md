@@ -98,7 +98,7 @@ with Clipboard() as clipboard:
 
     # Get All Available Formats
     format_ids: list[int] = clipboard.available_formats()
-    
+
     # Get Specific Format by ID
     # Use parentheses to access the format
     formats: list[ClipboardFormat] = []
