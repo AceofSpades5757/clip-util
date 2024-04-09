@@ -32,7 +32,7 @@ class TestReadme(unittest.TestCase):
         # Set Clipboard
         clipboard['text'] = 'Hello World!'
         # OR
-        clipboard.set_clipboard('text') = 'Hello World!'
+        clipboard.set_clipboard('Hello World!')
 
         # Get Clipboard
         text = clipboard['text']
@@ -52,7 +52,7 @@ class TestReadme(unittest.TestCase):
             # Set Clipboard
             clipboard['text'] = 'Hello World!'
             # OR
-            clipboard.set_clipboard('text') = 'Hello World!'
+            clipboard.set_clipboard('Hello World!')
 
             # Get Clipboard
             text = clipboard['text']
