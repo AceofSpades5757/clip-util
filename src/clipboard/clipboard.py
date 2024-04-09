@@ -191,7 +191,7 @@ class Clipboard:
             format == ClipboardFormat.CF_HTML.value
             or format == ClipboardFormat.HTML_Format.value
         ):
-            html_content_bytes: bytes = content.encode(encoding="utf-16le")
+            html_content_bytes: bytes = content.encode(encoding=HTML_ENCODING)
 
             alloc_handle = GlobalAlloc(
                 GMEM_MOVEABLE | GMEM_ZEROINIT, len(html_content_bytes) + 2
