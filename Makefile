@@ -27,7 +27,7 @@ help:
 	@echo ""
 	@echo "make format         - Run formatters."
 	@echo "make format-update  - Update formatters."
-	@echo "make type		   - Run type checkers."
+	@echo "make type           - Run type checkers."
 	@echo "----------------------------------------------"
 
 venv: $(VENV_DIR)
