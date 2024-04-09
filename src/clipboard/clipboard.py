@@ -105,8 +105,7 @@ class Clipboard:
         if format not in self.available_formats():
             formats = self.available_formats()
             message = (
-                f"{format} not supported. Choose from following...\n"
-                + "\n".join(map(str, formats))
+                f"{format} not supported. Choose from following {formats}"
             )
             raise Exception(message)
 
