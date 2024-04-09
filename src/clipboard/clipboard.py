@@ -31,8 +31,7 @@ GMEM_DDESHARE = 0x2000
 def get_clipboard(format: Union[int, ClipboardFormat] = None) -> Optional[str]:
     """Conveniency wrapper to get clipboard."""
     with Clipboard() as cb:
-        text = cb.get_clipboard(format=format)
-    return text
+        return cb.get_clipboard(format=format)
 
 
 def set_clipboard(
