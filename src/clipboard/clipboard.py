@@ -196,10 +196,10 @@ class Clipboard:
             html_content_bytes: bytes = content.encode(encoding="utf-16le")
 
             alloc_handle = GlobalAlloc(
-                GMEM_MOVEABLE | GMEM_ZEROINIT, len(content) + 2
+                GMEM_MOVEABLE | GMEM_ZEROINIT, len(html_content_bytes) + 2
             )
             contents_ptr = GlobalLock(alloc_handle)  # type: ignore
-            ctypes.memmove(contents_ptr, html_content_bytes, len(content))
+            ctypes.memmove(contents_ptr, html_content_bytes, len(html_content_bytes))
             GlobalUnlock(alloc_handle)
 
             set_handle = SetClipboardData(format, alloc_handle)
