@@ -66,7 +66,7 @@ class TestReadme(unittest.TestCase):
         """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#clipboard-formats"""
         from clipboard import Clipboard
         from clipboard import ClipboardFormat
-        from clipboard import HTMLClipboard
+        from clipboard import HTMLTemplate
 
 
         with Clipboard() as clipboard:

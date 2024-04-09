@@ -16,7 +16,7 @@ import unittest
 
 from clipboard import Clipboard  # type: ignore
 from clipboard import ClipboardFormat
-from clipboard import HTMLClipboard
+from clipboard import HTMLTemplate
 
 
 # Platform Settings
@@ -36,15 +36,15 @@ class TestMore(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         content: str = """<h1>Hello World</h1>"""
-        html_clipboard = HTMLClipboard(content)
-        template: str = html_clipboard.generate_template()
+        html_clipboard = HTMLTemplate(content)
+        template: str = html_clipboard.final()
         cls.template: str = template
 
         content = """
         <h1>Hello World!</h1>
         <p>This is a paragraph...</p>"""
-        html_clipboard = HTMLClipboard(content)
-        template_2: str = html_clipboard.generate_template()
+        html_clipboard = HTMLTemplate(content)
+        template_2: str = html_clipboard.final()
         cls.template_2: str = template_2
 
     def test_basic_text(self) -> None:

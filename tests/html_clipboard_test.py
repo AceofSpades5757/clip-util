@@ -3,7 +3,7 @@ import unittest
 
 from clipboard import HTML_ENCODING
 from clipboard import ClipboardFormat
-from clipboard import HTMLClipboard
+from clipboard import HTMLTemplate
 
 
 # Platform Settings
@@ -17,10 +17,10 @@ class TestHTMLClipboard(unittest.TestCase):
     def test_simple(self) -> None:
         html_content: str = """<h1>Hello World</h1>"""
 
-        html_clipboard = HTMLClipboard(html_content)
+        html_clipboard = HTMLTemplate(html_content)
 
-        template: str = html_clipboard.generate_template()
-        raw: bytes = html_clipboard.raw  # encoding of content
+        template: str = html_clipboard.final()
+        raw: bytes = html_clipboard.bytes  # encoding of content
 
         self.assertTrue(bool(template))
         self.assertEqual(html_content.encode(HTML_ENCODING), raw)

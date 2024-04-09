@@ -19,6 +19,7 @@ from clipboard._logging import get_logger
 from clipboard.constants import HTML_ENCODING
 from clipboard.constants import UTF_ENCODING
 from clipboard.formats import ClipboardFormat
+from clipboard.html_clipboard import HTMLTemplate
 
 
 hMem = HANDLE  # Type Alias
@@ -191,7 +192,8 @@ class Clipboard:
             format == ClipboardFormat.CF_HTML.value
             or format == ClipboardFormat.HTML_Format.value
         ):
-            html_content_bytes: bytes = content.encode(encoding=HTML_ENCODING)
+            template: HTMLTemplate = HTMLTemplate(content)
+            html_content_bytes: bytes = template.final().encode(encoding=HTML_ENCODING)
 
             alloc_handle = GlobalAlloc(
                 GMEM_MOVEABLE | GMEM_ZEROINIT, len(html_content_bytes) + 2

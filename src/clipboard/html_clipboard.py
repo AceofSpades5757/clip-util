@@ -11,8 +11,8 @@ HTML_ENCODING = ENCODING
 A = TypeVar("A", str, bytes)
 
 
-class HTMLClipboard:
-    """Windows HTML Clipboard"""
+class HTMLTemplate:
+    """Windows HTML template for storing clipboard HTML data."""
 
     version = 0.9
     template = """
@@ -51,7 +51,7 @@ class HTMLClipboard:
         self.content: str = content
         self.bytes: bytes = content.encode(encoding=HTML_ENCODING)
 
-    def generate_template(self) -> str:
+    def final(self) -> str:
         fragments: List[str] = (
             self._fragments if self._fragments else [self.content]
         )
