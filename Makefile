@@ -37,7 +37,7 @@ $(VENV_DIR):
 	$(PYTHON) -m pip install --upgrade virtualenv
 	$(PYTHON) -m virtualenv $(VENV_DIR)
 	$(VENV_PYTHON) -m pip install --upgrade pip
-	$(VENV_PYTHON) -m pip install .[dev]
+	$(VENV_PYTHON) -m pip install --editable .[dev]
 
 test: venv
 	@echo "Testing $(PROJECT_NAME)."
