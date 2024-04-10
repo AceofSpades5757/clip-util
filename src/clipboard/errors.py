@@ -23,3 +23,7 @@ class OpenClipboardError(Exception):
 
 class ClipboardError(Exception):
     """Exception raised when clipboard operation fails."""
+
+
+class LockError(Exception):
+    """Exception raised when locking the clipboard fails."""
