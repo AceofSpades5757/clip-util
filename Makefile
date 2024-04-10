@@ -61,7 +61,7 @@ clean: mostlyclean
 build: venv
 	@echo "Building $(PROJECT_NAME)."
 	# Build
-	$(VENV_PYTHON) setup.py sdist bdist_wheel
+	$(VENV_PYTHON) -m build
 
 publish: build
 	@echo "Publishing $(PROJECT_NAME) to PyPi."

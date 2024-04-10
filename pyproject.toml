@@ -34,7 +34,7 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-build = ["wheel", "setuptools"]
+build = ["build", "setuptools"]
 test = ["tox", "tox-gh-actions"]
 dev = ["clip-util[build]", "clip-util[test]", "pre-commit", "mypy"]
 
