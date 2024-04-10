@@ -317,6 +317,15 @@ class Clipboard:
         return format  # type: ignore
 
     def __getitem__(self, format: Union[int, ClipboardFormat] = None):
+        """Get data from clipboard, returning None if nothing is on it.
+
+        Raises
+        ------
+        FormatNotSupportedError
+            If the format is not supported.
+        GetClipboardError
+            If getting the clipboard data failed.
+        """
         return self.get_clipboard(format)
 
     def __setitem__(self, format, content) -> None:
