@@ -1,10 +1,4 @@
-"""RTF tests.
-
-FIXME: There appear to be some race conditions with the clipboard.
-    Tests will randomly fail at certain points.
-    Should investigate and possibly add a delay to the tests, or a timeout in
-    the API.
-"""
+"""RTF tests."""
 
 import platform
 import unittest
