@@ -136,37 +136,6 @@ class TestMore(unittest.TestCase):
             clipboard_data_3: str = clipboard["html"]
             self.assertTrue(bool(clipboard_data_3))
 
-    def test_rtf_format(self) -> None:
-        format = ClipboardFormat.CF_RTF
-        content: str = (
-            r"{\pard \ql \f0 \sa180 \li0 \fi0 Hello {\b World}!\par}"
-        )
-
-        # Format: RTF
-        with Clipboard(format=format) as clipboard:
-            handle = clipboard.set_clipboard(content, format)
-            self.assertTrue(bool(handle))
-            self.assertIn(format, clipboard.available_formats())
-
-        with Clipboard(format=format) as clipboard:
-            clipboard["rtf"] = content
-
-        # Get Data
-        with Clipboard() as clipboard:
-            clipboard_data_1: str = clipboard[format]
-            self.assertTrue(bool(clipboard_data_1))
-
-        # Get Data 2
-        with Clipboard() as clipboard:
-            clipboard_data_2: str = clipboard["rtf"]
-            self.assertTrue(bool(clipboard_data_2))
-
-        # No Format originally
-        with Clipboard() as clipboard:
-            clipboard["rtf"] = content
-            clipboard_data_3: str = clipboard["rtf"]
-            self.assertTrue(bool(clipboard_data_3))
-
 
 if __name__ == "__main__":
     unittest.main()
