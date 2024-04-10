@@ -10,8 +10,8 @@ FIXME: Typing appears to be off.
 """
 
 import ctypes
-import os
 import logging
+import os
 from pathlib import Path
 from typing import List
 from typing import Optional
