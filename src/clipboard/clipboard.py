@@ -148,7 +148,7 @@ class Clipboard:
             bytes_ = (ctypes.c_char * self.size).from_address(
                 int(self.address)  # type: ignore
             )
-            html = bytes(bytes_).decode(HTML_ENCODING)
+            html = bytes(bytes_).decode(HTML_ENCODING)[:-1]
 
             return html
 
@@ -213,7 +213,7 @@ class Clipboard:
             html_content_bytes: bytes = template.final().encode(encoding=HTML_ENCODING)
 
             alloc_handle = GlobalAlloc(
-                GMEM_MOVEABLE | GMEM_ZEROINIT, len(html_content_bytes) + 2
+                GMEM_MOVEABLE | GMEM_ZEROINIT, len(html_content_bytes) + 1
             )
             contents_ptr = GlobalLock(alloc_handle)  # type: ignore
             ctypes.memmove(contents_ptr, html_content_bytes, len(html_content_bytes))
