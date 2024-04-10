@@ -232,8 +232,6 @@ class Clipboard:
             with self:
                 return self._set_clipboard(content=content, format=format)
 
-        if format is None:
-            format = self.format
         format = self._resolve_format(format)
         self._empty()
 
