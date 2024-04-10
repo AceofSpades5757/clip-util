@@ -206,9 +206,6 @@ class Clipboard:
             format == ClipboardFormat.CF_HTML.value
             or format == ClipboardFormat.HTML_Format.value
         ):
-            # There are issues with HTML_Format, so we use CF_HTML
-            format = ClipboardFormat.CF_HTML.value
-
             template: HTMLTemplate = HTMLTemplate(content)
             html_content_bytes: bytes = template.final().encode(encoding=HTML_ENCODING)
 
@@ -254,6 +251,9 @@ class Clipboard:
                     + "\n".join(map(str, ClipboardFormat))
                 )
 
+        # FIXME: There are issues with HTML_Format, so use CF_HTML
+        if format == ClipboardFormat.HTML_Format.value:
+            format = ClipboardFormat.CF_HTML.value
         return format  # type: ignore
 
     def __getitem__(self, format: Union[int, ClipboardFormat] = None):
