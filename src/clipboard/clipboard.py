@@ -1,4 +1,5 @@
 import ctypes
+import logging
 from typing import List
 from typing import Optional
 from typing import Union
@@ -15,17 +16,18 @@ from clipboard._c_interface import GlobalSize
 from clipboard._c_interface import GlobalUnlock
 from clipboard._c_interface import OpenClipboard
 from clipboard._c_interface import SetClipboardData
-from clipboard._logging import get_logger
 from clipboard.constants import HTML_ENCODING
 from clipboard.constants import UTF_ENCODING
 from clipboard.formats import ClipboardFormat
 
 
 hMem = HANDLE  # Type Alias
-logger = get_logger(__name__)
 GMEM_MOVEABLE = 0x0002
 GMEM_ZEROINIT = 0x0040
 GMEM_DDESHARE = 0x2000
+
+
+logger = logging.getLogger(__name__)
 
 
 def get_clipboard(format: Union[int, ClipboardFormat] = None) -> Optional[str]:
@@ -68,7 +70,7 @@ class Clipboard:
         """
         # TODO Add this to a base class (HTML clipboard could use this)
 
-        logger.info("Getting available clipboard formats...")
+        logger.info("Getting available clipboard formats")
 
         def get_formats(formats: List = None) -> List[int]:
             if formats is None:
