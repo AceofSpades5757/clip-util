@@ -21,7 +21,7 @@ Package for accessing the clipboard with Python.
 
 _Windows Only_
 
-Allows you to set text and HTML to the clipboard on Windows.
+Allows you to set text, RTF, and HTML to the clipboard on Windows. Any other format can also be specified using the format type integer, specified by Windows.
 
 ## Supported Clipboard Formats
 
