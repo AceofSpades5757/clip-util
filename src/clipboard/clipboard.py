@@ -10,14 +10,6 @@ FIXME: Adding the default format doesn't work with context manager.
         # Don't forget the `r` to allow escape sequences!
         clipboard.set_clipboard(r"{\rtf1\ansi \b hello world \b0 }")
     ```
-FIXME: Replace general exceptions with more specific ones. Examples:
-    * FormatNotSupportedError
-    * ClipboardError
-    * ClipboardOpenError
-    * ClipboardCloseError
-    * ClipboardEmptyError
-    * ClipboardGetError
-    * ClipboardSetError
 TODO: Make `get_clipboard`'s default to check available formats instead of just
 using the default format.
 FIXME: HTML_Format doesn't work for some reason. Fix this.
@@ -45,6 +37,11 @@ from clipboard.constants import HTML_ENCODING
 from clipboard.constants import UTF_ENCODING
 from clipboard.formats import ClipboardFormat
 from clipboard.html_clipboard import HTMLTemplate
+from clipboard.errors import EmptyClipboardError
+from clipboard.errors import FormatNotSupportedError
+from clipboard.errors import GetClipboardError
+from clipboard.errors import OpenClipboardError
+from clipboard.errors import SetClipboardError
 
 
 hMem = HANDLE  # Type Alias
@@ -135,12 +132,11 @@ class Clipboard:
         else:
             format = self._resolve_format(format)
 
-        if format not in self.available_formats():
-            formats = self.available_formats()
-            message = (
-                f"{format} not supported. Choose from following {formats}"
+        formats = self.available_formats()
+        if format not in formats:
+            raise FormatNotSupportedError(
+                f"{format} is not supported for getting the clipboard. Choose from following {formats}"
             )
-            raise Exception(message)
 
         # Info
         self.h_clip_mem = GetClipboardData(format)
@@ -148,7 +144,7 @@ class Clipboard:
         self.size = GlobalSize(self.address)
 
         if not self.size:
-            raise Exception("Get Clipboard failed...")
+            raise GetClipboardError("Getting the global size failed.")
 
         string: ctypes.Array[ctypes.c_byte]
         text: str
@@ -249,9 +245,8 @@ class Clipboard:
 
             set_handle = SetClipboardData(format, alloc_handle)
 
-        if set_handle is False:
-            # handle will be set to NULL
-            raise Exception("Set Clipboard failed...")
+        if set_handle is None:
+            raise SetClipboardError("Setting the clipboard failed.")
 
         return set_handle
 
@@ -267,10 +262,10 @@ class Clipboard:
             try:
                 format = ClipboardFormat[format].value
             except KeyError:
-                # Not a Supported Format
-                raise ValueError(
-                    f"{format} is not a valid format. Choose from following...\n"
-                    + "\n".join(map(str, ClipboardFormat))
+                formats = self.available_formats()
+                raise FormatNotSupportedError(
+                    f"{format} is not a supported clipboard format."
+                    f" Choose from following {formats}"
                 )
 
         # FIXME: There are issues with HTML_Format, so use CF_HTML
@@ -290,7 +285,7 @@ class Clipboard:
         if self._open():
             return self
         else:
-            raise Exception("Unable to open clipboard.")
+            raise OpenClipboardError("Failed to open clipboard.")
 
     def __exit__(
         self, exception_type, exception_value, exception_traceback
@@ -333,6 +328,6 @@ class Clipboard:
         elif self.opened:
             return_code = EmptyClipboard()
         else:
-            raise RuntimeError("Failed to empty clipboard.")
+            raise EmptyClipboardError("Emptying the clipboard failed.")
 
         return return_code
