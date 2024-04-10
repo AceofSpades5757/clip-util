@@ -75,38 +75,6 @@ class TestRTFClipboard(unittest.TestCase):
             available = clipboard.available_formats()
             self.assertIn(format, available)
 
-    @unittest.skip(
-        "There have been a bunch of issues with this format suddenly."
-    )
-    def test_html_format(self) -> None:
-        format = ClipboardFormat.HTML_Format
-        template = self.template  # type: ignore
-
-        # Format: HTML
-        with Clipboard(format=format) as clipboard:
-            handle = clipboard.set_clipboard(template, format)
-            self.assertTrue(bool(handle))
-            self.assertIn(format, clipboard.available_formats())
-
-        with Clipboard(format=format) as clipboard:
-            clipboard["html"] = template
-
-        # Get Data
-        with Clipboard() as clipboard:
-            clipboard_data_1: str = clipboard[format]
-            self.assertTrue(bool(clipboard_data_1))
-
-        # Get Data 2
-        with Clipboard() as clipboard:
-            clipboard_data_2: str = clipboard["html"]
-            self.assertTrue(bool(clipboard_data_2))
-
-        # No Format originally
-        with Clipboard() as clipboard:
-            clipboard["html"] = template
-            clipboard_data_3: str = clipboard["html"]
-            self.assertTrue(bool(clipboard_data_3))
-
 
 if __name__ == "__main__":
     unittest.main()
