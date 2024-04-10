@@ -32,6 +32,7 @@ from clipboard._c_interface import SetClipboardData
 from clipboard.constants import HTML_ENCODING
 from clipboard.constants import UTF_ENCODING
 from clipboard.errors import EmptyClipboardError
+from clipboard.errors import LockError
 from clipboard.errors import FormatNotSupportedError
 from clipboard.errors import GetClipboardError
 from clipboard.errors import OpenClipboardError
@@ -137,6 +138,9 @@ class Clipboard:
             If the format is not supported.
         GetClipboardError
             If getting the clipboard data failed.
+        LockError
+            If locking the clipboard failed.
+            If unlocking the clipboard failed.
         """
         logger.info("Getting clipboard data")
 
@@ -394,22 +398,47 @@ class Clipboard:
     def _close(self) -> bool:
         logger.info("_Closing clipboard")
         self.opened = False
-        self._unlock()
+        # FIXME: This fails frequently, likely due to a resource management
+        # error.
+        try:
+            self._unlock()
+        except LockError:
+            pass
         return CloseClipboard()
 
     def _lock(self, handle: HANDLE) -> LPVOID:
-        logger.info("_Locking clipboard")
-        self.locked = True
-        # if fails, GlobalLock returns NULL (False in Python)
-        return GlobalLock(handle)
+        """Lock clipboard.
 
-    def _unlock(self, handle: HANDLE = None) -> int:
+        Raises
+        ------
+        LockError
+            If locking the clipboard failed.
+        """
+        logger.info("_Locking clipboard")
+        locked: LPVOID = GlobalLock(handle)
+        self.locked = bool(locked)
+        if locked is None:
+            raise LockError("The `GlobalLock` function failed.")
+
+        return locked
+
+    def _unlock(self, handle: HANDLE = None) -> bool:
+        """Unlock clipboard.
+
+        Raises
+        ------
+        LockError
+            If unlocking the clipboard failed.
+        """
         logger.info("_Unlocking clipboard")
         if handle is None:
             handle = self.h_clip_mem
 
-        self.locked = False
-        return GlobalUnlock(handle)
+        unlocked: bool = bool(GlobalUnlock(handle))  # non-zero
+        self.locked = not unlocked
+        if not unlocked:
+            raise LockError("The `GlobalUnlock` function failed.")
+        return unlocked
 
     def _empty(self) -> bool:
         """Empty clipboard.
