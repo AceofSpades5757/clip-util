@@ -191,7 +191,12 @@ class Clipboard:
             )
             content = bytearray(string)[:-1].decode(encoding="utf-8")
 
-        self._unlock()
+        # FIXME: This fails frequently, likely due to a resource management
+        # error.
+        try:
+            self._unlock()
+        except LockError:
+            pass
         return content
 
     def set_clipboard(
