@@ -1,5 +1,15 @@
 """Clipboard module.
 
+FIXME: Adding the default format doesn't work with context manager.
+    * This code sets as some form of text instead of RTF. Giving `'rtf'` as a
+    paramater to `set_clipboard` works fine though.
+    ```python
+    from clipboard import Clipboard
+
+    with Clipboard("rtf") as clipboard:
+        # Don't forget the `r` to allow escape sequences!
+        clipboard.set_clipboard(r"{\rtf1\ansi \b hello world \b0 }")
+    ```
 FIXME: Replace general exceptions with more specific ones. Examples:
     * FormatNotSupportedError
     * ClipboardError
