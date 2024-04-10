@@ -42,17 +42,17 @@ from clipboard import Clipboard
 clipboard = Clipboard()
 
 # Set Clipboard
-clipboard['text'] = 'Hello World!'
+clipboard["text"] = "Hello World!"
 # OR
-clipboard.set_clipboard('Hello World!')
+clipboard.set_clipboard("Hello World!")
 
 # Get Clipboard
-text = clipboard['text']
+text = clipboard["text"]
 # OR
-text = clipboard.get_clipboard('text')
+text = clipboard.get_clipboard("text")
 
 # Supports HTML
-clipboard['html'] = '<h1>Hello World</h1>'
+clipboard["html"] = "<h1>Hello World</h1>"
 ```
 
 
@@ -65,17 +65,17 @@ from clipboard import Clipboard
 with Clipboard() as clipboard:
 
     # Set Clipboard
-    clipboard['text'] = 'Hello World!'
+    clipboard["text"] = "Hello World!"
     # OR
-    clipboard.set_clipboard('Hello World!')
+    clipboard.set_clipboard("Hello World!")
 
     # Get Clipboard
-    text = clipboard['text']
+    text = clipboard["text"]
     # OR
-    text = clipboard.get_clipboard('text')
+    text = clipboard.get_clipboard("text")
 
     # HTML
-    clipboard['html'] = '<h1>Hello World</h1>'
+    clipboard["html"] = "<h1>Hello World</h1>"
 ```
 
 ## Clipboard Formats
