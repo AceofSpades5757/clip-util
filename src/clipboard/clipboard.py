@@ -160,12 +160,14 @@ class Clipboard:
             )
 
         # Info
-        self.h_clip_mem = GetClipboardData(format)
+        self.h_clip_mem: HANDLE = GetClipboardData(format)
+        if self.h_clip_mem is None:
+            raise GetClipboardError("The `GetClipboardData` function failed.")
         self.address = self._lock(self.h_clip_mem)  # type: ignore
         self.size = GlobalSize(self.address)
-
         if not self.size:
-            raise GetClipboardError("Getting the global size failed.")
+            # 0 means that the function failed.
+            raise GetClipboardError("The `GlobalSize` function failed.")
 
         string: ctypes.Array[ctypes.c_byte]
         content: str
