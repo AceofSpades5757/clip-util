@@ -225,7 +225,7 @@ class Clipboard:
             or format == ClipboardFormat.HTML_Format.value
         ):
             template: HTMLTemplate = HTMLTemplate(content)
-            html_content_bytes: bytes = template.final().encode(
+            html_content_bytes: bytes = template.generate().encode(
                 encoding=HTML_ENCODING
             )
 

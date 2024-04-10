@@ -8,7 +8,7 @@ ENCODING = "UTF-8"
 HTML_ENCODING = ENCODING
 
 
-A = TypeVar("A", str, bytes)
+B = TypeVar("B", str, bytes)
 
 
 class HTMLTemplate:
@@ -35,25 +35,24 @@ class HTMLTemplate:
     )
 
     def __init__(self, content: str = ""):
-        self._fragments: List[str] = []
+        self.fragments: List[str] = []
 
-        self._start_html: int = -1
-        self._end_html: int = -1
+        self.start_html: int = -1
+        self.end_html: int = -1
 
-        self._start_fragment: int = -1
-        self._end_fragment: int = -1
+        self.start_fragment: int = -1
+        self.end_fragment: int = -1
 
         # Optional
-        self._start_selection: Optional[str] = None
-        self._end_selection: Optional[str] = None
+        self.start_selection: Optional[str] = None
+        self.end_selection: Optional[str] = None
 
-        # WIP
+        # Target Content
         self.content: str = content
-        self.bytes: bytes = content.encode(encoding=HTML_ENCODING)
 
-    def final(self) -> str:
+    def generate(self) -> str:
         fragments: List[str] = (
-            self._fragments if self._fragments else [self.content]
+            self.fragments if self.fragments else [self.content]
         )
 
         # Generate Fragments
@@ -90,10 +89,10 @@ class HTMLTemplate:
         lines = string.splitlines()
 
         version = self.version
-        start_html_byte = self._start_html
-        end_html_byte = self._end_html
-        start_fragment_byte = self._start_fragment
-        end_fragment_byte = self._end_fragment
+        start_html_byte = self.start_html
+        end_html_byte = self.end_html
+        start_fragment_byte = self.start_fragment
+        end_fragment_byte = self.end_fragment
         source_url = None
 
         if source_url is not None:
@@ -134,10 +133,10 @@ class HTMLTemplate:
             found_fragment_start += len(fragment_start)
 
         # Set Values
-        self._start_html = found_html_start
-        self._end_html = found_html_end
-        self._start_fragment = found_fragment_start
-        self._end_fragment = found_fragment_end
+        self.start_html = found_html_start
+        self.end_html = found_html_end
+        self.start_fragment = found_fragment_start
+        self.end_fragment = found_fragment_end
 
         # Update
         content_bytes = self._update_byte_counts(content_bytes)
@@ -185,7 +184,7 @@ class HTMLTemplate:
             "EndFragment": EndFragment,
         }
 
-    def _update_byte_counts(self, content: A) -> A:
+    def _update_byte_counts(self, content: B) -> B:
         data: str
         if isinstance(content, bytes):
             data = content.decode(encoding=HTML_ENCODING)
@@ -205,13 +204,13 @@ class HTMLTemplate:
             rf"EndFragment:{re_value}", flags=re.MULTILINE
         )
 
-        data = re.sub(re_StartHTML, rf"StartHTML:{self._start_html}", data)
-        data = re.sub(re_EndHTML, rf"EndHTML:{self._end_html}", data)
+        data = re.sub(re_StartHTML, rf"StartHTML:{self.start_html}", data)
+        data = re.sub(re_EndHTML, rf"EndHTML:{self.end_html}", data)
         data = re.sub(
-            re_StartFragment, rf"StartFragment:{self._start_fragment}", data
+            re_StartFragment, rf"StartFragment:{self.start_fragment}", data
         )
         data = re.sub(
-            re_EndFragment, rf"EndFragment:{self._end_fragment}", data
+            re_EndFragment, rf"EndFragment:{self.end_fragment}", data
         )
 
         if isinstance(content, bytes):
