@@ -1,4 +1,6 @@
 """Clipboard errors."""
+
+
 class FormatNotSupportedError(Exception):
     """Exception raised when a clipboard format is not supported."""
 

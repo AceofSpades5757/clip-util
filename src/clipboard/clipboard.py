@@ -29,13 +29,13 @@ from clipboard._c_interface import OpenClipboard
 from clipboard._c_interface import SetClipboardData
 from clipboard.constants import HTML_ENCODING
 from clipboard.constants import UTF_ENCODING
-from clipboard.formats import ClipboardFormat
-from clipboard.html_clipboard import HTMLTemplate
 from clipboard.errors import EmptyClipboardError
 from clipboard.errors import FormatNotSupportedError
 from clipboard.errors import GetClipboardError
 from clipboard.errors import OpenClipboardError
 from clipboard.errors import SetClipboardError
+from clipboard.formats import ClipboardFormat
+from clipboard.html_clipboard import HTMLTemplate
 
 
 hMem = HANDLE  # Type Alias

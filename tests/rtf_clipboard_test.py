@@ -5,14 +5,15 @@ FIXME: There appear to be some race conditions with the clipboard.
     Should investigate and possibly add a delay to the tests, or a timeout in
     the API.
 """
+
 import platform
 import unittest
 
 from clipboard import Clipboard
 from clipboard import ClipboardFormat
+from clipboard import get_available_formats
 from clipboard import get_clipboard
 from clipboard import set_clipboard
-from clipboard import get_available_formats
 
 
 # Platform Settings
@@ -31,7 +32,7 @@ class TestRTFClipboard(unittest.TestCase):
         self.assertEqual(rtf, paste)
         available = get_available_formats()
         self.assertIn(ClipboardFormat.CF_RTF, available)
-        
+
         try:
             handle = set_clipboard(rtf, "rtf")
         except:
@@ -105,8 +106,6 @@ class TestRTFClipboard(unittest.TestCase):
             clipboard["html"] = template
             clipboard_data_3: str = clipboard["html"]
             self.assertTrue(bool(clipboard_data_3))
-
-    
 
 
 if __name__ == "__main__":
