@@ -193,7 +193,7 @@ class Clipboard:
         """Hides the HANDLE."""
 
         if format is None:
-            format = self.default_format
+            format = self.format
 
         if not self.opened:
             with self:
