@@ -27,10 +27,7 @@ class TestRTFClipboard(unittest.TestCase):
         available = get_available_formats()
         self.assertIn(ClipboardFormat.CF_RTF, available)
 
-        try:
-            handle = set_clipboard(rtf, "rtf")
-        except:
-            breakpoint()
+        handle = set_clipboard(rtf, "rtf")
         self.assertTrue(bool(handle))
         paste = get_clipboard("rtf")
         self.assertEqual(rtf, paste)
