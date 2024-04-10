@@ -113,7 +113,15 @@ class Clipboard:
     def get_clipboard(
         self, format: Union[int, ClipboardFormat] = None
     ) -> Optional[str]:
-        """Get data from clipboard, returning None if nothing is on it."""
+        """Get data from clipboard, returning None if nothing is on it.
+
+        Raises
+        ------
+        FormatNotSupportedError
+            If the format is not supported.
+        GetClipboardError
+            If getting the clipboard data failed.
+        """
 
         if not self.opened:
             with self:
@@ -169,7 +177,13 @@ class Clipboard:
     def set_clipboard(
         self, content: str, format: Union[int, ClipboardFormat] = None
     ) -> HANDLE:
-        """Set clipboard."""
+        """Set clipboard.
+
+        Raises
+        ------
+        SetClipboardError
+            If setting the clipboard data failed.
+        """
 
         set_handle: HANDLE = self._set_clipboard(content, format)
 
@@ -178,7 +192,21 @@ class Clipboard:
     def _set_clipboard(
         self, content: str, format: Union[int, ClipboardFormat] = None
     ) -> HANDLE:
-        """Hides the HANDLE."""
+        """Hides the HANDLE.
+
+        Raises
+        ------
+        SetClipboardError
+            If setting the clipboard data failed.
+        OpenClipboardError
+            If opening the clipboard failed.
+            Can be raised if the clipboard isn't already opened.
+        EmptyClipboardError
+            If emptying the clipboard failed.
+            Need to empty the clipboard each time before setting new data.
+        FormatNotSupportedError
+            If the format is not supported.
+        """
 
         if format is None:
             format = self.format
@@ -244,7 +272,13 @@ class Clipboard:
 
     def _resolve_format(self, format: Union[ClipboardFormat, str, int]) -> int:
         """Given an integer, respresenting a clipboard format, or a
-        ClipboardFormat object, return the respective integer."""
+        ClipboardFormat object, return the respective integer.
+
+        Raises
+        ------
+        FormatNotSupportedError
+            If the format is not supported.
+        """
 
         if isinstance(format, ClipboardFormat):
             format = format.value
@@ -269,11 +303,33 @@ class Clipboard:
         return self.get_clipboard(format)
 
     def __setitem__(self, format, content) -> None:
+        """Set clipboard content based on given format.
+
+        Raises
+        ------
+        SetClipboardError
+            If setting the clipboard data failed.
+        FormatNotSupportedError
+            If the given format is not supported.
+        OpenClipboardError
+            Can only be raised if the clipboard isn't already opened.
+        EmptyClipboardError
+            If emptying the clipboard failed.
+            The clipboard needs to be emptied before setting new data.
+        """
         format = self._resolve_format(format)
         self._empty()
         self.set_clipboard(content, format)
 
     def __enter__(self):
+        """Open clipboard.
+
+        Raises
+        ------
+        OpenClipboardError
+            If opening the clipboard failed.
+            Can only be raised if the clipboard isn't already opened.
+        """
         if self._open():
             return self
         else:
@@ -314,6 +370,13 @@ class Clipboard:
         return GlobalUnlock(handle)
 
     def _empty(self) -> int:
+        """Empty clipboard.
+
+        Raises
+        ------
+        EmptyClipboardError
+            If emptying the clipboard failed.
+        """
         if not self.opened:
             with self:
                 return self._empty()
