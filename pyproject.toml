@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "clip-util"
+description = "Clipboard utilities for use with Python."
+version = "0.1.19"
+requires-python = ">=3.9"
+dependencies = []
+license = {file = "LICENSE"}
+authors = [
+    { name = "Kyle L. Davis", email = "aceofspades5757.github@gmail.com" },
+]
+maintainers = [
+    { name = "Kyle L. Davis", email = "aceofspades5757.github@gmail.com" },
+]
+readme = {file = "README.md", content-type = "text/markdown"}
+keywords = ["clipboard", "html", "rtf", "unicode"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: Microsoft :: Windows",
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+build = ["wheel", "setuptools"]
+test = ["tox", "tox-gh-actions"]
+dev = ["clip-util[build]", "clip-util[test]", "pre-commit", "mypy"]
+
+[project.urls]
+Homepage = "https://github.com/AceofSpades5757/clip-util"
+Documentation = "https://clip-util.readthedocs.io/en/latest/"
+Author = "https://github.com/AceofSpades5757"
+Repository = "https://github.com/AceofSpades5757/clip-util"
+Issues  = "https://github.com/AceofSpades5757/clip-util/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
