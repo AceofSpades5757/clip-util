@@ -2,6 +2,8 @@
 
 TODO: Make `get_clipboard`'s default to check available formats instead of just
 using the default format.
+FIXME: Copying using normal methods and then using `get_clipboard` doesn't work
+properly. It gives a bunch of null bytes as a string.
 FIXME: HTML_Format doesn't work for some reason. Fix this.
 FIXME: Typing appears to be off.
     * There are a lot of parameters with a default of None that are not Optional.
