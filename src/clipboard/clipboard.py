@@ -70,6 +70,12 @@ def set_clipboard(
         return cb.set_clipboard(content=content, format=format)
 
 
+def get_available_formats() -> list[int]:
+    """Conveniency wrapper to get available formats."""
+    with Clipboard() as cb:
+        return cb.available_formats()
+
+
 class Clipboard:
     default_format: ClipboardFormat = ClipboardFormat.CF_UNICODETEXT
 
