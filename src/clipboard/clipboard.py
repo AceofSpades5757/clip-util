@@ -10,7 +10,9 @@ FIXME: Typing appears to be off.
 """
 
 import ctypes
+import os
 import logging
+from pathlib import Path
 from typing import List
 from typing import Optional
 from typing import Union
@@ -45,6 +47,18 @@ GMEM_DDESHARE = 0x2000
 
 
 logger = logging.getLogger(__name__)
+formatter = logging.Formatter(
+    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
+if os.environ.get("LOGLEVEL"):
+    logger.setLevel(os.environ["LOGLEVEL"])
+
+    file_handler = logging.FileHandler("clipboard.log")
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
 
 
 def get_clipboard(format: Union[int, ClipboardFormat] = None) -> Optional[str]:
@@ -124,6 +138,7 @@ class Clipboard:
         GetClipboardError
             If getting the clipboard data failed.
         """
+        logger.info("Getting clipboard data")
 
         if not self.opened:
             with self:
@@ -186,6 +201,7 @@ class Clipboard:
         SetClipboardError
             If setting the clipboard data failed.
         """
+        logger.info("Setting clipboard data")
 
         set_handle: HANDLE = self._set_clipboard(content, format)
 
@@ -209,6 +225,8 @@ class Clipboard:
         FormatNotSupportedError
             If the format is not supported.
         """
+
+        logger.info("_Setting clipboard data")
 
         if format is None:
             format = self.format
@@ -282,6 +300,8 @@ class Clipboard:
             If the format is not supported.
         """
 
+        logger.info("Resolving clipboard format")
+
         if isinstance(format, ClipboardFormat):
             format = format.value
         elif isinstance(format, int):
@@ -334,12 +354,14 @@ class Clipboard:
         """
         if self._open():
             return self
+        logger.info("Entering context manager")
         else:
             raise OpenClipboardError("Failed to open clipboard.")
 
     def __exit__(
         self, exception_type, exception_value, exception_traceback
     ) -> bool:
+        logger.info("Exiting context manager")
         if exception_type is not None:
             import traceback
 
@@ -351,20 +373,24 @@ class Clipboard:
         return True
 
     def _open(self, handle: int = None) -> bool:
+        logger.info("_Opening clipboard")
         self.opened = True
         return OpenClipboard(handle)
 
     def _close(self) -> bool:
+        logger.info("_Closing clipboard")
         self.opened = False
         self._unlock()
         return CloseClipboard()
 
     def _lock(self, handle: HANDLE) -> LPVOID:
+        logger.info("_Locking clipboard")
         self.locked = True
         # if fails, GlobalLock returns NULL (False in Python)
         return GlobalLock(handle)
 
     def _unlock(self, handle: HANDLE = None) -> int:
+        logger.info("_Unlocking clipboard")
         if handle is None:
             handle = self.h_clip_mem
 
@@ -379,6 +405,7 @@ class Clipboard:
         EmptyClipboardError
             If emptying the clipboard failed.
         """
+        logger.info("_Emptying clipboard")
         if not self.opened:
             with self:
                 return self._empty()
