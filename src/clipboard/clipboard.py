@@ -12,6 +12,7 @@ TODO: Make `get_clipboard`'s default to check available formats instead of just
 using the default format.
 FIXME: HTML_Format doesn't work for some reason. Fix this.
 """
+
 import ctypes
 from typing import List
 from typing import Optional
@@ -207,13 +208,17 @@ class Clipboard:
             or format == ClipboardFormat.HTML_Format.value
         ):
             template: HTMLTemplate = HTMLTemplate(content)
-            html_content_bytes: bytes = template.final().encode(encoding=HTML_ENCODING)
+            html_content_bytes: bytes = template.final().encode(
+                encoding=HTML_ENCODING
+            )
 
             alloc_handle = GlobalAlloc(
                 GMEM_MOVEABLE | GMEM_ZEROINIT, len(html_content_bytes) + 1
             )
             contents_ptr = GlobalLock(alloc_handle)  # type: ignore
-            ctypes.memmove(contents_ptr, html_content_bytes, len(html_content_bytes))
+            ctypes.memmove(
+                contents_ptr, html_content_bytes, len(html_content_bytes)
+            )
             GlobalUnlock(alloc_handle)
 
             set_handle = SetClipboardData(format, alloc_handle)

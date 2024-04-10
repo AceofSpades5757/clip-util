@@ -26,48 +26,45 @@ class TestReadme(unittest.TestCase):
         """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#clipboard"""
         from clipboard import Clipboard
 
-
         clipboard = Clipboard()
 
         # Set Clipboard
-        clipboard['text'] = 'Hello World!'
+        clipboard["text"] = "Hello World!"
         # OR
-        clipboard.set_clipboard('Hello World!')
+        clipboard.set_clipboard("Hello World!")
 
         # Get Clipboard
-        text = clipboard['text']
+        text = clipboard["text"]
         # OR
-        text = clipboard.get_clipboard('text')
+        text = clipboard.get_clipboard("text")
 
         # Supports HTML
-        clipboard['html'] = '<h1>Hello World</h1>'
+        clipboard["html"] = "<h1>Hello World</h1>"
 
     def test_usage_clipboard_context_manaager(self) -> None:
         """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#context-manager"""
         from clipboard import Clipboard
 
-
         with Clipboard() as clipboard:
 
             # Set Clipboard
-            clipboard['text'] = 'Hello World!'
+            clipboard["text"] = "Hello World!"
             # OR
-            clipboard.set_clipboard('Hello World!')
+            clipboard.set_clipboard("Hello World!")
 
             # Get Clipboard
-            text = clipboard['text']
+            text = clipboard["text"]
             # OR
-            text = clipboard.get_clipboard('text')
+            text = clipboard.get_clipboard("text")
 
             # HTML
-            clipboard['html'] = '<h1>Hello World</h1>'
+            clipboard["html"] = "<h1>Hello World</h1>"
 
     def test_clipboard_formats(self) -> None:
         """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#clipboard-formats"""
         from clipboard import Clipboard
         from clipboard import ClipboardFormat
         from clipboard import HTMLTemplate
-
 
         with Clipboard() as clipboard:
 
@@ -95,6 +92,7 @@ class TestReadme(unittest.TestCase):
                 else:
                     # Format is not supported directly by this library
                     pass
+
 
 if __name__ == "__main__":
     unittest.main()

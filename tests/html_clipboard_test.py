@@ -2,11 +2,11 @@ import platform
 import unittest
 
 from clipboard import HTML_ENCODING
+from clipboard import Clipboard
 from clipboard import ClipboardFormat
 from clipboard import HTMLTemplate
 from clipboard import get_clipboard
 from clipboard import set_clipboard
-from clipboard import Clipboard
 
 
 # Platform Settings
@@ -53,7 +53,9 @@ class TestHTMLClipboard(unittest.TestCase):
         self.assertEqual(get_clipboard(format_), template.final())
 
     def test_html_and_head_and_body(self) -> None:
-        html: str = "<html><head></head><body><h1>Hello World</h1></body></html>"
+        html: str = (
+            "<html><head></head><body><h1>Hello World</h1></body></html>"
+        )
         template: HTMLTemplate = HTMLTemplate(html)
         format_: ClipboardFormat = ClipboardFormat.CF_HTML
 
