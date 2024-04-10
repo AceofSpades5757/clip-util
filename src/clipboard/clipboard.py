@@ -394,8 +394,9 @@ class Clipboard:
 
     def _open(self, handle: int = None) -> bool:
         logger.info("_Opening clipboard")
-        self.opened = True
-        return bool(OpenClipboard(handle))
+        opened: bool = bool(OpenClipboard(handle))
+        self.opened = opened
+        return opened
 
     def _close(self) -> bool:
         logger.info("_Closing clipboard")
