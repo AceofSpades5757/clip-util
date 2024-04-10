@@ -91,7 +91,6 @@ You can use `clip-util` to access the clipboard formats directly.
 ```python
 from clipboard import Clipboard
 from clipboard import ClipboardFormat
-from clipboard import HTMLClipboard
 
 
 with Clipboard() as clipboard:
