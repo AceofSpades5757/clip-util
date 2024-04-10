@@ -21,6 +21,14 @@ user32 = windll.user32
 kernel32 = windll.kernel32
 
 # C Functions
+
+# https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror
+# System Error Codes: https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes
+GetLastError = kernel32.GetLastError
+GetLastError.argtypes = []
+# The return value is the calling thread's last-error code value.
+GetLastError.restype = ctypes.c_int  # DWORD
+
 OpenClipboard = user32.OpenClipboard
 OpenClipboard.argtypes = [HWND]
 OpenClipboard.restype = BOOL
@@ -37,6 +45,7 @@ EmptyClipboard = user32.EmptyClipboard
 EmptyClipboard.argtypes = []
 EmptyClipboard.restype = BOOL
 
+# https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getclipboarddata
 GetClipboardData = user32.GetClipboardData
 GetClipboardData.argtypes = [UINT]
 GetClipboardData.restype = HANDLE
@@ -61,10 +70,13 @@ GetClipboardFormatNameW = user32.GetClipboardFormatNameW
 GetClipboardFormatNameW.argtypes = [UINT, LPWSTR, ctypes.c_int]
 GetClipboardFormatNameW.restype = ctypes.c_int
 
+# https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-globallock
 GlobalLock = kernel32.GlobalLock
 GlobalLock.argtypes = [HGLOBAL]
+# Fails will return NULL
 GlobalLock.restype = LPVOID
 
+# https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-globalunlock
 GlobalUnlock = kernel32.GlobalUnlock
 GlobalUnlock.argtypes = [HGLOBAL]
 GlobalUnlock.restype = BOOL
