@@ -401,7 +401,7 @@ class Clipboard:
         self.locked = False
         return GlobalUnlock(handle)
 
-    def _empty(self) -> int:
+    def _empty(self) -> bool:
         """Empty clipboard.
 
         Raises
@@ -414,8 +414,7 @@ class Clipboard:
             with self:
                 return self._empty()
         elif self.opened:
-            return_code = EmptyClipboard()
+            # FIXME: A false means that this failed.
+            return bool(EmptyClipboard())
         else:
             raise EmptyClipboardError("Emptying the clipboard failed.")
-
-        return return_code
