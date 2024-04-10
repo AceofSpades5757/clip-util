@@ -1,3 +1,17 @@
+"""Clipboard module.
+
+FIXME: Replace general exceptions with more specific ones. Examples:
+    * FormatNotSupportedError
+    * ClipboardError
+    * ClipboardOpenError
+    * ClipboardCloseError
+    * ClipboardEmptyError
+    * ClipboardGetError
+    * ClipboardSetError
+TODO: Make `get_clipboard`'s default to check available formats instead of just
+using the default format.
+FIXME: HTML_Format doesn't work for some reason. Fix this.
+"""
 import ctypes
 from typing import List
 from typing import Optional
