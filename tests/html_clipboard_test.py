@@ -4,9 +4,9 @@ import unittest
 from clipboard import HTML_ENCODING
 from clipboard import Clipboard
 from clipboard import ClipboardFormat
-from clipboard import HTMLTemplate
 from clipboard import get_clipboard
 from clipboard import set_clipboard
+from clipboard.html_clipboard import HTMLTemplate
 
 
 # Platform Settings
@@ -22,11 +22,10 @@ class TestHTMLClipboard(unittest.TestCase):
 
         template: HTMLTemplate = HTMLTemplate(html)
 
-        final: str = template.final()
-        raw: bytes = template.bytes  # encoding of content
+        final: str = template.generate()
 
+        self.assertIn(html, final)
         self.assertTrue(bool(template))
-        self.assertEqual(html.encode(HTML_ENCODING), raw)
 
     def test_set_and_get(self) -> None:
         html: str = "<h1>Hello World</h1>"
@@ -34,7 +33,7 @@ class TestHTMLClipboard(unittest.TestCase):
         format_: ClipboardFormat = ClipboardFormat.CF_HTML
 
         set_clipboard(html, format_)
-        self.assertEqual(get_clipboard(format_), template.final())
+        self.assertEqual(get_clipboard(format_), template.generate())
 
     def test_body(self) -> None:
         html: str = "<body><h1>Hello World</h1></body>"
@@ -42,7 +41,7 @@ class TestHTMLClipboard(unittest.TestCase):
         format_: ClipboardFormat = ClipboardFormat.CF_HTML
 
         set_clipboard(html, format_)
-        self.assertEqual(get_clipboard(format_), template.final())
+        self.assertEqual(get_clipboard(format_), template.generate())
 
     def test_html_and_body(self) -> None:
         html: str = "<html><body><h1>Hello World</h1></body></html>"
@@ -50,7 +49,7 @@ class TestHTMLClipboard(unittest.TestCase):
         format_: ClipboardFormat = ClipboardFormat.CF_HTML
 
         set_clipboard(html, format_)
-        self.assertEqual(get_clipboard(format_), template.final())
+        self.assertEqual(get_clipboard(format_), template.generate())
 
     def test_html_and_head_and_body(self) -> None:
         html: str = (
@@ -60,7 +59,7 @@ class TestHTMLClipboard(unittest.TestCase):
         format_: ClipboardFormat = ClipboardFormat.CF_HTML
 
         set_clipboard(html, format_)
-        self.assertEqual(get_clipboard(format_), template.final())
+        self.assertEqual(get_clipboard(format_), template.generate())
 
 
 class TestMore(unittest.TestCase):
@@ -68,14 +67,14 @@ class TestMore(unittest.TestCase):
     def setUpClass(cls):
         content: str = """<h1>Hello World</h1>"""
         html_clipboard = HTMLTemplate(content)
-        template: str = html_clipboard.final()
+        template: str = html_clipboard.generate()
         cls.template: str = template
 
         content = """
         <h1>Hello World!</h1>
         <p>This is a paragraph...</p>"""
         html_clipboard = HTMLTemplate(content)
-        template_2: str = html_clipboard.final()
+        template_2: str = html_clipboard.generate()
         cls.template_2: str = template_2
 
     def test_basic_text(self) -> None:
