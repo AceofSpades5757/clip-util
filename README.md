@@ -44,7 +44,7 @@ clipboard = Clipboard()
 # Set Clipboard
 clipboard['text'] = 'Hello World!'
 # OR
-clipboard.set_clipboard('text') = 'Hello World!'
+clipboard.set_clipboard('Hello World!')
 
 # Get Clipboard
 text = clipboard['text']
@@ -67,7 +67,7 @@ with Clipboard() as clipboard:
     # Set Clipboard
     clipboard['text'] = 'Hello World!'
     # OR
-    clipboard.set_clipboard('text') = 'Hello World!'
+    clipboard.set_clipboard('Hello World!')
 
     # Get Clipboard
     text = clipboard['text']

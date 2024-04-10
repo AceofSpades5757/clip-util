@@ -1,3 +1,18 @@
+"""Clipboard module.
+
+FIXME: Replace general exceptions with more specific ones. Examples:
+    * FormatNotSupportedError
+    * ClipboardError
+    * ClipboardOpenError
+    * ClipboardCloseError
+    * ClipboardEmptyError
+    * ClipboardGetError
+    * ClipboardSetError
+TODO: Make `get_clipboard`'s default to check available formats instead of just
+using the default format.
+FIXME: HTML_Format doesn't work for some reason. Fix this.
+"""
+
 import ctypes
 from typing import List
 from typing import Optional
@@ -19,6 +34,7 @@ from clipboard._logging import get_logger
 from clipboard.constants import HTML_ENCODING
 from clipboard.constants import UTF_ENCODING
 from clipboard.formats import ClipboardFormat
+from clipboard.html_clipboard import HTMLTemplate
 
 
 hMem = HANDLE  # Type Alias
@@ -31,8 +47,7 @@ GMEM_DDESHARE = 0x2000
 def get_clipboard(format: Union[int, ClipboardFormat] = None) -> Optional[str]:
     """Conveniency wrapper to get clipboard."""
     with Clipboard() as cb:
-        text = cb.get_clipboard(format=format)
-    return text
+        return cb.get_clipboard(format=format)
 
 
 def set_clipboard(
@@ -106,8 +121,7 @@ class Clipboard:
         if format not in self.available_formats():
             formats = self.available_formats()
             message = (
-                f"{format} not supported. Choose from following...\n"
-                + "\n".join(map(str, formats))
+                f"{format} not supported. Choose from following {formats}"
             )
             raise Exception(message)
 
@@ -135,7 +149,7 @@ class Clipboard:
             bytes_ = (ctypes.c_char * self.size).from_address(
                 int(self.address)  # type: ignore
             )
-            html = bytes(bytes_).decode(HTML_ENCODING)
+            html = bytes(bytes_).decode(HTML_ENCODING)[:-1]
 
             return html
 
@@ -193,13 +207,18 @@ class Clipboard:
             format == ClipboardFormat.CF_HTML.value
             or format == ClipboardFormat.HTML_Format.value
         ):
-            html_content_bytes: bytes = content.encode(encoding="utf-16le")
+            template: HTMLTemplate = HTMLTemplate(content)
+            html_content_bytes: bytes = template.final().encode(
+                encoding=HTML_ENCODING
+            )
 
             alloc_handle = GlobalAlloc(
-                GMEM_MOVEABLE | GMEM_ZEROINIT, len(content) + 2
+                GMEM_MOVEABLE | GMEM_ZEROINIT, len(html_content_bytes) + 1
             )
             contents_ptr = GlobalLock(alloc_handle)  # type: ignore
-            ctypes.memmove(contents_ptr, html_content_bytes, len(content))
+            ctypes.memmove(
+                contents_ptr, html_content_bytes, len(html_content_bytes)
+            )
             GlobalUnlock(alloc_handle)
 
             set_handle = SetClipboardData(format, alloc_handle)
@@ -237,6 +256,9 @@ class Clipboard:
                     + "\n".join(map(str, ClipboardFormat))
                 )
 
+        # FIXME: There are issues with HTML_Format, so use CF_HTML
+        if format == ClipboardFormat.HTML_Format.value:
+            format = ClipboardFormat.CF_HTML.value
         return format  # type: ignore
 
     def __getitem__(self, format: Union[int, ClipboardFormat] = None):
