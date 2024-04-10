@@ -19,15 +19,15 @@ VENV_PYTHON = $(VENV_BIN)/python
 help:
 	@echo "---------------HELP---------------------------"
 	@echo "Manage $(PROJECT_NAME). Usage:"
-	@echo "make test        - Test."
-	@echo "make mostlyclean - Clean temporary files, and caches."
-	@echo "make clean       - Clean all."
-	@echo "make build       - Build with setup.py."
-	@echo "make publish     - Publish to PyPi."
+	@echo "make test        - Test"
+	@echo "make mostlyclean - Clean temporary files, and caches"
+	@echo "make clean       - Clean all"
+	@echo "make build       - Build"
+	@echo "make publish     - Publish to PyPi"
 	@echo ""
-	@echo "make format         - Run formatters."
-	@echo "make format-update  - Update formatters."
-	@echo "make type           - Run type checkers."
+	@echo "make format         - Run formatters"
+	@echo "make format-update  - Update formatters"
+	@echo "make type           - Run type checkers"
 	@echo "----------------------------------------------"
 
 venv: $(VENV_DIR)
