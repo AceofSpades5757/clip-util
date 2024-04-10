@@ -356,9 +356,19 @@ class Clipboard:
             If opening the clipboard failed.
             Can only be raised if the clipboard isn't already opened.
         """
-        if self._open():
-            return self
         logger.info("Entering context manager")
+
+        # There is an issue with opening the clipboard repeatedly.
+        # This is likely due to a logical error when locking and unlocking.
+        #
+        # This successfully fixes the issue, although it is blunt.
+        max_tries = 3
+        tries = 0
+        while not self.opened and tries < max_tries:
+            tries += 1
+            if self._open():
+                return self
+            self._close()
         else:
             raise OpenClipboardError("Failed to open clipboard.")
 
