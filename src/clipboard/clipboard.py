@@ -192,6 +192,9 @@ class Clipboard:
             format == ClipboardFormat.CF_HTML.value
             or format == ClipboardFormat.HTML_Format.value
         ):
+            # There are issues with HTML_Format, so we use CF_HTML
+            format = ClipboardFormat.CF_HTML.value
+
             template: HTMLTemplate = HTMLTemplate(content)
             html_content_bytes: bytes = template.final().encode(encoding=HTML_ENCODING)
 
