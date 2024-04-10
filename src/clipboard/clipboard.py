@@ -164,14 +164,12 @@ class Clipboard:
             raise GetClipboardError("Getting the global size failed.")
 
         string: ctypes.Array[ctypes.c_byte]
-        text: str
+        content: str
         if format == ClipboardFormat.CF_UNICODETEXT.value:
             string = (ctypes.c_byte * self.size).from_address(
                 int(self.address)  # type: ignore
             )
-            text = bytearray(string).decode(encoding=UTF_ENCODING)[:-1]
-
-            return text
+            content = bytearray(string).decode(encoding=UTF_ENCODING)[:-1]
         elif (
             format == ClipboardFormat.CF_HTML.value
             or format == ClipboardFormat.HTML_Format.value
@@ -179,17 +177,16 @@ class Clipboard:
             bytes_ = (ctypes.c_char * self.size).from_address(
                 int(self.address)  # type: ignore
             )
-            html = bytes(bytes_).decode(HTML_ENCODING)[:-1]
-
-            return html
+            content = bytes(bytes_).decode(HTML_ENCODING)[:-1]
 
         else:
             string = (ctypes.c_byte * self.size).from_address(
                 int(self.address)  # type: ignore
             )
-            text = bytearray(string).decode(encoding="utf-8")[:-1]
+            content = bytearray(string).decode(encoding="utf-8")[:-1]
 
-            return text
+        self._unlock()
+        return content
 
     def set_clipboard(
         self, content: str, format: Union[int, ClipboardFormat] = None
