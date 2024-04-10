@@ -86,7 +86,6 @@ class Clipboard:
             format = self._resolve_format(format)
 
         self.format: int = format  # type: ignore
-        # TODO Add type annotations
         self.h_clip_mem: Optional[HANDLE] = None
         self.address: Optional[LPVOID] = None
         self.size: Optional[int] = None  # in bytes
