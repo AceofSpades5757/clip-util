@@ -175,7 +175,7 @@ class Clipboard:
             string = (ctypes.c_byte * self.size).from_address(
                 int(self.address)  # type: ignore
             )
-            content = bytearray(string).decode(encoding=UTF_ENCODING)[:-1]
+            content = bytearray(string)[:-2].decode(encoding=UTF_ENCODING)
         elif (
             format == ClipboardFormat.CF_HTML.value
             or format == ClipboardFormat.HTML_Format.value
@@ -189,7 +189,7 @@ class Clipboard:
             string = (ctypes.c_byte * self.size).from_address(
                 int(self.address)  # type: ignore
             )
-            content = bytearray(string).decode(encoding="utf-8")[:-1]
+            content = bytearray(string)[:-1].decode(encoding="utf-8")
 
         self._unlock()
         return content
