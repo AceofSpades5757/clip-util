@@ -4,7 +4,9 @@ TODO: Make `get_clipboard`'s default to check available formats instead of just
 using the default format.
 FIXME: HTML_Format doesn't work for some reason. Fix this.
 FIXME: Typing appears to be off.
-    There are a lot of parameters with a default of None that are not Optional.
+    * There are a lot of parameters with a default of None that are not Optional.
+    * There are some parameters typed as `int`, but they look like they should
+    be `Optional[HANDLE]` instead.
 """
 
 import ctypes
