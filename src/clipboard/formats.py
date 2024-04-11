@@ -89,19 +89,27 @@ def get_format_name(format_code: int) -> Optional[str]:
     if format_code in ClipboardFormat.values:  # type: ignore
         return ClipboardFormat(format_code).name
 
-    max_buffer_length: int = 100
-
-    buffer: ctypes.Array[ctypes.c_char] = ctypes.create_string_buffer(
-        b" " * 200
-    )
-    return_code: int = GetClipboardFormatNameA(
-        format_code, ctypes.byref(buffer), max_buffer_length
+    buffer_size = 256
+    buffer = ctypes.create_string_buffer(buffer_size)
+    return_code = GetClipboardFormatNameA(
+        format_code,
+        buffer,
+        buffer_size,
     )
 
     # Failed
     if return_code == 0:
-        return None
+        last_error: int = ctypes.get_last_error()
+        if last_error == 0:
+            # No Error
+            return None
+        if last_error == 87:
+            # This indicates that the first parameter is not a valid clipboard format.
+            return None
+        error = ctypes.WinError(last_error)
+        raise error
 
-    format_name: str = buffer.value.decode()
+    # ansii string
+    format_name: str = buffer.value.decode("utf-8")
 
     return format_name
