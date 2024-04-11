@@ -78,8 +78,13 @@ def get_format_name(format_code: int) -> Optional[str]:
 
     C function does not work for standard types (e.g. 1 for CF_TEXT).
     So, this function will use ClipboardFormat for those in the standard.
-    """
 
+    Returns
+    -------
+    str, optional
+        The name of the format.
+        None if the format is not found.
+    """
     # Built-In
     if format_code in ClipboardFormat.values:  # type: ignore
         return ClipboardFormat(format_code).name
