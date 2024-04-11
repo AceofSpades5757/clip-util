@@ -172,6 +172,11 @@ class Clipboard:
             # 0 means that the function failed.
             raise GetClipboardError("The `GlobalSize` function failed.")
 
+        # TODO: CF_LOCALE is special and should be handled differently.
+        #   A handle to the locale identifier associated with the text in the
+        #   clipboard.
+        # TODO: There are other types that could be supported as well, such as
+        # audio data: https://learn.microsoft.com/en-us/windows/win32/dataxchg/standard-clipboard-formats
         string: ctypes.Array[ctypes.c_byte]
         content: str
         if format == ClipboardFormat.CF_UNICODETEXT.value:
