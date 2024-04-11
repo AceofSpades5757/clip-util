@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "clip-util"
 description = "Clipboard utilities for use with Python."
-version = "0.1.24"
+version = "0.1.25"
 requires-python = ">=3.9"
 dependencies = []
 license = {file = "LICENSE"}
