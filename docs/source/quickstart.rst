@@ -104,4 +104,3 @@ Get Clipboard Formats
             else:
                 # Format is not supported directly by this library
                 pass
-
