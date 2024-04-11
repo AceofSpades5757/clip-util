@@ -113,19 +113,13 @@ class Clipboard:
 
         First format is the format on the clipboard, depending on your system.
         """
-        # TODO Add this to a base class (HTML clipboard could use this)
-
         logger.info("Getting available clipboard formats")
 
-        def get_formats(formats: List = None) -> List[int]:
-            if formats is None:
-                formats = [EnumClipboardFormats(0)]
-
-            last_format = formats[-1]
-            if last_format == 0:
-                return formats[:-1]
-            else:
-                return formats + [EnumClipboardFormats(last_format)]
+        def get_formats() -> List[int]:
+            formats: list[int] = [EnumClipboardFormats(0)]
+            while formats[-1] != 0:
+                formats.append(EnumClipboardFormats(formats[-1]))
+            return formats[:-1]
 
         available_formats: List[int] = []
         if not self.opened:
