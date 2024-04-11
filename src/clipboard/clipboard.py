@@ -139,7 +139,7 @@ class Clipboard:
 
     def get_clipboard(
         self, format: Union[int, ClipboardFormat] = None
-    ) -> Optional[str]:
+    ) -> Optional[Union[str, bytes]]:
         """Get data from clipboard, returning None if nothing is on it.
 
         Raises
@@ -199,7 +199,10 @@ class Clipboard:
             string = (ctypes.c_byte * self.size).from_address(
                 int(self.address)  # type: ignore
             )
-            content = bytearray(string)[:-1].decode(encoding="utf-8")
+            try:
+                content = bytearray(string)[:-1].decode(encoding="utf-8")
+            except UnicodeDecodeError:
+                return bytes(string)
 
         # FIXME: This fails frequently, likely due to a resource management
         # error.
