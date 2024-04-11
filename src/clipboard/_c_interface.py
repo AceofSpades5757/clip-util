@@ -22,13 +22,6 @@ kernel32 = windll.kernel32
 
 # C Functions
 
-# https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror
-# System Error Codes: https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes
-GetLastError = kernel32.GetLastError
-GetLastError.argtypes = []
-# The return value is the calling thread's last-error code value.
-GetLastError.restype = ctypes.c_int  # DWORD
-
 OpenClipboard = user32.OpenClipboard
 OpenClipboard.argtypes = [HWND]
 OpenClipboard.restype = BOOL
