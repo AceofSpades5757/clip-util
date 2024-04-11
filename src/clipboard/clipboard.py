@@ -65,7 +65,15 @@ if os.environ.get("LOGLEVEL"):
 
 
 def get_clipboard(format: Union[int, ClipboardFormat] = None) -> Optional[str]:
-    """Conveniency wrapper to get clipboard."""
+    """Conveniency wrapper to get clipboard.
+
+    Instead of using the `Clipboard.default_format`, this function uses the
+    first available format on the clipboard.
+    """
+    if format is None:
+        available = get_available_formats()
+        if available:
+            format = available[0]
     with Clipboard() as cb:
         return cb.get_clipboard(format=format)
 
