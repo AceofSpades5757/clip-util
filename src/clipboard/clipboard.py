@@ -64,7 +64,7 @@ if os.environ.get("LOGLEVEL"):
     logger.addHandler(file_handler)
 
 
-def get_clipboard(format: Union[int, ClipboardFormat] = None) -> Optional[str]:
+def get_clipboard(format: Optional[Union[int, ClipboardFormat]] = None) -> Optional[Union[str, bytes]]:
     """Conveniency wrapper to get clipboard.
 
     Instead of using the `Clipboard.default_format`, this function uses the
