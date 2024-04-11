@@ -91,6 +91,7 @@ You can use `clip-util` to access the clipboard formats directly.
 ```python
 from clipboard import Clipboard
 from clipboard import ClipboardFormat
+from clipboard import get_format_name
 
 
 with Clipboard() as clipboard:
@@ -99,8 +100,9 @@ with Clipboard() as clipboard:
     format_ids: list[int] = clipboard.available_formats()
 
     # Get Specific Format by ID
-    # Use parentheses to access the format
+    # Use parentheses to access the format by ID
     formats: list[ClipboardFormat] = []
+    format_id: int
     for format_id in format_ids:
         if format_id in ClipboardFormat:
             format: ClipboardFormat = ClipboardFormat(format_id)
@@ -109,14 +111,46 @@ with Clipboard() as clipboard:
             # Format is not supported directly by this library
             pass
 
-    # Get Specified Format by Name
+    # Get Specified Format by Name (directly)
+    format_names: list[str] = []
+    format_id: int
+    for format_id in format_ids:
+        name: str = get_format_name(format_id)
+        format_names.append(name)
+
+    # Get Specified Format by Name (using enum)
     # Use bracket notation to access the format
+    #
+    # Note: this method is not as robust as using `get_format_name`
+    formats: list[ClipboardFormat] = []
+    format_names: list[str] = []
     format_name: str
     for format_name in [f.name for f in formats]:
         if format_name in ClipboardFormat:
             format: ClipboardFormat = ClipboardFormat[format_name]
             name: str = format.name
+            formats.append(format)
+            format_names.append(name)
         else:
             # Format is not supported directly by this library
             pass
+```
+
+## Get All Supported Formats
+
+You can even get the content of all available formats currently in the clipboard.
+
+```python
+from clipboard import get_available_formats
+from clipboard import get_format_name
+from clipboard import get_clipboard
+
+
+available: list[int] = get_available_formats()
+print(f"{available=}")
+
+for format_id in available:
+    name: str = get_format_name(format_id)
+    content: str = get_clipboard(format_id)
+    print(f"{format_id=}", f"{name=}, {content=}")
 ```
