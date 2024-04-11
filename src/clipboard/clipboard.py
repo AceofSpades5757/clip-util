@@ -14,7 +14,6 @@ FIXME: Typing appears to be off.
 import ctypes
 import logging
 import os
-from pathlib import Path
 from typing import List
 from typing import Optional
 from typing import Union
