@@ -64,6 +64,8 @@ class TestReadme(unittest.TestCase):
         """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#clipboard-formats"""
         from clipboard import Clipboard
         from clipboard import ClipboardFormat
+        from clipboard import get_format_name
+
 
         with Clipboard() as clipboard:
 
@@ -71,8 +73,9 @@ class TestReadme(unittest.TestCase):
             format_ids: list[int] = clipboard.available_formats()
 
             # Get Specific Format by ID
-            # Use parentheses to access the format
+            # Use parentheses to access the format by ID
             formats: list[ClipboardFormat] = []
+            format_id: int
             for format_id in format_ids:
                 if format_id in ClipboardFormat:
                     format: ClipboardFormat = ClipboardFormat(format_id)
@@ -81,17 +84,46 @@ class TestReadme(unittest.TestCase):
                     # Format is not supported directly by this library
                     pass
 
-            # Get Specified Format by Name
+            # Get Specified Format by Name (directly)
+            format_names: list[str] = []
+            format_id: int
+            for format_id in format_ids:
+                name: str = get_format_name(format_id)
+                format_names.append(name)
+
+            # Get Specified Format by Name (using enum)
             # Use bracket notation to access the format
+            #
+            # Note: this method is not as robust as using `get_format_name`
+            formats: list[ClipboardFormat] = []
+            format_names: list[str] = []
             format_name: str
             for format_name in [f.name for f in formats]:
                 if format_name in ClipboardFormat:
                     format: ClipboardFormat = ClipboardFormat[format_name]
                     name: str = format.name
+                    formats.append(format)
+                    format_names.append(name)
                 else:
                     # Format is not supported directly by this library
                     pass
 
+    def test_get_all_supported_formats(self) -> None:
+        """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#get-all-supported-formats"""
+        from clipboard import get_available_formats
+        from clipboard import get_format_name
+        from clipboard import get_clipboard
+        from clipboard import set_clipboard
+
+
+        set_clipboard("Hello World!")
+        available: list[int] = get_available_formats()
+        print(f"{available=}")
+
+        for format_id in available:
+            name: str = get_format_name(format_id)
+            content: str = get_clipboard(format_id)
+            print(f"{format_id=}", f"{name=}, {content=}")
 
 if __name__ == "__main__":
     unittest.main()
