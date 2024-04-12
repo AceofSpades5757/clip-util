@@ -7,6 +7,7 @@ from clipboard.errors import ClipboardError
 from clipboard.errors import EmptyClipboardError
 from clipboard.errors import FormatNotSupportedError
 from clipboard.errors import GetClipboardError
+from clipboard.errors import GetFormatsError
 from clipboard.errors import LockError
 from clipboard.errors import OpenClipboardError
 from clipboard.errors import SetClipboardError
@@ -29,6 +30,7 @@ __all__ = [
     "EmptyClipboardError",
     "FormatNotSupportedError",
     "GetClipboardError",
+    "GetFormatsError",
     "LockError",
     "OpenClipboardError",
     "SetClipboardError",
