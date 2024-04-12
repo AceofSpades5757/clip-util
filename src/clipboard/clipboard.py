@@ -114,6 +114,7 @@ def get_available_formats() -> list[int]:
 
 
 class Clipboard:
+    """Represents the system clipboard."""
     default_format: ClipboardFormat = ClipboardFormat.CF_UNICODETEXT
 
     def __init__(
