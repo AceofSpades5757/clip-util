@@ -2,12 +2,10 @@ import ctypes
 from enum import Enum
 from enum import EnumMeta
 from typing import Any
-from typing import List
 from typing import Optional
 
 from clipboard._c_interface import CF_HTML
 from clipboard._c_interface import CF_RTF
-from clipboard._c_interface import EnumClipboardFormats
 from clipboard._c_interface import GetClipboardFormatNameA
 
 
@@ -23,14 +21,21 @@ class ExtendedEnum(EnumMeta):
 
 
 class ClipboardFormat(Enum, metaclass=ExtendedEnum):
+    # Constants
     CF_TEXT = 1
     CF_UNICODETEXT = 13
     CF_LOCALE = 16
+    CF_DIB = 8
+    """A memory object containing a
+    [BITMAPINFO](https://learn.microsoft.com/en-us/windows/win32/api/wingdi/
+    ns-wingdi-bitmapinfo) structure followed by the bitmap bits."""
 
+    # Registered Formats
     CF_HTML = CF_HTML
     CF_RTF = CF_RTF
     HTML_Format = 49418
 
+    # Aliases
     text = CF_UNICODETEXT  # alias
     html = HTML_Format  # alias
     HTML = html  # alias
