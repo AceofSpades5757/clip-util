@@ -114,6 +114,10 @@ def get_available_formats() -> list[int]:
 class Clipboard:
     default_format: ClipboardFormat = ClipboardFormat.CF_UNICODETEXT
 
+    def __init__(
+        self,
+        format: Optional[Union[ClipboardFormat, str, int]] = None,
+    ):
         if format is None:
             format = self.default_format.value
         else:
@@ -150,7 +154,7 @@ class Clipboard:
         return available_formats
 
     def get_clipboard(
-        self, format: Union[int, ClipboardFormat] = None
+        self, format: Optional[Union[int, ClipboardFormat]] = None
     ) -> Optional[Union[str, bytes]]:
         """Get data from clipboard, returning None if nothing is on it.
 
@@ -178,11 +182,12 @@ class Clipboard:
         formats = self.available_formats()
         if format not in formats:
             raise FormatNotSupportedError(
-                f"{format} is not supported for getting the clipboard. Choose from following {formats}"
+                f"{format} is not supported for getting the clipboard."
+                f" Choose from following {formats}"
             )
 
         # Info
-        self.h_clip_mem: HANDLE = GetClipboardData(format)
+        self.h_clip_mem = GetClipboardData(format)
         if self.h_clip_mem is None:
             raise GetClipboardError("The `GetClipboardData` function failed.")
         self.address = self._lock(self.h_clip_mem)  # type: ignore
@@ -195,7 +200,8 @@ class Clipboard:
         #   A handle to the locale identifier associated with the text in the
         #   clipboard.
         # TODO: There are other types that could be supported as well, such as
-        # audio data: https://learn.microsoft.com/en-us/windows/win32/dataxchg/standard-clipboard-formats
+        # audio data:
+        # https://learn.microsoft.com/en-us/windows/win32/dataxchg/standard-clipboard-formats
         string: ctypes.Array[ctypes.c_byte]
         content: str
         if format == ClipboardFormat.CF_UNICODETEXT.value:
@@ -230,7 +236,9 @@ class Clipboard:
         return content
 
     def set_clipboard(
-        self, content: str, format: Union[int, ClipboardFormat] = None
+        self,
+        content: str,
+        format: Optional[Union[int, ClipboardFormat]] = None,
     ) -> HANDLE:
         """Set clipboard.
 
@@ -246,7 +254,9 @@ class Clipboard:
         return set_handle
 
     def _set_clipboard(
-        self, content: str, format: Union[int, ClipboardFormat] = None
+        self,
+        content: str,
+        format: Optional[Union[int, ClipboardFormat]] = None,
     ) -> HANDLE:
         """Hides the HANDLE.
 
@@ -357,7 +367,7 @@ class Clipboard:
             format = ClipboardFormat.CF_HTML.value
         return format  # type: ignore
 
-    def __getitem__(self, format: Union[int, ClipboardFormat] = None):
+    def __getitem__(self, format: Union[int, ClipboardFormat]):
         """Get data from clipboard, returning None if nothing is on it.
 
         Raises
@@ -427,7 +437,7 @@ class Clipboard:
         self._close()
         return True
 
-    def _open(self, handle: int = None) -> bool:
+    def _open(self, handle: Optional[HANDLE] = None) -> bool:
         logger.info("_Opening clipboard")
         opened: bool = bool(OpenClipboard(handle))
         self.opened = opened
@@ -460,7 +470,7 @@ class Clipboard:
 
         return locked
 
-    def _unlock(self, handle: HANDLE = None) -> bool:
+    def _unlock(self, handle: Optional[HANDLE] = None) -> bool:
         """Unlock clipboard.
 
         Raises
