@@ -37,6 +37,7 @@ from clipboard.constants import UTF_ENCODING
 from clipboard.errors import EmptyClipboardError
 from clipboard.errors import FormatNotSupportedError
 from clipboard.errors import GetClipboardError
+from clipboard.errors import GetFormatsError
 from clipboard.errors import LockError
 from clipboard.errors import OpenClipboardError
 from clipboard.errors import SetClipboardError
@@ -65,7 +66,9 @@ if os.environ.get("LOGLEVEL"):
     logger.addHandler(file_handler)
 
 
-def get_clipboard(format: Optional[Union[int, ClipboardFormat]] = None) -> Optional[Union[str, bytes]]:
+def get_clipboard(
+    format: Optional[Union[int, ClipboardFormat]] = None,
+) -> Optional[Union[str, bytes]]:
     """Conveniency wrapper to get clipboard.
 
     Instead of using the `Clipboard.default_format`, this function uses the
@@ -80,23 +83,37 @@ def get_clipboard(format: Optional[Union[int, ClipboardFormat]] = None) -> Optio
 
 
 def set_clipboard(
-    content: str, format: Union[int, ClipboardFormat] = None
-) -> None:
-    """Conveniency wrapper to set clipboard."""
+    content: str,
+    format: Optional[Union[int, ClipboardFormat]] = None,
+) -> HANDLE:
+    """Conveniency wrapper to set clipboard.
+
+    Raises
+    ------
+    SetClipboardError
+        If setting the clipboard failed.
+    """
     with Clipboard() as cb:
         return cb.set_clipboard(content=content, format=format)
+    raise SetClipboardError("Setting the clipboard failed.")
 
 
 def get_available_formats() -> list[int]:
-    """Conveniency wrapper to get available formats."""
+    """Conveniency wrapper to get available formats.
+    
+    Raises
+    ------
+    OpenClipboardError
+        If the context manager caught an error.
+    """
     with Clipboard() as cb:
         return cb.available_formats()
+    raise GetFormatsError("Failed to get available formats.")
 
 
 class Clipboard:
     default_format: ClipboardFormat = ClipboardFormat.CF_UNICODETEXT
 
-    def __init__(self, format: Union[ClipboardFormat, str, int] = None):
         if format is None:
             format = self.default_format.value
         else:
