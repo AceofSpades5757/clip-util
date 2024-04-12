@@ -317,7 +317,7 @@ class Clipboard:
             if isinstance(content, bytes):
                 content_str = content.decode(encoding=HTML_ENCODING)
             else:
-                content_str = content
+                content_str = content  # type: ignore
             template: HTMLTemplate = HTMLTemplate(content_str)
             html_content_bytes: bytes = template.generate().encode(
                 encoding=HTML_ENCODING
