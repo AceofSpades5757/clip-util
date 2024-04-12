@@ -27,3 +27,7 @@ class ClipboardError(Exception):
 
 class LockError(Exception):
     """Exception raised when locking the clipboard fails."""
+
+
+class GetFormatsError(Exception):
+    """Exception raised when getting clipboard formats fails."""
