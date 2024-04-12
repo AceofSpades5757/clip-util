@@ -85,7 +85,7 @@ def get_clipboard(
 
 
 def set_clipboard(
-    content: str,
+    content: Union[str, bytes],
     format: Optional[Union[int, ClipboardFormat]] = None,
 ) -> HANDLE:
     """Conveniency wrapper to set clipboard.
@@ -206,7 +206,7 @@ class Clipboard:
         # audio data:
         # https://learn.microsoft.com/en-us/windows/win32/dataxchg/standard-clipboard-formats
         string: ctypes.Array[ctypes.c_byte]
-        content: str
+        content: Union[str, bytes]
         if format == ClipboardFormat.CF_UNICODETEXT.value:
             string = (ctypes.c_byte * self.size).from_address(
                 int(self.address)  # type: ignore
@@ -240,7 +240,7 @@ class Clipboard:
 
     def set_clipboard(
         self,
-        content: str,
+        content: Union[str, bytes],
         format: Optional[Union[int, ClipboardFormat]] = None,
     ) -> HANDLE:
         """Set clipboard.
@@ -258,7 +258,7 @@ class Clipboard:
 
     def _set_clipboard(
         self,
-        content: str,
+        content: Union[str, bytes],
         format: Optional[Union[int, ClipboardFormat]] = None,
     ) -> HANDLE:
         """Hides the HANDLE.
@@ -294,7 +294,11 @@ class Clipboard:
         content_bytes: bytes
         contents_ptr: LPVOID
         if format == ClipboardFormat.CF_UNICODETEXT.value:
-            content_bytes = content.encode(encoding="utf-16le")
+            content_bytes: bytes
+            if isinstance(content, str):
+                content_bytes = content.encode(encoding=UTF_ENCODING)
+            else:
+                content_bytes = content
 
             alloc_handle = GlobalAlloc(
                 GMEM_MOVEABLE | GMEM_ZEROINIT, len(content_bytes) + 2
@@ -309,7 +313,12 @@ class Clipboard:
             format == ClipboardFormat.CF_HTML.value
             or format == ClipboardFormat.HTML_Format.value
         ):
-            template: HTMLTemplate = HTMLTemplate(content)
+            content_str: str  # utf-8
+            if isinstance(content, bytes):
+                content_str = content.decode(encoding=HTML_ENCODING)
+            else:
+                content_str = content
+            template: HTMLTemplate = HTMLTemplate(content_str)
             html_content_bytes: bytes = template.generate().encode(
                 encoding=HTML_ENCODING
             )
@@ -325,7 +334,12 @@ class Clipboard:
 
             set_handle = SetClipboardData(format, alloc_handle)
         else:
-            content_bytes = content.encode(encoding="utf-8")
+            content_bytes: bytes
+            if isinstance(content, str):
+                # Most general content is going to be utf-8.
+                content_bytes = content.encode(encoding="utf-8")
+            else:
+                content_bytes = content
 
             alloc_handle = GlobalAlloc(GMEM_MOVEABLE, len(content_bytes) + 1)
             contents_ptr = GlobalLock(alloc_handle)
