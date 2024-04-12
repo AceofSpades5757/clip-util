@@ -16,6 +16,7 @@ FIXME: Typing appears to be off.
 import ctypes
 import logging
 import os
+import time
 from typing import List
 from typing import Optional
 from typing import Union
@@ -416,6 +417,8 @@ class Clipboard:
         max_tries = 3
         tries = 0
         while not self.opened and tries < max_tries:
+            if tries > 0:
+                time.sleep(0.01)
             tries += 1
             if self._open():
                 return self
