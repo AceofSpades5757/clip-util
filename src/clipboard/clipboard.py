@@ -17,6 +17,7 @@ import ctypes
 import logging
 import os
 import time
+import traceback
 from typing import List
 from typing import Optional
 from typing import Union
@@ -431,8 +432,6 @@ class Clipboard:
     ) -> bool:
         logger.info("Exiting context manager")
         if exception_type is not None:
-            import traceback
-
             traceback.print_exception(
                 exception_type, exception_value, exception_traceback
             )
