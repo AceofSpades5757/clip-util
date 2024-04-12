@@ -1,7 +1,17 @@
 This branch is designed to verify capacity of setting the clipboard data with images.
 
+- [ ] Add tests for setting clipboard data with images.
+- [ ] Add section in README for setting clipboard data with images.
+- [ ] Copy README to readme test.
+- [ ] Copy README to docs/source/quickstart.rst
+
 ```python
+import io
+
 from clipboard import *
+
+import win32clipboard
+from PIL import Image
 
 
 # required `Pillow` package for testing
@@ -21,7 +31,7 @@ with Image.open(png_file) as img:
     win32clipboard.CloseClipboard()
 
     # With this
-    with clipboard() as cb:
+    with Clipboard() as cb:
         cb.set_clipboard(data, ClipboardFormat.CF_DIB)
         # Mime types (idea)
         cb.set_clipboard(data, "image/png")
