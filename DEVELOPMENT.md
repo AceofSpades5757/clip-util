@@ -1,5 +1,6 @@
 This branch is designed to verify capacity of setting the clipboard data with images.
 
+- [ ] FIXME: Need to refactor to allow for bytes to be copied to clipboard.
 - [ ] Add tests for setting clipboard data with images.
 - [ ] Add section in README for setting clipboard data with images.
 - [ ] Copy README to readme test.
