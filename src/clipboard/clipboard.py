@@ -372,12 +372,12 @@ class Clipboard:
         elif isinstance(format, str):
             try:
                 format = ClipboardFormat[format].value
-            except KeyError:
+            except KeyError as exc:
                 formats = self.available_formats()
                 raise FormatNotSupportedError(
                     f"{format} is not a supported clipboard format."
                     f" Choose from following {formats}"
-                )
+                ) from exc
 
         # FIXME: There are issues with HTML_Format, so use CF_HTML
         if format == ClipboardFormat.HTML_Format.value:
@@ -439,8 +439,8 @@ class Clipboard:
             if self._open():
                 return self
             self._close()
-        else:
-            raise OpenClipboardError("Failed to open clipboard.")
+
+        raise OpenClipboardError("Failed to open clipboard.")
 
     def __exit__(
         self, exception_type, exception_value, exception_traceback
