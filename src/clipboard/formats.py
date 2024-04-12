@@ -58,21 +58,6 @@ class ClipboardFormat(Enum, metaclass=ExtendedEnum):
             return False
 
 
-def get_clipboard_formats(formats: List[int] = None) -> List[int]:
-    """Return all available clipboard formats on clipboard.
-
-    First format is the format on the clipboard, depending on your system.
-    """
-    if formats is None:
-        formats = [EnumClipboardFormats(0)]
-
-    last_format: int = formats[-1]
-    if last_format == 0:
-        return formats[:-1]
-    else:
-        return formats + [EnumClipboardFormats(last_format)]
-
-
 def get_format_name(format_code: int) -> Optional[str]:
     """Get the name of the format by it's number.
 
