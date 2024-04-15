@@ -66,7 +66,6 @@ class TestReadme(unittest.TestCase):
         from clipboard import ClipboardFormat
         from clipboard import get_format_name
 
-
         with Clipboard() as clipboard:
 
             # Get All Available Formats
@@ -111,10 +110,9 @@ class TestReadme(unittest.TestCase):
     def test_get_all_supported_formats(self) -> None:
         """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#get-all-supported-formats"""
         from clipboard import get_available_formats
-        from clipboard import get_format_name
         from clipboard import get_clipboard
+        from clipboard import get_format_name
         from clipboard import set_clipboard
-
 
         set_clipboard("Hello World!")
         available: list[int] = get_available_formats()
@@ -124,6 +122,7 @@ class TestReadme(unittest.TestCase):
             name: str = get_format_name(format_id)
             content: str = get_clipboard(format_id)
             print(f"{format_id=}", f"{name=}, {content=}")
+
 
 if __name__ == "__main__":
     unittest.main()
