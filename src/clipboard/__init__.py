@@ -11,8 +11,8 @@ from clipboard.errors import GetFormatsError
 from clipboard.errors import LockError
 from clipboard.errors import OpenClipboardError
 from clipboard.errors import SetClipboardError
-from clipboard.html_clipboard import HTML_ENCODING
 from clipboard.formats import get_format_name
+from clipboard.html_clipboard import HTML_ENCODING
 
 
 __all__ = [

@@ -69,7 +69,7 @@ if os.environ.get("LOGLEVEL"):
 
 
 def get_clipboard(
-    format: Optional[Union[int, ClipboardFormat]] = None,
+    format: Optional[Union[int, ClipboardFormat]] = None
 ) -> Optional[Union[str, bytes]]:
     """Conveniency wrapper to get clipboard.
 
