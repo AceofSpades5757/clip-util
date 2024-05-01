@@ -1,3 +1,4 @@
+"""Code for handling HTML clipboard data."""
 import re
 from typing import List
 from typing import Optional
@@ -51,6 +52,7 @@ class HTMLTemplate:
         self.content: str = content
 
     def generate(self) -> str:
+        """Generate the HTML template."""
         fragments: List[str] = (
             self.fragments if self.fragments else [self.content]
         )
@@ -67,6 +69,7 @@ class HTMLTemplate:
         return result
 
     def _generate_fragments(self, fragments: List) -> str:
+        """Generate the HTML fragments."""
         results: List[str] = []
         for fragment in fragments:
             results.append("<!--StartFragment-->")
@@ -79,6 +82,7 @@ class HTMLTemplate:
         return result
 
     def _generate_html(self, string: str) -> str:
+        """Generate the HTML document."""
         lines = string.splitlines()
         body = ["<body>"] + lines + ["</body>"]
         html = ["<html>"] + body + ["</html>"]
@@ -86,6 +90,7 @@ class HTMLTemplate:
         return "\n".join(html)
 
     def _generate_header(self, string: str) -> str:
+        """Generate the header for the HTML document."""
         lines = string.splitlines()
 
         version = self.version
@@ -106,6 +111,7 @@ class HTMLTemplate:
         return "\n".join(lines)
 
     def _add_byte_counts(self, content: str) -> str:
+        """Add byte counts to the HTML content."""
         # Check
         current_values = self._get_byte_values(content)
         if all((i is not None and i != -1) for i in current_values.values()):
@@ -147,6 +153,7 @@ class HTMLTemplate:
         return self._add_byte_counts(result)
 
     def _get_byte_values(self, content: str) -> dict:
+        """Get the byte values from the HTML content."""
         re_StartHTML = re.compile(r"StartHTML:(\d+)", flags=re.MULTILINE)
         StartHTML = int(
             re_StartHTML.findall(content)[0]
@@ -185,6 +192,7 @@ class HTMLTemplate:
         }
 
     def _update_byte_counts(self, content: B) -> B:
+        """Update the byte counts in the HTML content."""
         data: str
         if isinstance(content, bytes):
             data = content.decode(encoding=HTML_ENCODING)
