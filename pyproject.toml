@@ -7,7 +7,7 @@ name = "clip-util"
 description = "Clipboard utilities for use with Python."
 version = "0.1.25"
 requires-python = ">=3.9"
-dependencies = ["lxml"]
+dependencies = []
 license = {file = "LICENSE"}
 authors = [
     { name = "Kyle L. Davis", email = "aceofspades5757.github@gmail.com" },
