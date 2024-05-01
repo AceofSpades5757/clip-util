@@ -39,6 +39,7 @@ from clipboard.formats import ClipboardFormat
 from clipboard.html_clipboard import HTMLTemplate
 
 
+ClipboardFormatType = Union[int, str, ClipboardFormat]  # Type Alias
 hMem = HANDLE  # Type Alias
 GMEM_MOVEABLE = 0x0002
 GMEM_ZEROINIT = 0x0040
@@ -61,7 +62,7 @@ if os.environ.get("LOGLEVEL"):
 
 
 def get_clipboard(
-    format: Optional[Union[int, ClipboardFormat]] = None
+    format: Optional[ClipboardFormatType] = None
 ) -> Optional[Union[str, bytes]]:
     """Conveniency wrapper to get clipboard.
 
@@ -78,7 +79,7 @@ def get_clipboard(
 
 def set_clipboard(
     content: Union[str, bytes],
-    format: Optional[Union[int, ClipboardFormat]] = None,
+    format: Optional[ClipboardFormatType] = None,
 ) -> HANDLE:
     """Conveniency wrapper to set clipboard.
 
@@ -111,7 +112,7 @@ class Clipboard:
 
     def __init__(
         self,
-        format: Optional[Union[ClipboardFormat, str, int]] = None,
+        format: Optional[ClipboardFormatType] = None,
     ):
         if format is None:
             format = self.default_format.value
@@ -149,7 +150,7 @@ class Clipboard:
         return available_formats
 
     def get_clipboard(
-        self, format: Optional[Union[int, ClipboardFormat]] = None
+        self, format: Optional[ClipboardFormatType] = None
     ) -> Optional[Union[str, bytes]]:
         """Get data from clipboard, returning None if nothing is on it.
 
@@ -233,7 +234,7 @@ class Clipboard:
     def set_clipboard(
         self,
         content: Union[str, bytes],
-        format: Optional[Union[int, ClipboardFormat]] = None,
+        format: Optional[ClipboardFormatType] = None,
     ) -> HANDLE:
         """Set clipboard.
 
@@ -251,7 +252,7 @@ class Clipboard:
     def _set_clipboard(
         self,
         content: Union[str, bytes],
-        format: Optional[Union[int, ClipboardFormat]] = None,
+        format: Optional[ClipboardFormatType] = None,
     ) -> HANDLE:
         """Hides the HANDLE.
 
@@ -345,7 +346,7 @@ class Clipboard:
 
         return set_handle
 
-    def _resolve_format(self, format: Union[ClipboardFormat, str, int]) -> int:
+    def _resolve_format(self, format: ClipboardFormatType) -> int:
         """Given an integer, respresenting a clipboard format, or a
         ClipboardFormat object, return the respective integer.
 
@@ -376,7 +377,7 @@ class Clipboard:
             format = ClipboardFormat.CF_HTML.value
         return format  # type: ignore
 
-    def __getitem__(self, format: Union[int, ClipboardFormat]):
+    def __getitem__(self, format: ClipboardFormatType):
         """Get data from clipboard, returning None if nothing is on it.
 
         Raises
