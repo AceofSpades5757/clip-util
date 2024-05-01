@@ -75,6 +75,7 @@ def get_clipboard(
             format = available[0]
     with Clipboard() as cb:
         return cb.get_clipboard(format=format)
+    return None
 
 
 def set_clipboard(
@@ -288,7 +289,6 @@ class Clipboard:
         content_bytes: bytes
         contents_ptr: LPVOID
         if format == ClipboardFormat.CF_UNICODETEXT.value:
-            content_bytes: bytes
             if isinstance(content, str):
                 content_bytes = content.encode(encoding=UTF_ENCODING)
             else:
@@ -328,7 +328,6 @@ class Clipboard:
 
             set_handle = SetClipboardData(format, alloc_handle)
         else:
-            content_bytes: bytes
             if isinstance(content, str):
                 # Most general content is going to be utf-8.
                 content_bytes = content.encode(encoding="utf-8")
@@ -516,3 +515,5 @@ class Clipboard:
             return bool(EmptyClipboard())
         else:
             raise EmptyClipboardError("Emptying the clipboard failed.")
+
+        return False
