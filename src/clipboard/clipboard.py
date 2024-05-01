@@ -152,9 +152,18 @@ class Clipboard:
         return available_formats
 
     def get_clipboard(
-        self, format: Optional[ClipboardFormatType] = None
+        self,
+        format: Optional[ClipboardFormatType] = None,
     ) -> Optional[Union[str, bytes]]:
         """Get data from clipboard, returning None if nothing is on it.
+
+        **Requires valid HTML content to work as intended.**
+
+        Parameters
+        ----------
+        format : Optional[ClipboardFormatType]
+            The format of the clipboard data.
+            If None, the default format is used.
 
         Raises
         ------
