@@ -1,4 +1,5 @@
 """Code for handling HTML clipboard data."""
+
 import re
 from typing import List
 from typing import Optional

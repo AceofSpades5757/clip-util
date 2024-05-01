@@ -1,4 +1,5 @@
 """Clipboard Formats"""
+
 import ctypes
 from enum import Enum
 from enum import EnumMeta
@@ -12,6 +13,7 @@ from clipboard._c_interface import GetClipboardFormatNameA
 
 class ExtendedEnum(EnumMeta):
     """Extended Enum Meta Class"""
+
     def __contains__(cls, item: Any):
         return any(
             [
@@ -24,6 +26,7 @@ class ExtendedEnum(EnumMeta):
 
 class ClipboardFormat(Enum, metaclass=ExtendedEnum):
     """Clipboard Formats"""
+
     # Constants
     CF_TEXT = 1
     CF_UNICODETEXT = 13
@@ -81,7 +84,9 @@ def get_format_name(format_code: int) -> Optional[str]:
         None if the format is not found.
     """
     # Built-In
-    if format_code in ClipboardFormat.values:  # pylint: disable=unsupported-membership-test
+    if (
+        format_code in ClipboardFormat.values
+    ):  # pylint: disable=unsupported-membership-test
         return ClipboardFormat(format_code).name
 
     buffer_size = 256
