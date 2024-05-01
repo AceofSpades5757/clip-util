@@ -2,18 +2,14 @@
 
 TODO: Make `get_clipboard`'s default to check available formats instead of just
 using the default format.
-FIXME: Copying using normal methods and then using `get_clipboard` doesn't work
-properly. It gives a bunch of null bytes as a string.
 FIXME: HTML_Format doesn't work for some reason. Fix this.
-FIXME: Typing appears to be off.
-    * There are a lot of parameters with a default of None that are not Optional.
-    * There are some parameters typed as `int`, but they look like they should
-    be `Optional[HANDLE]` instead.
 """
 
 import ctypes
 import logging
 import os
+import time
+import traceback
 from typing import List
 from typing import Optional
 from typing import Union
@@ -35,6 +31,7 @@ from clipboard.constants import UTF_ENCODING
 from clipboard.errors import EmptyClipboardError
 from clipboard.errors import FormatNotSupportedError
 from clipboard.errors import GetClipboardError
+from clipboard.errors import GetFormatsError
 from clipboard.errors import LockError
 from clipboard.errors import OpenClipboardError
 from clipboard.errors import SetClipboardError
@@ -42,6 +39,7 @@ from clipboard.formats import ClipboardFormat
 from clipboard.html_clipboard import HTMLTemplate
 
 
+ClipboardFormatType = Union[int, str, ClipboardFormat]  # Type Alias
 hMem = HANDLE  # Type Alias
 GMEM_MOVEABLE = 0x0002
 GMEM_ZEROINIT = 0x0040
@@ -64,7 +62,7 @@ if os.environ.get("LOGLEVEL"):
 
 
 def get_clipboard(
-    format: Optional[Union[int, ClipboardFormat]] = None
+    format: Optional[ClipboardFormatType] = None,
 ) -> Optional[Union[str, bytes]]:
     """Conveniency wrapper to get clipboard.
 
@@ -77,26 +75,47 @@ def get_clipboard(
             format = available[0]
     with Clipboard() as cb:
         return cb.get_clipboard(format=format)
+    return None
 
 
 def set_clipboard(
-    content: str, format: Union[int, ClipboardFormat] = None
-) -> None:
-    """Conveniency wrapper to set clipboard."""
+    content: Union[str, bytes],
+    format: Optional[ClipboardFormatType] = None,
+) -> HANDLE:
+    """Conveniency wrapper to set clipboard.
+
+    Raises
+    ------
+    SetClipboardError
+        If setting the clipboard failed.
+    """
     with Clipboard() as cb:
         return cb.set_clipboard(content=content, format=format)
+    raise SetClipboardError("Setting the clipboard failed.")
 
 
 def get_available_formats() -> list[int]:
-    """Conveniency wrapper to get available formats."""
+    """Conveniency wrapper to get available formats.
+
+    Raises
+    ------
+    OpenClipboardError
+        If the context manager caught an error.
+    """
     with Clipboard() as cb:
         return cb.available_formats()
+    raise GetFormatsError("Failed to get available formats.")
 
 
 class Clipboard:
+    """Represents the system clipboard."""
+
     default_format: ClipboardFormat = ClipboardFormat.CF_UNICODETEXT
 
-    def __init__(self, format: Union[ClipboardFormat, str, int] = None):
+    def __init__(
+        self,
+        format: Optional[ClipboardFormatType] = None,
+    ):
         if format is None:
             format = self.default_format.value
         else:
@@ -133,9 +152,18 @@ class Clipboard:
         return available_formats
 
     def get_clipboard(
-        self, format: Union[int, ClipboardFormat] = None
+        self,
+        format: Optional[ClipboardFormatType] = None,
     ) -> Optional[Union[str, bytes]]:
         """Get data from clipboard, returning None if nothing is on it.
+
+        **Requires valid HTML content to work as intended.**
+
+        Parameters
+        ----------
+        format : Optional[ClipboardFormatType]
+            The format of the clipboard data.
+            If None, the default format is used.
 
         Raises
         ------
@@ -161,11 +189,12 @@ class Clipboard:
         formats = self.available_formats()
         if format not in formats:
             raise FormatNotSupportedError(
-                f"{format} is not supported for getting the clipboard. Choose from following {formats}"
+                f"{format} is not supported for getting the clipboard."
+                f" Choose from following {formats}"
             )
 
         # Info
-        self.h_clip_mem: HANDLE = GetClipboardData(format)
+        self.h_clip_mem = GetClipboardData(format)
         if self.h_clip_mem is None:
             raise GetClipboardError("The `GetClipboardData` function failed.")
         self.address = self._lock(self.h_clip_mem)  # type: ignore
@@ -178,9 +207,10 @@ class Clipboard:
         #   A handle to the locale identifier associated with the text in the
         #   clipboard.
         # TODO: There are other types that could be supported as well, such as
-        # audio data: https://learn.microsoft.com/en-us/windows/win32/dataxchg/standard-clipboard-formats
+        # audio data:
+        # https://learn.microsoft.com/en-us/windows/win32/dataxchg/standard-clipboard-formats
         string: ctypes.Array[ctypes.c_byte]
-        content: str
+        content: Union[str, bytes]
         if format == ClipboardFormat.CF_UNICODETEXT.value:
             string = (ctypes.c_byte * self.size).from_address(
                 int(self.address)  # type: ignore
@@ -213,7 +243,9 @@ class Clipboard:
         return content
 
     def set_clipboard(
-        self, content: str, format: Union[int, ClipboardFormat] = None
+        self,
+        content: Union[str, bytes],
+        format: Optional[ClipboardFormatType] = None,
     ) -> HANDLE:
         """Set clipboard.
 
@@ -229,7 +261,9 @@ class Clipboard:
         return set_handle
 
     def _set_clipboard(
-        self, content: str, format: Union[int, ClipboardFormat] = None
+        self,
+        content: Union[str, bytes],
+        format: Optional[ClipboardFormatType] = None,
     ) -> HANDLE:
         """Hides the HANDLE.
 
@@ -264,7 +298,10 @@ class Clipboard:
         content_bytes: bytes
         contents_ptr: LPVOID
         if format == ClipboardFormat.CF_UNICODETEXT.value:
-            content_bytes = content.encode(encoding="utf-16le")
+            if isinstance(content, str):
+                content_bytes = content.encode(encoding=UTF_ENCODING)
+            else:
+                content_bytes = content
 
             alloc_handle = GlobalAlloc(
                 GMEM_MOVEABLE | GMEM_ZEROINIT, len(content_bytes) + 2
@@ -279,7 +316,12 @@ class Clipboard:
             format == ClipboardFormat.CF_HTML.value
             or format == ClipboardFormat.HTML_Format.value
         ):
-            template: HTMLTemplate = HTMLTemplate(content)
+            content_str: str  # utf-8
+            if isinstance(content, bytes):
+                content_str = content.decode(encoding=HTML_ENCODING)
+            else:
+                content_str = content  # type: ignore
+            template: HTMLTemplate = HTMLTemplate(content_str)
             html_content_bytes: bytes = template.generate().encode(
                 encoding=HTML_ENCODING
             )
@@ -295,7 +337,11 @@ class Clipboard:
 
             set_handle = SetClipboardData(format, alloc_handle)
         else:
-            content_bytes = content.encode(encoding="utf-8")
+            if isinstance(content, str):
+                # Most general content is going to be utf-8.
+                content_bytes = content.encode(encoding="utf-8")
+            else:
+                content_bytes = content
 
             alloc_handle = GlobalAlloc(GMEM_MOVEABLE, len(content_bytes) + 1)
             contents_ptr = GlobalLock(alloc_handle)
@@ -309,7 +355,7 @@ class Clipboard:
 
         return set_handle
 
-    def _resolve_format(self, format: Union[ClipboardFormat, str, int]) -> int:
+    def _resolve_format(self, format: ClipboardFormatType) -> int:
         """Given an integer, respresenting a clipboard format, or a
         ClipboardFormat object, return the respective integer.
 
@@ -328,19 +374,19 @@ class Clipboard:
         elif isinstance(format, str):
             try:
                 format = ClipboardFormat[format].value
-            except KeyError:
+            except KeyError as exc:
                 formats = self.available_formats()
                 raise FormatNotSupportedError(
                     f"{format} is not a supported clipboard format."
                     f" Choose from following {formats}"
-                )
+                ) from exc
 
         # FIXME: There are issues with HTML_Format, so use CF_HTML
         if format == ClipboardFormat.HTML_Format.value:
             format = ClipboardFormat.CF_HTML.value
         return format  # type: ignore
 
-    def __getitem__(self, format: Union[int, ClipboardFormat] = None):
+    def __getitem__(self, format: ClipboardFormatType):
         """Get data from clipboard, returning None if nothing is on it.
 
         Raises
@@ -389,20 +435,20 @@ class Clipboard:
         max_tries = 3
         tries = 0
         while not self.opened and tries < max_tries:
+            if tries > 0:
+                time.sleep(0.01)
             tries += 1
             if self._open():
                 return self
             self._close()
-        else:
-            raise OpenClipboardError("Failed to open clipboard.")
+
+        raise OpenClipboardError("Failed to open clipboard.")
 
     def __exit__(
         self, exception_type, exception_value, exception_traceback
     ) -> bool:
         logger.info("Exiting context manager")
         if exception_type is not None:
-            import traceback
-
             traceback.print_exception(
                 exception_type, exception_value, exception_traceback
             )
@@ -410,7 +456,7 @@ class Clipboard:
         self._close()
         return True
 
-    def _open(self, handle: int = None) -> bool:
+    def _open(self, handle: Optional[HANDLE] = None) -> bool:
         logger.info("_Opening clipboard")
         opened: bool = bool(OpenClipboard(handle))
         self.opened = opened
@@ -443,7 +489,7 @@ class Clipboard:
 
         return locked
 
-    def _unlock(self, handle: HANDLE = None) -> bool:
+    def _unlock(self, handle: Optional[HANDLE] = None) -> bool:
         """Unlock clipboard.
 
         Raises
@@ -478,3 +524,5 @@ class Clipboard:
             return bool(EmptyClipboard())
         else:
             raise EmptyClipboardError("Emptying the clipboard failed.")
+
+        return False
