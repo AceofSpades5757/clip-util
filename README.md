@@ -104,8 +104,8 @@ with Clipboard() as clipboard:
     format_id: int
     for format_id in format_ids:
         if format_id in ClipboardFormat:
-            format: ClipboardFormat = ClipboardFormat(format_id)
-            formats.append(format)
+            format_: ClipboardFormat = ClipboardFormat(format_id)
+            formats.append(format_)
         else:
             # Format is not supported directly by this library
             pass
@@ -126,9 +126,9 @@ with Clipboard() as clipboard:
     format_name: str
     for format_name in [f.name for f in formats]:
         if format_name in ClipboardFormat:
-            format: ClipboardFormat = ClipboardFormat[format_name]
-            name: str = format.name
-            formats.append(format)
+            format_: ClipboardFormat = ClipboardFormat[format_name]
+            name: str = format_.name
+            formats.append(format_)
             format_names.append(name)
         else:
             # Format is not supported directly by this library
