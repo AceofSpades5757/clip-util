@@ -64,7 +64,7 @@ if os.environ.get("LOGLEVEL"):
 def get_clipboard(
     format: Optional[ClipboardFormatType] = None,
 ) -> Optional[Union[str, bytes]]:
-    """Conveniency wrapper to get clipboard.
+    """Convenience wrapper to get clipboard.
 
     Instead of using the `Clipboard.default_format`, this function uses the
     first available format on the clipboard.
@@ -82,7 +82,7 @@ def set_clipboard(
     content: Union[str, bytes],
     format: Optional[ClipboardFormatType] = None,
 ) -> HANDLE:
-    """Conveniency wrapper to set clipboard.
+    """Convenience wrapper to set clipboard.
 
     Raises
     ------
@@ -95,7 +95,7 @@ def set_clipboard(
 
 
 def get_available_formats() -> list[int]:
-    """Conveniency wrapper to get available formats.
+    """Convenience wrapper to get available formats.
 
     Raises
     ------
