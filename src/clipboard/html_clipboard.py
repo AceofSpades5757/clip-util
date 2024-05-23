@@ -207,7 +207,9 @@ class HTMLTemplate:
 
         re_value = r"(None|-?\d+)"
 
-        re_start_html = re.compile(rf"StartHTML:{re_value}", flags=re.MULTILINE)
+        re_start_html = re.compile(
+            rf"StartHTML:{re_value}", flags=re.MULTILINE
+        )
         re_end_html = re.compile(rf"EndHTML:{re_value}", flags=re.MULTILINE)
         re_start_fragment = re.compile(
             rf"StartFragment:{re_value}", flags=re.MULTILINE
