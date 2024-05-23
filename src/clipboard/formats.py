@@ -29,7 +29,9 @@ class ClipboardFormat(Enum, metaclass=ExtendedEnum):
 
     # Constants
     CF_TEXT = 1
+    """ANSI text format. Lines end with CR-LF. Ends with null character."""
     CF_UNICODETEXT = 13
+    """Unicode text format. Lines end with CR-LF. Ends with a null character."""
     CF_LOCALE = 16
     CF_DIB = 8
     """A memory object containing a
