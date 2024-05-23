@@ -111,7 +111,7 @@ def get_format_name(format_code: int) -> Optional[str]:
         error = ctypes.WinError(last_error)
         raise error
 
-    # ansii string
+    # ansi string
     format_name: str = buffer.value.decode("utf-8")
 
     return format_name
