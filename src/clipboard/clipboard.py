@@ -356,7 +356,7 @@ class Clipboard:
         return set_handle
 
     def _resolve_format(self, format: ClipboardFormatType) -> int:
-        """Given an integer, respresenting a clipboard format, or a
+        """Given an integer, representing a clipboard format, or a
         ClipboardFormat object, return the respective integer.
 
         Raises
