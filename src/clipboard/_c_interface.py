@@ -1,8 +1,4 @@
-""" Helper to interface with the C code.
-
-Note: This did not feel like a simple process to identify the paths to access
-the C functions.
-"""
+""" Helper to interface with the C code."""
 
 import ctypes
 from ctypes.wintypes import BOOL
