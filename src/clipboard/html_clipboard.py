@@ -69,7 +69,8 @@ class HTMLTemplate:
 
         return result
 
-    def _generate_fragments(self, fragments: List) -> str:
+    @staticmethod
+    def _generate_fragments(fragments: List) -> str:
         """Generate the HTML fragments."""
         results: List[str] = []
         for fragment in fragments:
@@ -82,7 +83,8 @@ class HTMLTemplate:
 
         return result
 
-    def _generate_html(self, string: str) -> str:
+    @staticmethod
+    def _generate_html(string: str) -> str:
         """Generate the HTML document."""
         lines = string.splitlines()
         body = ["<body>"] + lines + ["</body>"]
@@ -153,43 +155,44 @@ class HTMLTemplate:
 
         return self._add_byte_counts(result)
 
-    def _get_byte_values(self, content: str) -> dict:
+    @staticmethod
+    def _get_byte_values(content: str) -> dict:
         """Get the byte values from the HTML content."""
-        re_StartHTML = re.compile(r"StartHTML:(\d+)", flags=re.MULTILINE)
-        StartHTML = int(
-            re_StartHTML.findall(content)[0]
-            if re_StartHTML.findall(content)
+        re_start_html = re.compile(r"StartHTML:(\d+)", flags=re.MULTILINE)
+        start_html = int(
+            re_start_html.findall(content)[0]
+            if re_start_html.findall(content)
             else -1
         )
 
-        re_EndHTML = re.compile(r"EndHTML:(\d+)", flags=re.MULTILINE)
-        EndHTML = int(
-            re_EndHTML.findall(content)[0]
-            if re_EndHTML.findall(content)
+        re_end_html = re.compile(r"EndHTML:(\d+)", flags=re.MULTILINE)
+        end_html = int(
+            re_end_html.findall(content)[0]
+            if re_end_html.findall(content)
             else -1
         )
 
-        re_StartFragment = re.compile(
+        re_start_fragment = re.compile(
             r"StartFragment:(\d+)", flags=re.MULTILINE
         )
-        StartFragment = int(
-            re_StartFragment.findall(content)[0]
-            if re_StartFragment.findall(content)
+        start_fragment = int(
+            re_start_fragment.findall(content)[0]
+            if re_start_fragment.findall(content)
             else -1
         )
 
-        re_EndFragment = re.compile(r"EndFragment:(\d+)", flags=re.MULTILINE)
-        EndFragment = int(
-            re_EndFragment.findall(content)[0]
-            if re_EndFragment.findall(content)
+        re_end_fragment = re.compile(r"EndFragment:(\d+)", flags=re.MULTILINE)
+        end_fragment = int(
+            re_end_fragment.findall(content)[0]
+            if re_end_fragment.findall(content)
             else -1
         )
 
         return {
-            "StartHTML": StartHTML,
-            "EndHTML": EndHTML,
-            "StartFragment": StartFragment,
-            "EndFragment": EndFragment,
+            "StartHTML": start_html,
+            "EndHTML": end_html,
+            "StartFragment": start_fragment,
+            "EndFragment": end_fragment,
         }
 
     def _update_byte_counts(self, content: B) -> B:
@@ -204,22 +207,22 @@ class HTMLTemplate:
 
         re_value = r"(None|-?\d+)"
 
-        re_StartHTML = re.compile(rf"StartHTML:{re_value}", flags=re.MULTILINE)
-        re_EndHTML = re.compile(rf"EndHTML:{re_value}", flags=re.MULTILINE)
-        re_StartFragment = re.compile(
+        re_start_html = re.compile(rf"StartHTML:{re_value}", flags=re.MULTILINE)
+        re_end_html = re.compile(rf"EndHTML:{re_value}", flags=re.MULTILINE)
+        re_start_fragment = re.compile(
             rf"StartFragment:{re_value}", flags=re.MULTILINE
         )
-        re_EndFragment = re.compile(
+        re_end_fragment = re.compile(
             rf"EndFragment:{re_value}", flags=re.MULTILINE
         )
 
-        data = re.sub(re_StartHTML, rf"StartHTML:{self.start_html}", data)
-        data = re.sub(re_EndHTML, rf"EndHTML:{self.end_html}", data)
+        data = re.sub(re_start_html, rf"StartHTML:{self.start_html}", data)
+        data = re.sub(re_end_html, rf"EndHTML:{self.end_html}", data)
         data = re.sub(
-            re_StartFragment, rf"StartFragment:{self.start_fragment}", data
+            re_start_fragment, rf"StartFragment:{self.start_fragment}", data
         )
         data = re.sub(
-            re_EndFragment, rf"EndFragment:{self.end_fragment}", data
+            re_end_fragment, rf"EndFragment:{self.end_fragment}", data
         )
 
         if isinstance(content, bytes):
