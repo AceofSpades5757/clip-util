@@ -74,7 +74,7 @@ class ClipboardFormat(Enum, metaclass=ExtendedEnum):
 
 
 def get_format_name(format_code: int) -> Optional[str]:
-    """Get the name of the format by it's number.
+    """Get the name of the format by its number.
 
     C function does not work for standard types (e.g. 1 for CF_TEXT).
     So, this function will use ClipboardFormat for those in the standard.
