@@ -501,6 +501,14 @@ class Clipboard:
         if handle is None:
             handle = self.h_clip_mem
 
+        if handle is None:
+            # Clipboard is already unlocked
+            return True
+
+        if not self.locked:
+            # Clipboard is already unlocked
+            return True
+
         unlocked: bool = bool(GlobalUnlock(handle))  # non-zero
         self.locked = not unlocked
         if not unlocked:
