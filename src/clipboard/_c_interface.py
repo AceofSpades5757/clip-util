@@ -1,4 +1,4 @@
-""" Helper to interface with the C code."""
+"""Helper to interface with the C code."""
 
 import ctypes
 from ctypes.wintypes import BOOL

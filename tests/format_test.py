@@ -1,4 +1,4 @@
-""" Test available formats for the clipboard """
+"""Test available formats for the clipboard"""
 
 import platform
 import unittest
