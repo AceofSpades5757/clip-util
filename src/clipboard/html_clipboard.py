@@ -99,16 +99,16 @@ class HTMLTemplate:
         content_bytes: bytes = content.encode(encoding=HTML_ENCODING)
 
         # Blocks to find
-        html_start = "<html>".encode(encoding=HTML_ENCODING)
-        html_end = "</html>".encode(encoding=HTML_ENCODING)
-        fragment_start = "<!--StartFragment-->".encode(encoding=HTML_ENCODING)
-        fragment_end = "<!--EndFragment-->".encode(encoding=HTML_ENCODING)
+        html_start: bytes = "<html>".encode(encoding=HTML_ENCODING)
+        html_end: bytes = "</html>".encode(encoding=HTML_ENCODING)
+        fragment_start: bytes = "<!--StartFragment-->".encode(encoding=HTML_ENCODING)
+        fragment_end: bytes = "<!--EndFragment-->".encode(encoding=HTML_ENCODING)
 
         # Find Values
-        found_html_start = content_bytes.find(html_start)
-        found_html_end = content_bytes.find(html_end)
-        found_fragment_start = content_bytes.find(fragment_start)
-        found_fragment_end = content_bytes.find(fragment_end)
+        found_html_start: int = content_bytes.find(html_start)
+        found_html_end: int = content_bytes.rfind(html_end) + len(html_end)
+        found_fragment_start: int = content_bytes.find(fragment_start) + len(fragment_start) + 1  # after comment
+        found_fragment_end: int = content_bytes.rfind(fragment_end) - 1  # before comment
 
         # Fix Values
         if HTML_ENCODING == "UTF-8":
