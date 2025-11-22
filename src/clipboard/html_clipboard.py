@@ -12,10 +12,15 @@ HTML_ENCODING = ENCODING
 class HTMLTemplate:
     """Windows HTML template for storing clipboard HTML data."""
 
-    def __init__(self, content: str = ""):
     version = 1.0
+
+    def __init__(self, content: str = "") -> None:
         self.fragments: List[str] = []
 
+        # Padding for byte counts to allow for any reasonable size. e.g. "0000001001"
+        self.byte_padding: int = 10
+
+        # Byte Counts
         self.start_html: int = -1
         self.end_html: int = -1
 
