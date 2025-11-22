@@ -24,6 +24,14 @@ class ExtendedEnum(EnumMeta):
         )
 
 
+class classproperty:
+    def __init__(self, func):
+        self.func = func
+
+    def __get__(self, obj, owner):
+        return self.func(owner)
+
+
 class ClipboardFormat(Enum, metaclass=ExtendedEnum):
     """Clipboard Formats"""
 
@@ -49,14 +57,12 @@ class ClipboardFormat(Enum, metaclass=ExtendedEnum):
     HTML = html  # alias
     rtf = CF_RTF  # alias
 
-    @classmethod  # type: ignore
-    @property
+    @classproperty
     def values(cls):
         """Get the values of the enum."""
         return [i.value for i in cls]
 
-    @classmethod  # type: ignore
-    @property
+    @classproperty
     def names(cls):
         """Get the names of the enum."""
         return [i.name for i in cls]
