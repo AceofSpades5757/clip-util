@@ -74,7 +74,9 @@ class TestHTMLClipboard(unittest.TestCase):
         # end html: 229 with Linux, 240 with Windows
         # start fragment (after comment): 135 with Linux, 142 with Windows
         # end fragment (before comment): 194 with Linux, 203 with Windows
-        assert generated == """\
+        assert (
+            generated
+            == """\
 Version:1.0
 StartHTML:0000000100
 EndHTML:0000000229
@@ -87,6 +89,7 @@ EndFragment:0000000194
 <!--EndFragment-->
 </body>
 </html>"""
+        )
 
 
 class TestMore(unittest.TestCase):

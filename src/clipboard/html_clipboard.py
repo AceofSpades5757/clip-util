@@ -1,4 +1,5 @@
 """Code for handling HTML clipboard data."""
+
 from typing import List
 from typing import Optional
 
@@ -34,7 +35,9 @@ class HTMLTemplate:
 
     def generate(self) -> str:
         """Generate the HTML template."""
-        fragments: List[str] = self.fragments if self.fragments else [self.content]
+        fragments: List[str] = (
+            self.fragments if self.fragments else [self.content]
+        )
 
         # Generate Fragments
         result: str = self._generate_fragments(fragments)
@@ -99,14 +102,22 @@ class HTMLTemplate:
         # Blocks to find
         html_start: bytes = "<html>".encode(encoding=HTML_ENCODING)
         html_end: bytes = "</html>".encode(encoding=HTML_ENCODING)
-        fragment_start: bytes = "<!--StartFragment-->".encode(encoding=HTML_ENCODING)
-        fragment_end: bytes = "<!--EndFragment-->".encode(encoding=HTML_ENCODING)
+        fragment_start: bytes = "<!--StartFragment-->".encode(
+            encoding=HTML_ENCODING
+        )
+        fragment_end: bytes = "<!--EndFragment-->".encode(
+            encoding=HTML_ENCODING
+        )
 
         # Find Values
         found_html_start: int = content_bytes.find(html_start)
         found_html_end: int = content_bytes.rfind(html_end) + len(html_end)
-        found_fragment_start: int = content_bytes.find(fragment_start) + len(fragment_start) + 1  # after comment
-        found_fragment_end: int = content_bytes.rfind(fragment_end) - 1  # before comment
+        found_fragment_start: int = (
+            content_bytes.find(fragment_start) + len(fragment_start) + 1
+        )  # after comment
+        found_fragment_end: int = (
+            content_bytes.rfind(fragment_end) - 1
+        )  # before comment
 
         # Set Values
         self.start_html = found_html_start
@@ -115,10 +126,18 @@ class HTMLTemplate:
         self.end_fragment = found_fragment_end
 
         # Update Values in HTML, with left-aligned 0s
-        found_header_fragment_start: int = content_bytes.find("StartFragment:".encode(HTML_ENCODING))
-        found_header_fragment_end: int = content_bytes.find("EndFragment:".encode(HTML_ENCODING))
-        found_header_html_start: int = content_bytes.find("StartHTML:".encode(HTML_ENCODING))
-        found_header_html_end: int = content_bytes.find("EndHTML:".encode(HTML_ENCODING))
+        found_header_fragment_start: int = content_bytes.find(
+            "StartFragment:".encode(HTML_ENCODING)
+        )
+        found_header_fragment_end: int = content_bytes.find(
+            "EndFragment:".encode(HTML_ENCODING)
+        )
+        found_header_html_start: int = content_bytes.find(
+            "StartHTML:".encode(HTML_ENCODING)
+        )
+        found_header_html_end: int = content_bytes.find(
+            "EndHTML:".encode(HTML_ENCODING)
+        )
 
         ## We need to update the integer values in the HTML content
         content_bytes = (
@@ -127,7 +146,7 @@ class HTMLTemplate:
             # The key and value
             + f"StartHTML:{self.start_html:0>10}".encode(HTML_ENCODING)
             # After the key and value
-            + content_bytes[found_header_html_start + len("StartHTML:") + 10:]
+            + content_bytes[found_header_html_start + len("StartHTML:") + 10 :]
         )
         content_bytes = (
             # Up until the key
@@ -135,7 +154,7 @@ class HTMLTemplate:
             # The key and value
             + f"EndHTML:{self.end_html:0>10}".encode(HTML_ENCODING)
             # After the key and value
-            + content_bytes[found_header_html_end + len("EndHTML:") + 10:]
+            + content_bytes[found_header_html_end + len("EndHTML:") + 10 :]
         )
         content_bytes = (
             # Up until the key
@@ -143,7 +162,9 @@ class HTMLTemplate:
             # The key and value
             + f"StartFragment:{self.start_fragment:0>10}".encode(HTML_ENCODING)
             # After the key and value
-            + content_bytes[found_header_fragment_start + len("StartFragment:") + 10:]
+            + content_bytes[
+                found_header_fragment_start + len("StartFragment:") + 10 :
+            ]
         )
         content_bytes = (
             # Up until the key
@@ -151,7 +172,9 @@ class HTMLTemplate:
             # The key and value
             + f"EndFragment:{self.end_fragment:0>10}".encode(HTML_ENCODING)
             # After the key and value
-            + content_bytes[found_header_fragment_end + len("EndFragment:") + 10:]
+            + content_bytes[
+                found_header_fragment_end + len("EndFragment:") + 10 :
+            ]
         )
 
         # Clean Up
