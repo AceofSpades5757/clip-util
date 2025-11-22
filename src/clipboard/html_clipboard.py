@@ -114,8 +114,47 @@ class HTMLTemplate:
         self.start_fragment = found_fragment_start
         self.end_fragment = found_fragment_end
 
+        # Update Values in HTML, with left-aligned 0s
+        found_header_fragment_start: int = content_bytes.find("StartFragment:".encode(HTML_ENCODING))
+        found_header_fragment_end: int = content_bytes.find("EndFragment:".encode(HTML_ENCODING))
+        found_header_html_start: int = content_bytes.find("StartHTML:".encode(HTML_ENCODING))
+        found_header_html_end: int = content_bytes.find("EndHTML:".encode(HTML_ENCODING))
+
+        ## We need to update the integer values in the HTML content
+        content_bytes = (
+            # Up until the key
+            content_bytes[:found_header_html_start]
+            # The key and value
+            + f"StartHTML:{self.start_html:0>10}".encode(HTML_ENCODING)
+            # After the key and value
+            + content_bytes[found_header_html_start + len("StartHTML:") + 10:]
         )
+        content_bytes = (
+            # Up until the key
+            content_bytes[:found_header_html_end]
+            # The key and value
+            + f"EndHTML:{self.end_html:0>10}".encode(HTML_ENCODING)
+            # After the key and value
+            + content_bytes[found_header_html_end + len("EndHTML:") + 10:]
         )
+        content_bytes = (
+            # Up until the key
+            content_bytes[:found_header_fragment_start]
+            # The key and value
+            + f"StartFragment:{self.start_fragment:0>10}".encode(HTML_ENCODING)
+            # After the key and value
+            + content_bytes[found_header_fragment_start + len("StartFragment:") + 10:]
         )
+        content_bytes = (
+            # Up until the key
+            content_bytes[:found_header_fragment_end]
+            # The key and value
+            + f"EndFragment:{self.end_fragment:0>10}".encode(HTML_ENCODING)
+            # After the key and value
+            + content_bytes[found_header_fragment_end + len("EndFragment:") + 10:]
         )
 
+        # Clean Up
+        result = content_bytes.decode(encoding=HTML_ENCODING)
+
+        return result
