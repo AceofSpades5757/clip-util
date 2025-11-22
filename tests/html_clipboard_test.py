@@ -1,7 +1,6 @@
 import platform
 import unittest
 
-from clipboard import HTML_ENCODING
 from clipboard import Clipboard
 from clipboard import ClipboardFormat
 from clipboard import get_clipboard
@@ -13,7 +12,6 @@ from clipboard.html_clipboard import HTMLTemplate
 if platform.system() != "Windows":
     html_type_1 = ClipboardFormat.HTML_Format
     raise unittest.SkipTest(f"Platform not supported {platform.system()}.")
-    raise NotImplementedError(f"Unsupported platform {platform.system()}.")
 
 
 class TestHTMLClipboard(unittest.TestCase):
@@ -60,6 +58,38 @@ class TestHTMLClipboard(unittest.TestCase):
 
         set_clipboard(html, format_)
         self.assertEqual(get_clipboard(format_), template.generate())
+
+    def test_html_generation(self) -> None:
+        """Check to see that the HTML generation works as expected."""
+        html: str = (
+            "<html><head></head><body><h1>Hello World</h1></body></html>"
+        )
+        template: HTMLTemplate = HTMLTemplate(html)
+        format_: ClipboardFormat = ClipboardFormat.CF_HTML
+        generated: str = template.generate()
+
+        assert bool(generated)
+        # FIXME: Windows has different line endings (2 bytes) vs Linux (1 byte)
+        # start html: 100 with Linux, 105 with Windows
+        # end html: 229 with Linux, 240 with Windows
+        # start fragment (after comment): 135 with Linux, 142 with Windows
+        # end fragment (before comment): 194 with Linux, 203 with Windows
+        assert (
+            generated
+            == """\
+Version:1.0
+StartHTML:0000000100
+EndHTML:0000000229
+StartFragment:0000000135
+EndFragment:0000000194
+<html>
+<body>
+<!--StartFragment-->
+<html><head></head><body><h1>Hello World</h1></body></html>
+<!--EndFragment-->
+</body>
+</html>"""
+        )
 
 
 class TestMore(unittest.TestCase):
