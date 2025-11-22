@@ -36,9 +36,7 @@ class HTMLTemplate:
 
     def generate(self) -> str:
         """Generate the HTML template."""
-        fragments: List[str] = (
-            self.fragments if self.fragments else [self.content]
-        )
+        fragments: List[str] = self.fragments if self.fragments else [self.content]
 
         # Generate Fragments
         result: str = self._generate_fragments(fragments)
@@ -47,7 +45,7 @@ class HTMLTemplate:
         # Add Header
         result = self._generate_header(result)
         # Get Byte Counts
-        result = self._add_byte_counts(result)
+        result = self._update_byte_counts(result)
 
         return result
 
@@ -95,7 +93,7 @@ class HTMLTemplate:
 
         return "\n".join(lines)
 
-    def _add_byte_counts(self, content: str) -> str:
+    def _update_byte_counts(self, content: str) -> str:
         """Add byte counts to the HTML content."""
         # Check
         current_values = self._get_byte_values(content)
@@ -176,42 +174,3 @@ class HTMLTemplate:
             "StartFragment": start_fragment,
             "EndFragment": end_fragment,
         }
-
-    def _update_byte_counts(self, content: B) -> B:
-        """Update the byte counts in the HTML content."""
-        data: str
-        if isinstance(content, bytes):
-            data = content.decode(encoding=HTML_ENCODING)
-        elif isinstance(content, str):
-            data = content
-        else:
-            raise TypeError(f"{type(content)} is not a valid type")
-
-        re_value = r"(None|-?\d+)"
-
-        re_start_html = re.compile(
-            rf"StartHTML:{re_value}", flags=re.MULTILINE
-        )
-        re_end_html = re.compile(rf"EndHTML:{re_value}", flags=re.MULTILINE)
-        re_start_fragment = re.compile(
-            rf"StartFragment:{re_value}", flags=re.MULTILINE
-        )
-        re_end_fragment = re.compile(
-            rf"EndFragment:{re_value}", flags=re.MULTILINE
-        )
-
-        data = re.sub(re_start_html, rf"StartHTML:{self.start_html}", data)
-        data = re.sub(re_end_html, rf"EndHTML:{self.end_html}", data)
-        data = re.sub(
-            re_start_fragment, rf"StartFragment:{self.start_fragment}", data
-        )
-        data = re.sub(
-            re_end_fragment, rf"EndFragment:{self.end_fragment}", data
-        )
-
-        if isinstance(content, bytes):
-            return data.encode(encoding=HTML_ENCODING)
-        elif isinstance(content, str):
-            return data
-        else:
-            raise TypeError(f"{type(content)} is not a valid type")
