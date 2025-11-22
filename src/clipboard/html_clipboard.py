@@ -95,12 +95,6 @@ class HTMLTemplate:
 
     def _update_byte_counts(self, content: str) -> str:
         """Add byte counts to the HTML content."""
-        # Check
-        current_values = self._get_byte_values(content)
-        if all((i is not None and i != -1) for i in current_values.values()):
-            content = self._update_byte_counts(content)
-            return content
-
         # Setup
         content_bytes: bytes = content.encode(encoding=HTML_ENCODING)
 
