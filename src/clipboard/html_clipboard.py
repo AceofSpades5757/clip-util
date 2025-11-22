@@ -12,25 +12,6 @@ HTML_ENCODING = ENCODING
 class HTMLTemplate:
     """Windows HTML template for storing clipboard HTML data."""
 
-    template = """
-    Version:{version}
-    StartHTML:{start_html_byte}
-    EndHTML:{end_html_byte}
-    StartFragment:{start_fragment_byte}
-    EndFragment:{end_fragment_byte}
-    SourceURL:{source_url}
-    <html>
-    <body>
-    <!--StartFragment-->
-    {fragment}
-    <!--EndFragment-->
-    </body>
-    </html>
-    """
-    template = "\n".join(
-        [i for i in map(str.strip, template.splitlines()) if i]
-    )
-
     def __init__(self, content: str = ""):
     version = 1.0
         self.fragments: List[str] = []
