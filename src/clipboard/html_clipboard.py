@@ -85,10 +85,10 @@ class HTMLTemplate:
 
         if source_url is not None:
             lines.insert(0, f"SourceURL:{source_url}")
-        lines.insert(0, f"EndFragment:{end_fragment_byte}")
-        lines.insert(0, f"StartFragment:{start_fragment_byte}")
-        lines.insert(0, f"EndHTML:{end_html_byte}")
-        lines.insert(0, f"StartHTML:{start_html_byte}")
+        lines.insert(0, f"EndFragment:{end_fragment_byte:0>10}")
+        lines.insert(0, f"StartFragment:{start_fragment_byte:0>10}")
+        lines.insert(0, f"EndHTML:{end_html_byte:0>10}")
+        lines.insert(0, f"StartHTML:{start_html_byte:0>10}")
         lines.insert(0, f"Version:{version}")
 
         return "\n".join(lines)
