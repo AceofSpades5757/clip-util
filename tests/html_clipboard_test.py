@@ -1,7 +1,6 @@
 import platform
 import unittest
 
-from clipboard import HTML_ENCODING
 from clipboard import Clipboard
 from clipboard import ClipboardFormat
 from clipboard import get_clipboard
@@ -13,7 +12,6 @@ from clipboard.html_clipboard import HTMLTemplate
 if platform.system() != "Windows":
     html_type_1 = ClipboardFormat.HTML_Format
     raise unittest.SkipTest(f"Platform not supported {platform.system()}.")
-    raise NotImplementedError(f"Unsupported platform {platform.system()}.")
 
 
 class TestHTMLClipboard(unittest.TestCase):
