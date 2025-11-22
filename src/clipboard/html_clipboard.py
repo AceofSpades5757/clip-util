@@ -12,7 +12,6 @@ HTML_ENCODING = ENCODING
 class HTMLTemplate:
     """Windows HTML template for storing clipboard HTML data."""
 
-    version = 0.9
     template = """
     Version:{version}
     StartHTML:{start_html_byte}
@@ -33,6 +32,7 @@ class HTMLTemplate:
     )
 
     def __init__(self, content: str = ""):
+    version = 1.0
         self.fragments: List[str] = []
 
         self.start_html: int = -1
