@@ -1,6 +1,4 @@
 """Code for handling HTML clipboard data."""
-
-import re
 from typing import List
 from typing import Optional
 
@@ -116,48 +114,8 @@ class HTMLTemplate:
         self.start_fragment = found_fragment_start
         self.end_fragment = found_fragment_end
 
-
-        # Clean Up
-        result = content_bytes.decode(encoding=HTML_ENCODING)
-
-        return self._add_byte_counts(result)
-
-    @staticmethod
-    def _get_byte_values(content: str) -> dict:
-        """Get the byte values from the HTML content."""
-        re_start_html = re.compile(r"StartHTML:(\d+)", flags=re.MULTILINE)
-        start_html = int(
-            re_start_html.findall(content)[0]
-            if re_start_html.findall(content)
-            else -1
+        )
+        )
+        )
         )
 
-        re_end_html = re.compile(r"EndHTML:(\d+)", flags=re.MULTILINE)
-        end_html = int(
-            re_end_html.findall(content)[0]
-            if re_end_html.findall(content)
-            else -1
-        )
-
-        re_start_fragment = re.compile(
-            r"StartFragment:(\d+)", flags=re.MULTILINE
-        )
-        start_fragment = int(
-            re_start_fragment.findall(content)[0]
-            if re_start_fragment.findall(content)
-            else -1
-        )
-
-        re_end_fragment = re.compile(r"EndFragment:(\d+)", flags=re.MULTILINE)
-        end_fragment = int(
-            re_end_fragment.findall(content)[0]
-            if re_end_fragment.findall(content)
-            else -1
-        )
-
-        return {
-            "StartHTML": start_html,
-            "EndHTML": end_html,
-            "StartFragment": start_fragment,
-            "EndFragment": end_fragment,
-        }
