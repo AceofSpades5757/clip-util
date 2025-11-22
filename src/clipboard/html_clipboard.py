@@ -3,14 +3,10 @@
 import re
 from typing import List
 from typing import Optional
-from typing import TypeVar
 
 
 ENCODING = "UTF-8"
 HTML_ENCODING = ENCODING
-
-
-B = TypeVar("B", str, bytes)
 
 
 class HTMLTemplate:
