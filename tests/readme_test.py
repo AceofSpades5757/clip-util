@@ -15,10 +15,8 @@ if platform.system() == "Windows":
     html_type_1 = ClipboardFormat.HTML_Format
 elif platform.system() == "Linux":
     raise unittest.SkipTest(f"Platform not supported {platform.system()}.")
-    raise NotImplementedError(f"Unsupported platform {platform.system()}.")
 else:
     raise unittest.SkipTest(f"Platform not supported {platform.system()}.")
-    raise NotImplementedError(f"Unsupported platform {platform.system()}.")
 
 
 class TestReadme(unittest.TestCase):

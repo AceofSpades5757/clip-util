@@ -13,7 +13,6 @@ from clipboard import set_clipboard
 # Platform Settings
 if platform.system() != "Windows":
     raise unittest.SkipTest(f"Platform not supported {platform.system()}.")
-    raise NotImplementedError(f"Unsupported platform {platform.system()}.")
 
 
 class TestRTFClipboard(unittest.TestCase):
