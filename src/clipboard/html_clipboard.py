@@ -110,19 +110,12 @@ class HTMLTemplate:
         found_fragment_start: int = content_bytes.find(fragment_start) + len(fragment_start) + 1  # after comment
         found_fragment_end: int = content_bytes.rfind(fragment_end) - 1  # before comment
 
-        # Fix Values
-        if HTML_ENCODING == "UTF-8":
-            found_html_end += len(html_end)
-            found_fragment_start += len(fragment_start)
-
         # Set Values
         self.start_html = found_html_start
         self.end_html = found_html_end
         self.start_fragment = found_fragment_start
         self.end_fragment = found_fragment_end
 
-        # Update
-        content_bytes = self._update_byte_counts(content_bytes)
 
         # Clean Up
         result = content_bytes.decode(encoding=HTML_ENCODING)
