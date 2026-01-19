@@ -3,7 +3,6 @@
 from typing import List
 from typing import Optional
 
-
 ENCODING = "UTF-8"
 HTML_ENCODING = ENCODING
 

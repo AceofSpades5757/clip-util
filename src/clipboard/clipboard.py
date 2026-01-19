@@ -38,7 +38,6 @@ from clipboard.errors import SetClipboardError
 from clipboard.formats import ClipboardFormat
 from clipboard.html_clipboard import HTMLTemplate
 
-
 ClipboardFormatType = Union[int, str, ClipboardFormat]  # Type Alias
 hMem = HANDLE  # Type Alias
 GMEM_MOVEABLE = 0x0002

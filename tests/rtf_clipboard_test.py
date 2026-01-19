@@ -9,7 +9,6 @@ from clipboard import get_available_formats
 from clipboard import get_clipboard
 from clipboard import set_clipboard
 
-
 # Platform Settings
 if platform.system() != "Windows":
     raise unittest.SkipTest(f"Platform not supported {platform.system()}.")

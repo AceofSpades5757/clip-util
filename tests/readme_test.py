@@ -9,7 +9,6 @@ from clipboard import ClipboardFormat
 from clipboard import get_clipboard
 from clipboard import set_clipboard
 
-
 # Platform Settings
 if platform.system() == "Windows":
     html_type_1 = ClipboardFormat.HTML_Format

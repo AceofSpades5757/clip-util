@@ -10,7 +10,6 @@ from ctypes.wintypes import LPVOID
 from ctypes.wintypes import LPWSTR
 from ctypes.wintypes import UINT
 
-
 # C Libraries
 windll = ctypes.windll  # type: ignore
 user32 = windll.user32

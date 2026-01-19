@@ -7,7 +7,6 @@ from clipboard import get_clipboard
 from clipboard import set_clipboard
 from clipboard.html_clipboard import HTMLTemplate
 
-
 # Platform Settings
 if platform.system() != "Windows":
     html_type_1 = ClipboardFormat.HTML_Format
@@ -74,9 +73,7 @@ class TestHTMLClipboard(unittest.TestCase):
         # end html: 229 with Linux, 240 with Windows
         # start fragment (after comment): 135 with Linux, 142 with Windows
         # end fragment (before comment): 194 with Linux, 203 with Windows
-        assert (
-            generated
-            == """\
+        assert generated == """\
 Version:1.0
 StartHTML:0000000100
 EndHTML:0000000229
@@ -89,7 +86,6 @@ EndFragment:0000000194
 <!--EndFragment-->
 </body>
 </html>"""
-        )
 
 
 class TestMore(unittest.TestCase):
