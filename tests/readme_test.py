@@ -1,8 +1,5 @@
 import platform
-import random
-import string
 import unittest
-from typing import List
 
 from clipboard import Clipboard
 from clipboard import ClipboardFormat
@@ -22,7 +19,6 @@ else:
 class TestReadme(unittest.TestCase):
     def test_usage_clipboard(self) -> None:
         """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#clipboard"""
-        from clipboard import Clipboard
 
         clipboard = Clipboard()
 
@@ -41,10 +37,8 @@ class TestReadme(unittest.TestCase):
 
     def test_usage_clipboard_context_manaager(self) -> None:
         """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#context-manager"""
-        from clipboard import Clipboard
 
         with Clipboard() as clipboard:
-
             # Set Clipboard
             clipboard["text"] = "Hello World!"
             # OR
@@ -60,12 +54,10 @@ class TestReadme(unittest.TestCase):
 
     def test_clipboard_formats(self) -> None:
         """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#clipboard-formats"""
-        from clipboard import Clipboard
         from clipboard import ClipboardFormat
         from clipboard import get_format_name
 
         with Clipboard() as clipboard:
-
             # Get All Available Formats
             format_ids: list[int] = clipboard.available_formats()
 
@@ -108,9 +100,7 @@ class TestReadme(unittest.TestCase):
     def test_get_all_supported_formats(self) -> None:
         """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#get-all-supported-formats"""
         from clipboard import get_available_formats
-        from clipboard import get_clipboard
         from clipboard import get_format_name
-        from clipboard import set_clipboard
 
         set_clipboard("Hello World!")
         available: list[int] = get_available_formats()

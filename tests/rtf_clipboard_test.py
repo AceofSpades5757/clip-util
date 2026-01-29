@@ -36,9 +36,7 @@ class TestRTFClipboard(unittest.TestCase):
 
     def test_rtf_context_manager(self) -> None:
         format = ClipboardFormat.CF_RTF
-        content: str = (
-            r"{\pard \ql \f0 \sa180 \li0 \fi0 Hello {\b World}!\par}"
-        )
+        content: str = r"{\pard \ql \f0 \sa180 \li0 \fi0 Hello {\b World}!\par}"
 
         # Standard
         with Clipboard(format=format) as clipboard:

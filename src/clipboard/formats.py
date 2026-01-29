@@ -92,9 +92,7 @@ def get_format_name(format_code: int) -> Optional[str]:
         None if the format is not found.
     """
     # Built-In
-    if (
-        format_code in ClipboardFormat.values
-    ):  # pylint: disable=unsupported-membership-test
+    if format_code in ClipboardFormat.values:  # pylint: disable=unsupported-membership-test
         return ClipboardFormat(format_code).name
 
     buffer_size = 256

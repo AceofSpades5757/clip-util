@@ -47,9 +47,7 @@ GMEM_DDESHARE = 0x2000
 
 
 logger = logging.getLogger(__name__)
-formatter = logging.Formatter(
-    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
@@ -330,9 +328,7 @@ class Clipboard:
                 GMEM_MOVEABLE | GMEM_ZEROINIT, len(html_content_bytes) + 1
             )
             contents_ptr = GlobalLock(alloc_handle)  # type: ignore
-            ctypes.memmove(
-                contents_ptr, html_content_bytes, len(html_content_bytes)
-            )
+            ctypes.memmove(contents_ptr, html_content_bytes, len(html_content_bytes))
             GlobalUnlock(alloc_handle)
 
             set_handle = SetClipboardData(format, alloc_handle)
@@ -444,9 +440,7 @@ class Clipboard:
 
         raise OpenClipboardError("Failed to open clipboard.")
 
-    def __exit__(
-        self, exception_type, exception_value, exception_traceback
-    ) -> bool:
+    def __exit__(self, exception_type, exception_value, exception_traceback) -> bool:
         logger.info("Exiting context manager")
         if exception_type is not None:
             traceback.print_exception(

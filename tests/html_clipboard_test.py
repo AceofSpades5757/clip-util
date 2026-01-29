@@ -50,9 +50,7 @@ class TestHTMLClipboard(unittest.TestCase):
         self.assertEqual(get_clipboard(format_), template.generate())
 
     def test_html_and_head_and_body(self) -> None:
-        html: str = (
-            "<html><head></head><body><h1>Hello World</h1></body></html>"
-        )
+        html: str = "<html><head></head><body><h1>Hello World</h1></body></html>"
         template: HTMLTemplate = HTMLTemplate(html)
         format_: ClipboardFormat = ClipboardFormat.CF_HTML
 
@@ -61,9 +59,7 @@ class TestHTMLClipboard(unittest.TestCase):
 
     def test_html_generation(self) -> None:
         """Check to see that the HTML generation works as expected."""
-        html: str = (
-            "<html><head></head><body><h1>Hello World</h1></body></html>"
-        )
+        html: str = "<html><head></head><body><h1>Hello World</h1></body></html>"
         template: HTMLTemplate = HTMLTemplate(html)
         format_: ClipboardFormat = ClipboardFormat.CF_HTML
         generated: str = template.generate()
@@ -133,9 +129,7 @@ class TestMore(unittest.TestCase):
             clipboard_data: str = clipboard[format]
             self.assertTrue(bool(clipboard_data))
 
-    @unittest.skip(
-        "There have been a bunch of issues with this format suddenly."
-    )
+    @unittest.skip("There have been a bunch of issues with this format suddenly.")
     def test_html_format(self) -> None:
         format = ClipboardFormat.HTML_Format
         template = self.template  # type: ignore
