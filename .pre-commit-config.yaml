@@ -19,12 +19,13 @@ repos:
           - --force-single-line-imports
           - --lines-after-imports=2
   # Python - Code Formatting
-  - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 26.1.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.14
     hooks:
-      - id: black
-        name: Formatter
+      # Run the linter.
+      - id: ruff-check
+        args: [ --fix ]
         exclude: hooks/.*
-        args:
-          - --line-length
-          - "79"
+      # Run the formatter.
+      - id: ruff-format
+        exclude: hooks/.*
