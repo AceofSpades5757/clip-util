@@ -11,7 +11,7 @@ repos:
         name: Fix Trailing Whitespace
   # Python - Reorder Imports
   - repo: https://github.com/pycqa/isort
-    rev: 8.0.0
+    rev: 8.0.1
     hooks:
       - id: isort
         name: isort (python)
@@ -20,7 +20,7 @@ repos:
           - --lines-after-imports=2
   # Python - Code Formatting
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.2
+    rev: v0.15.11
     hooks:
       # Run the linter.
       - id: ruff-check
