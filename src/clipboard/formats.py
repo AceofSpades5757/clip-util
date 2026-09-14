@@ -1,14 +1,10 @@
 """Clipboard Formats"""
 
 import ctypes
-from enum import Enum
-from enum import EnumMeta
-from typing import Any
-from typing import Optional
+from enum import Enum, EnumMeta
+from typing import Any, Optional
 
-from clipboard._c_interface import CF_HTML
-from clipboard._c_interface import CF_RTF
-from clipboard._c_interface import GetClipboardFormatNameA
+from clipboard._c_interface import CF_HTML, CF_RTF, GetClipboardFormatNameA
 
 
 class ExtendedEnum(EnumMeta):
@@ -68,7 +64,7 @@ class ClipboardFormat(Enum, metaclass=ExtendedEnum):
         return [i.name for i in cls]
 
     def __str__(self):
-        return f"{str(self.value)} {str(self.name)}"
+        return f"{self.value!s} {self.name!s}"
 
     def __eq__(self, other):
         if isinstance(self, type(other)):
