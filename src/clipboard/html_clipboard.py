@@ -1,8 +1,6 @@
 """Code for handling HTML clipboard data."""
 
-from typing import List
-from typing import Optional
-
+from typing import List, Optional
 
 ENCODING = "UTF-8"
 HTML_ENCODING = ENCODING
