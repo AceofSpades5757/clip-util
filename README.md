@@ -62,7 +62,6 @@ from clipboard import Clipboard
 
 
 with Clipboard() as clipboard:
-
     # Set Clipboard
     clipboard["text"] = "Hello World!"
     # OR
@@ -94,7 +93,6 @@ from clipboard import get_format_name
 
 
 with Clipboard() as clipboard:
-
     # Get All Available Formats
     format_ids: list[int] = clipboard.available_formats()
 
