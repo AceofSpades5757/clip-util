@@ -1,11 +1,7 @@
 import platform
 import unittest
 
-from clipboard import Clipboard
-from clipboard import ClipboardFormat
-from clipboard import get_clipboard
-from clipboard import set_clipboard
-
+from clipboard import Clipboard, ClipboardFormat, get_clipboard, set_clipboard
 
 # Platform Settings
 if platform.system() == "Windows":
@@ -54,8 +50,7 @@ class TestReadme(unittest.TestCase):
 
     def test_clipboard_formats(self) -> None:
         """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#clipboard-formats"""
-        from clipboard import ClipboardFormat
-        from clipboard import get_format_name
+        from clipboard import ClipboardFormat, get_format_name
 
         with Clipboard() as clipboard:
             # Get All Available Formats
@@ -99,8 +94,7 @@ class TestReadme(unittest.TestCase):
 
     def test_get_all_supported_formats(self) -> None:
         """https://github.com/AceofSpades5757/clip-util?tab=readme-ov-file#get-all-supported-formats"""
-        from clipboard import get_available_formats
-        from clipboard import get_format_name
+        from clipboard import get_available_formats, get_format_name
 
         set_clipboard("Hello World!")
         available: list[int] = get_available_formats()

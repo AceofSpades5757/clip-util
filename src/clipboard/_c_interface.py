@@ -1,15 +1,7 @@
 """Helper to interface with the C code."""
 
 import ctypes
-from ctypes.wintypes import BOOL
-from ctypes.wintypes import HANDLE
-from ctypes.wintypes import HGLOBAL
-from ctypes.wintypes import HWND
-from ctypes.wintypes import LPSTR
-from ctypes.wintypes import LPVOID
-from ctypes.wintypes import LPWSTR
-from ctypes.wintypes import UINT
-
+from ctypes.wintypes import BOOL, HANDLE, HGLOBAL, HWND, LPSTR, LPVOID, LPWSTR, UINT
 
 # C Libraries
 windll = ctypes.windll  # type: ignore
