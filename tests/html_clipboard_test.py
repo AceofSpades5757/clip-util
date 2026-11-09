@@ -1,12 +1,8 @@
 import platform
 import unittest
 
-from clipboard import Clipboard
-from clipboard import ClipboardFormat
-from clipboard import get_clipboard
-from clipboard import set_clipboard
+from clipboard import Clipboard, ClipboardFormat, get_clipboard, set_clipboard
 from clipboard.html_clipboard import HTMLTemplate
-
 
 # Platform Settings
 if platform.system() != "Windows":
