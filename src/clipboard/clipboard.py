@@ -10,34 +10,34 @@ import logging
 import os
 import time
 import traceback
-from typing import List
-from typing import Optional
-from typing import Union
+from typing import List, Optional, Union
 
-from clipboard._c_interface import HANDLE
-from clipboard._c_interface import LPVOID
-from clipboard._c_interface import CloseClipboard
-from clipboard._c_interface import EmptyClipboard
-from clipboard._c_interface import EnumClipboardFormats
-from clipboard._c_interface import GetClipboardData
-from clipboard._c_interface import GlobalAlloc
-from clipboard._c_interface import GlobalLock
-from clipboard._c_interface import GlobalSize
-from clipboard._c_interface import GlobalUnlock
-from clipboard._c_interface import OpenClipboard
-from clipboard._c_interface import SetClipboardData
-from clipboard.constants import HTML_ENCODING
-from clipboard.constants import UTF_ENCODING
-from clipboard.errors import EmptyClipboardError
-from clipboard.errors import FormatNotSupportedError
-from clipboard.errors import GetClipboardError
-from clipboard.errors import GetFormatsError
-from clipboard.errors import LockError
-from clipboard.errors import OpenClipboardError
-from clipboard.errors import SetClipboardError
+from clipboard._c_interface import (
+    HANDLE,
+    LPVOID,
+    CloseClipboard,
+    EmptyClipboard,
+    EnumClipboardFormats,
+    GetClipboardData,
+    GlobalAlloc,
+    GlobalLock,
+    GlobalSize,
+    GlobalUnlock,
+    OpenClipboard,
+    SetClipboardData,
+)
+from clipboard.constants import HTML_ENCODING, UTF_ENCODING
+from clipboard.errors import (
+    EmptyClipboardError,
+    FormatNotSupportedError,
+    GetClipboardError,
+    GetFormatsError,
+    LockError,
+    OpenClipboardError,
+    SetClipboardError,
+)
 from clipboard.formats import ClipboardFormat
 from clipboard.html_clipboard import HTMLTemplate
-
 
 ClipboardFormatType = Union[int, str, ClipboardFormat]  # Type Alias
 hMem = HANDLE  # Type Alias
