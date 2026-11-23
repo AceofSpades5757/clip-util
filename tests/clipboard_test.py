@@ -4,11 +4,7 @@ import string
 import unittest
 from typing import List
 
-from clipboard import Clipboard
-from clipboard import ClipboardFormat
-from clipboard import get_clipboard
-from clipboard import set_clipboard
-
+from clipboard import Clipboard, ClipboardFormat, get_clipboard, set_clipboard
 
 # Platform Settings
 if platform.system() == "Windows":
