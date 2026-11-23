@@ -5,7 +5,6 @@ import unittest
 
 from clipboard import ClipboardFormat  # type: ignore
 
-
 # Platform Settings
 if platform.system() == "Windows":
     html_type_1 = ClipboardFormat.HTML_Format

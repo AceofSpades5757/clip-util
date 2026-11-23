@@ -3,12 +3,13 @@
 import platform
 import unittest
 
-from clipboard import Clipboard
-from clipboard import ClipboardFormat
-from clipboard import get_available_formats
-from clipboard import get_clipboard
-from clipboard import set_clipboard
-
+from clipboard import (
+    Clipboard,
+    ClipboardFormat,
+    get_available_formats,
+    get_clipboard,
+    set_clipboard,
+)
 
 # Platform Settings
 if platform.system() != "Windows":
